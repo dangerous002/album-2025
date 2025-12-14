@@ -776,7 +776,9 @@ class Slider {
       this.bind();
       
       this.loadedCount = this.allItems.length;
-      this.updateLoadingProgress();
+      
+      // Обновляем глобальный прогресс загрузки
+      window.updateGlobalLoadingProgress();
     });
   }
 
@@ -796,7 +798,9 @@ class Slider {
     this.maxDisplayHeight = Math.max(this.maxDisplayHeight, displayHeight);
     
     this.loadedCount++;
-    this.updateLoadingProgress();
+    
+    // Обновляем глобальный прогресс загрузки
+    window.updateGlobalLoadingProgress();
   }
 
   setFinalHeight() {
@@ -807,14 +811,16 @@ class Slider {
     
     this.wrapper.style.height = Math.max(finalHeight, minHeight) + "px";
     this.wrapper.classList.add('visible');
+    
+    // Отмечаем, что этот слайдер полностью загружен
+    window.incrementLoadedSliders();
   }
 
-  updateLoadingProgress() {
-    const progress = Math.round((this.loadedCount / this.totalToLoad) * 100);
-    const loadingText = document.querySelector('.loading-text');
-    if (loadingText && progress <= 100) {
-      loadingText.textContent = `Загрузка воспоминаний... ${progress}%`;
-    }
+  onItemLoaded() {
+    this.loadedCount++;
+    
+    // Обновляем глобальный прогресс загрузки
+    window.updateGlobalLoadingProgress();
   }
 
   bind() {
@@ -900,6 +906,13 @@ class Slider {
     
     // Показываем обертку
     this.wrapper.classList.add('visible');
+    
+    // Отмечаем, что этот слайдер полностью загружен (для мобильных)
+    if (this.isMobile) {
+      setTimeout(() => {
+        window.incrementLoadedSliders();
+      }, 1000);
+    }
   }
 }
 
@@ -1200,65 +1213,105 @@ function renderSections() {
   });
 }
 
-/* Отслеживание загрузки всех слайдеров */
-let totalSlidersLoaded = 0;
-const totalSliders = sectionsData.length;
+/* Глобальный счетчик загрузки медиафайлов */
+window.globalLoadingState = {
+  totalMediaFiles: 0,
+  loadedMediaFiles: 0,
+  totalSliders: sectionsData.length,
+  loadedSliders: 0,
+  heroImageLoaded: false
+};
 
-function onSliderLoaded() {
-  totalSlidersLoaded++;
+/* Обновление прогресса загрузки */
+window.updateGlobalLoadingProgress = function() {
+  const state = window.globalLoadingState;
   
-  const totalProgress = Math.round((totalSlidersLoaded / totalSliders) * 100);
-  const loadingText = document.querySelector('.loading-text');
-  if (loadingText && totalProgress <= 100) {
-    loadingText.textContent = `Подготовка слайдеров... ${totalProgress}%`;
+  // Подсчитываем общее количество медиафайлов, если еще не подсчитано
+  if (state.totalMediaFiles === 0) {
+    sectionsData.forEach(sec => {
+      state.totalMediaFiles += sec.photos.length + (sec.videos ? sec.videos.length : 0);
+    });
+    
+    // Добавляем обложку hero
+    state.totalMediaFiles += 1;
   }
   
-  if (totalSlidersLoaded === totalSliders) {
+  // Обновляем текст загрузки
+  const loadingText = document.querySelector('.loading-text');
+  if (loadingText) {
+    const totalProgress = Math.round((state.loadedMediaFiles / state.totalMediaFiles) * 100);
+    const sliderProgress = Math.round((state.loadedSliders / state.totalSliders) * 100);
+    
+    // Показываем более точный прогресс
+    const overallProgress = Math.round((totalProgress + sliderProgress) / 2);
+    loadingText.textContent = `Загрузка воспоминаний... ${overallProgress}%`;
+  }
+  
+  // Проверяем, все ли загружено
+  if (state.heroImageLoaded && 
+      state.loadedSliders >= state.totalSliders && 
+      state.loadedMediaFiles >= state.totalMediaFiles) {
     setTimeout(() => {
-      const loader = document.getElementById('loadingOverlay');
-      if (loader) {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-          loader.style.display = 'none';
-          setupScrollReveal();
-          createHeartsSystem();
-          setupMusicPlayer();
-          
-          setTimeout(() => {
-            document.querySelectorAll('.memory-section, .fade-in').forEach(el => {
-              const rect = el.getBoundingClientRect();
-              if (rect.top < window.innerHeight * 0.9) {
-                el.classList.add('visible');
-              }
-            });
-          }, 100);
-        }, 500);
-      }
+      window.hidePreloader();
     }, 500);
   }
-}
-
-// Модифицируем Slider для отслеживания загрузки
-const OriginalSlider = Slider;
-Slider = function(...args) {
-  const instance = new OriginalSlider(...args);
-  
-  const originalSetFinalHeight = instance.setFinalHeight;
-  instance.setFinalHeight = function() {
-    if (originalSetFinalHeight) {
-      originalSetFinalHeight.call(this);
-    }
-    onSliderLoaded();
-  };
-  
-  // Также отслеживаем загрузку на мобильных
-  instance.update = function() {
-    this.constructor.prototype.update.call(this);
-    onSliderLoaded();
-  };
-  
-  return instance;
 };
+
+/* Увеличение счетчика загруженных слайдеров */
+window.incrementLoadedSliders = function() {
+  window.globalLoadingState.loadedSliders++;
+  window.updateGlobalLoadingProgress();
+};
+
+/* Скрытие прелоадера */
+window.hidePreloader = function() {
+  const loader = document.getElementById('loadingOverlay');
+  if (loader && loader.style.display !== 'none') {
+    loader.style.opacity = '0';
+    setTimeout(() => {
+      loader.style.display = 'none';
+      
+      // Запускаем остальные функции после загрузки
+      setupScrollReveal();
+      createHeartsSystem();
+      setupMusicPlayer();
+      
+      setTimeout(() => {
+        document.querySelectorAll('.memory-section, .fade-in').forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.9) {
+            el.classList.add('visible');
+          }
+        });
+      }, 100);
+    }, 500);
+  }
+};
+
+/* Предзагрузка изображения героя */
+function preloadHeroImage() {
+  const heroBg = document.getElementById('heroBg');
+  const heroImageUrl = "обложка.jpg";
+  
+  const img = new Image();
+  img.onload = function() {
+    window.globalLoadingState.heroImageLoaded = true;
+    window.globalLoadingState.loadedMediaFiles++;
+    window.updateGlobalLoadingProgress();
+    
+    // Устанавливаем фон только после загрузки
+    heroBg.style.backgroundImage = `url("${heroImageUrl}")`;
+  };
+  
+  img.onerror = function() {
+    console.warn(`Не удалось загрузить обложку: ${heroImageUrl}`);
+    window.globalLoadingState.heroImageLoaded = true; // Все равно помечаем как загруженное
+    window.globalLoadingState.loadedMediaFiles++;
+    window.updateGlobalLoadingProgress();
+  };
+  
+  img.src = heroImageUrl;
+}
 
 /* Инициализация */
 window.addEventListener("load", () => {
@@ -1281,9 +1334,16 @@ window.addEventListener("load", () => {
     lastTouchEnd = now;
   }, { passive: false });
   
+  // Начинаем предзагрузку обложки
+  preloadHeroImage();
+  
+  // Инициализируем анимацию героя
   setupHeroScrollAnimation();
+  
+  // Рендерим секции
   renderSections();
   
+  // Запускаем проверку видимости с задержкой
   setTimeout(() => {
     setupScrollReveal();
   }, 100);
@@ -1296,10 +1356,11 @@ window.addEventListener('beforeunload', () => {
   }
 });
 
-// Фоллбек на случай если прелоадер не скрылся
+// Фоллбек на случай если прелоадер не скрылся (таймаут 15 секунд)
 setTimeout(() => {
   const loader = document.getElementById('loadingOverlay');
   if (loader && loader.style.display !== 'none') {
+    console.warn('Таймаут загрузки. Скрываем прелоадер принудительно.');
     loader.style.opacity = '0';
     setTimeout(() => {
       loader.style.display = 'none';
@@ -1308,4 +1369,4 @@ setTimeout(() => {
       setupMusicPlayer();
     }, 500);
   }
-}, 8000);
+}, 15000);
