@@ -1,11 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="">Привет</div>
-</body>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Мы. Год первый.</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  </head>
+  <body>
+    <!-- Прелоадер -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Загрузка воспоминаний...</div>
+    </div>
+
+    <!-- Музыкальный плеер -->
+    <div class="music-player" id="musicPlayer">
+      <audio id="backgroundMusic" loop>
+        <source src="music.mp3" type="audio/mp3">
+        <source src="music.ogg" type="audio/ogg">
+        Ваш браузер не поддерживает аудио элемент.
+      </audio>
+      
+      <div class="player-controls">
+        <button class="player-btn" id="playPauseBtn" aria-label="Воспроизвести/пауза">
+          <i class="fas fa-play"></i>
+        </button>
+        
+        <div class="track-info">
+          <div class="track-title">right here</div>
+          <div class="track-artist">Lil Peep</div>
+        </div>
+        
+        <div class="volume-control">
+          <button class="volume-btn" id="muteBtn" aria-label="Отключить звук">
+            <i class="fas fa-volume-up"></i>
+          </button>
+          <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3" aria-label="Громкость">
+        </div>
+        
+        <button class="player-btn close-btn" id="closePlayerBtn" aria-label="Скрыть плеер">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="player-minimized" id="playerMinimized">
+        <button class="mini-player-btn" id="miniPlayPauseBtn" aria-label="Воспроизвести/пауза">
+          <i class="fas fa-play"></i>
+        </button>
+        <span class="mini-player-text">Музыка</span>
+        <button class="mini-player-btn expand-btn" id="expandPlayerBtn" aria-label="Развернуть плеер">
+          <i class="fas fa-chevron-up"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- HERO / ОБЛОЖКА -->
+    <header class="hero" id="hero">
+      <div class="hero-bg" id="heroBg"></div>
+      <div class="hero-content">
+        <div class="hero-we">Мы.</div>
+        <div class="hero-year">Год первый.</div>
+      </div>
+      <div class="scroll-indicator">
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
+        <div class="arrow">↓</div>
+      </div>
+    </header>
+
+    <main class="container" id="main">
+      <div id="sections"></div>
+
+      <div class="section-divider"></div>
+      <section class="summary fade-in" id="summary">
+        <h2 class="sparkle-title">Итоги Года</h2>
+        <div class="summary-text">
+          <p>Здесь будет текст с тёплыми словами, благодарностями и маленьким признанием в любви.</p>
+          <p>Второй абзац для примера.</p>
+          <p>И третий абзац, чтобы показать как это работает.</p>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+      <section class="final-section fade-in">
+        <h2 class="sparkle-title">Любовь и пожелания на следующий год</h2>
+        <div class="final-text">
+          <p>Моя дорогая, спасибо за этот год, за каждый наш момент.</p>
+          <p>Пусть следующий год принесёт нам ещё больше счастья, смеха и тёплых воспоминаний.</p>
+          <p>Я люблю тебя и желаю нам продолжать вместе создавать наши маленькие чудеса.</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Просмотр фото">
+      <button class="lb-close" aria-label="Закрыть просмотр">✕</button>
+      <button class="lb-prev" aria-label="Предыдущее фото">◀</button>
+      <div class="lb-stage">
+        <div class="lb-content">
+          <img src="" alt="" class="lb-image" />
+          <video controls class="lb-video hidden">
+            <source src="" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+          </video>
+        </div>
+      </div>
+      <button class="lb-next" aria-label="Следующее фото">▶</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>
