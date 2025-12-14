@@ -253,7 +253,7 @@ function isVideoFile(src) {
   return videoExtensions.some(ext => lowerSrc.endsWith(ext.toLowerCase()));
 }
 
-/* Lightbox с исправлениями */
+/* Улучшенный Lightbox для мобильных */
 const LB = (() => {
   const root = document.getElementById("lightbox");
   const content = root.querySelector(".lb-content");
@@ -265,14 +265,28 @@ const LB = (() => {
   const btnNext = root.querySelector(".lb-next");
   let items = [],
     idx = 0,
-    isAnimating = false;
+    isAnimating = false,
+    isMobile = window.innerWidth <= 768,
+    touchStartX = 0,
+    touchEndX = 0;
+
+  // Обновляем isMobile при ресайзе
+  window.addEventListener('resize', () => {
+    isMobile = window.innerWidth <= 768;
+  });
 
   function open(itemsArray, i) {
     items = itemsArray.slice();
     idx = i;
     showItem();
     root.classList.remove("hidden");
-    document.body.style.overflow = "hidden"; // Блокируем скролл
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    
+    // Добавляем класс для тач-устройств
+    if (isMobile) {
+      root.classList.add('touch-active');
+    }
   }
   
   function close() {
@@ -282,19 +296,43 @@ const LB = (() => {
     video.classList.add("hidden");
     img.classList.add("hidden");
     video.pause();
-    document.body.style.overflow = ""; // Восстанавливаем скролл
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+    
+    // Удаляем класс для тач-устройств
+    root.classList.remove('touch-active');
   }
   
   function prev() {
     if (isAnimating) return;
     idx = (idx - 1 + items.length) % items.length;
     showItemWithAnimation();
+    
+    // На мобильных временно скрываем стрелки при клике
+    if (isMobile) {
+      btnPrev.style.opacity = '0.3';
+      btnNext.style.opacity = '0.3';
+      setTimeout(() => {
+        btnPrev.style.opacity = '';
+        btnNext.style.opacity = '';
+      }, 300);
+    }
   }
   
   function next() {
     if (isAnimating) return;
     idx = (idx + 1) % items.length;
     showItemWithAnimation();
+    
+    // На мобильных временно скрываем стрелки при клике
+    if (isMobile) {
+      btnPrev.style.opacity = '0.3';
+      btnNext.style.opacity = '0.3';
+      setTimeout(() => {
+        btnPrev.style.opacity = '';
+        btnNext.style.opacity = '';
+      }, 300);
+    }
   }
   
   function showItem() {
@@ -302,22 +340,28 @@ const LB = (() => {
     const isVideo = currentItem.type === "video" || isVideoFile(currentItem.src);
     
     if (isVideo) {
-      // Сначала скрываем изображение
       img.classList.add("hidden");
       
-      // Затем показываем видео
       setTimeout(() => {
         video.classList.remove("hidden");
         videoSource.src = currentItem.src || currentItem;
         video.load();
-        video.play().catch(e => console.log("Автовоспроизведение заблокировано"));
+        
+        // На iOS предотвращаем автоматическое полноэкранное воспроизведение
+        if (isMobile) {
+          video.setAttribute('playsinline', 'true');
+          video.setAttribute('webkit-playsinline', 'true');
+          video.setAttribute('controls', 'true');
+        }
+        
+        video.play().catch(e => {
+          console.log("Автовоспроизведение заблокировано");
+        });
       }, 50);
     } else {
-      // Сначала скрываем видео
       video.classList.add("hidden");
       video.pause();
       
-      // Затем показываем изображение
       setTimeout(() => {
         img.classList.remove("hidden");
         img.src = currentItem.src || currentItem;
@@ -330,13 +374,11 @@ const LB = (() => {
     if (isAnimating) return;
     isAnimating = true;
     
-    // Анимация исчезновения
     content.style.opacity = "0";
     
     setTimeout(() => {
       showItem();
       
-      // Анимация появления
       setTimeout(() => {
         content.style.opacity = "1";
         isAnimating = false;
@@ -344,12 +386,84 @@ const LB = (() => {
     }, 200);
   }
 
+  // Обработка свайпов на мобильных
+  function handleTouchStart(e) {
+    if (!isMobile) return;
+    touchStartX = e.changedTouches[0].screenX;
+  }
+  
+  function handleTouchEnd(e) {
+    if (!isMobile || isAnimating) return;
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }
+  
+  function handleSwipe() {
+    const minSwipeDistance = 50;
+    const distance = touchStartX - touchEndX;
+    
+    if (Math.abs(distance) < minSwipeDistance) return;
+    
+    if (distance > 0) {
+      next();
+    } else {
+      prev();
+    }
+  }
+
   btnClose.addEventListener("click", close);
-  btnPrev.addEventListener("click", prev);
-  btnNext.addEventListener("click", next);
+  btnPrev.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    prev();
+  });
+  btnNext.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    next();
+  });
+  
+  // Предотвращаем всплытие событий на мобильных
+  if (isMobile) {
+    btnPrev.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      btnPrev.style.opacity = '0.3';
+    });
+    
+    btnPrev.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      prev();
+      setTimeout(() => {
+        btnPrev.style.opacity = '';
+      }, 300);
+    });
+    
+    btnNext.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      btnNext.style.opacity = '0.3';
+    });
+    
+    btnNext.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      next();
+      setTimeout(() => {
+        btnNext.style.opacity = '';
+      }, 300);
+    });
+  }
+  
   root.addEventListener("click", (e) => {
     if (e.target === root) close();
   });
+  
+  // Добавляем обработчики свайпов
+  root.addEventListener('touchstart', handleTouchStart, { passive: true });
+  root.addEventListener('touchend', handleTouchEnd, { passive: true });
+  
   document.addEventListener("keydown", (e) => {
     if (root.classList.contains("hidden")) return;
     if (e.key === "Escape") close();
@@ -360,6 +474,26 @@ const LB = (() => {
   // Инициализация прозрачности контента
   content.style.transition = "opacity 0.3s ease";
   content.style.opacity = "1";
+  
+  // Скрываем стрелки на мобильных через несколько секунд
+  let hideTimer;
+  function hideArrowsOnMobile() {
+    if (!isMobile) return;
+    
+    clearTimeout(hideTimer);
+    btnPrev.style.opacity = '1';
+    btnNext.style.opacity = '1';
+    btnClose.style.opacity = '1';
+    
+    hideTimer = setTimeout(() => {
+      btnPrev.style.opacity = '0.3';
+      btnNext.style.opacity = '0.3';
+      btnClose.style.opacity = '0.7';
+    }, 2000);
+  }
+  
+  root.addEventListener('mousemove', hideArrowsOnMobile);
+  root.addEventListener('touchstart', hideArrowsOnMobile);
   
   return { open, close };
 })();
@@ -445,7 +579,7 @@ function createHeartsSystem() {
   window.heartInterval = heartInterval;
 }
 
-/* Slider с правильным расчетом высоты по отображаемым размерам */
+/* Slider с правильной адаптивностью */
 class Slider {
   constructor(photos, videos, mount) {
     this.allItems = [
@@ -459,6 +593,13 @@ class Slider {
     this.loadedCount = 0;
     this.totalToLoad = this.allItems.length;
     this.maxDisplayHeight = 0;
+    this.isMobile = window.innerWidth <= 768;
+
+    // Обновляем isMobile при ресайзе
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth <= 768;
+      this.updateSliderForMobile();
+    });
 
     this.wrapper = el("div", "slider-wrapper");
     this.viewport = el("div", "slider-viewport");
@@ -466,12 +607,15 @@ class Slider {
     this.wrapper.appendChild(this.viewport);
     this.viewport.appendChild(this.track);
 
-    this.prevBtn = el("button", "slider-button prev", "◀");
-    this.nextBtn = el("button", "slider-button next", "▶");
-    this.prevBtn.setAttribute("aria-label", "Предыдущее фото");
-    this.nextBtn.setAttribute("aria-label", "Следующее фото");
-    this.wrapper.appendChild(this.prevBtn);
-    this.wrapper.appendChild(this.nextBtn);
+    // Стрелки только для десктопа
+    if (!this.isMobile) {
+      this.prevBtn = el("button", "slider-button prev", "◀");
+      this.nextBtn = el("button", "slider-button next", "▶");
+      this.prevBtn.setAttribute("aria-label", "Предыдущее фото");
+      this.nextBtn.setAttribute("aria-label", "Следующее фото");
+      this.wrapper.appendChild(this.prevBtn);
+      this.wrapper.appendChild(this.nextBtn);
+    }
 
     this.mount.appendChild(this.wrapper);
 
@@ -479,6 +623,71 @@ class Slider {
     
     this.buildSlides();
     this.startLoadingAndCalculateHeight();
+    this.updateSliderForMobile();
+  }
+
+  updateSliderForMobile() {
+    if (this.isMobile) {
+      // Убираем рамку и фон на мобильных
+      this.wrapper.style.border = 'none';
+      this.wrapper.style.background = 'transparent';
+      this.wrapper.style.boxShadow = 'none';
+      this.wrapper.style.padding = '0';
+      this.wrapper.style.borderRadius = '0';
+      
+      // Убираем стрелки если они есть
+      if (this.prevBtn && this.nextBtn) {
+        this.prevBtn.style.display = 'none';
+        this.nextBtn.style.display = 'none';
+      }
+      
+      // Добавляем свайпы для мобильных
+      this.addSwipeSupport();
+    } else {
+      // Восстанавливаем стили для десктопа
+      this.wrapper.style.border = '2px solid rgba(255, 228, 240, 0.35)';
+      this.wrapper.style.background = '#181818';
+      this.wrapper.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.4)';
+      this.wrapper.style.padding = '16px';
+      this.wrapper.style.borderRadius = '18px';
+      
+      // Показываем стрелки если они есть
+      if (this.prevBtn && this.nextBtn) {
+        this.prevBtn.style.display = 'flex';
+        this.nextBtn.style.display = 'flex';
+      }
+    }
+  }
+
+  addSwipeSupport() {
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    const handleTouchStart = (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    };
+    
+    const handleTouchEnd = (e) => {
+      if (this.isAnimating) return;
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    };
+    
+    const handleSwipe = () => {
+      const minSwipeDistance = 50;
+      const distance = touchStartX - touchEndX;
+      
+      if (Math.abs(distance) < minSwipeDistance) return;
+      
+      if (distance > 0) {
+        this.goTo((this.current + 1) % this.allItems.length);
+      } else {
+        this.goTo((this.current - 1 + this.allItems.length) % this.allItems.length);
+      }
+    };
+    
+    this.track.addEventListener('touchstart', handleTouchStart, { passive: true });
+    this.track.addEventListener('touchend', handleTouchEnd, { passive: true });
   }
 
   buildSlides() {
@@ -490,6 +699,9 @@ class Slider {
         const video = el("video");
         video.src = item.src;
         video.controls = true;
+        video.setAttribute("playsinline", "true");
+        video.setAttribute("webkit-playsinline", "true");
+        video.setAttribute("preload", "metadata");
         video.setAttribute("aria-label", `Видео ${i + 1} из ${this.allItems.length}`);
         video.onerror = () => {
           console.warn(`Не удалось загрузить видео: ${item.src}`);
@@ -499,6 +711,7 @@ class Slider {
       } else {
         const img = el("img");
         img.src = item.src;
+        img.loading = "lazy";
         img.setAttribute("alt", `Фото ${i + 1} из ${this.allItems.length}`);
         img.onerror = () => {
           console.warn(`Не удалось загрузить фото: ${item.src}`);
@@ -521,7 +734,9 @@ class Slider {
           const video = document.createElement("video");
           video.preload = "metadata";
           video.onloadedmetadata = () => {
-            this.calculateDisplayHeight(video, true, index);
+            if (!this.isMobile) {
+              this.calculateDisplayHeight(video, true, index);
+            }
             resolve();
           };
           video.onerror = () => {
@@ -533,7 +748,9 @@ class Slider {
         } else {
           const img = new Image();
           img.onload = () => {
-            this.calculateDisplayHeight(img, false, index);
+            if (!this.isMobile) {
+              this.calculateDisplayHeight(img, false, index);
+            }
             resolve();
           };
           img.onerror = () => {
@@ -547,7 +764,14 @@ class Slider {
     });
 
     Promise.all(promises).then(() => {
-      this.setFinalHeight();
+      if (!this.isMobile) {
+        this.setFinalHeight();
+      } else {
+        // На мобильных устанавливаем минимальную высоту
+        this.wrapper.style.height = 'auto';
+        this.wrapper.style.minHeight = '250px';
+      }
+      
       this.update();
       this.bind();
       
@@ -566,10 +790,7 @@ class Slider {
     const sliderMaxWidth = this.wrapper.clientWidth * 0.92;
     let displayHeight = sliderMaxWidth * ratio;
     
-    const isMobile = window.innerWidth <= 768;
-    const maxAllowedHeight = isMobile ? 
-      (window.innerWidth <= 480 ? window.innerHeight * 0.45 : window.innerHeight * 0.5) : 
-      window.innerHeight * 0.6;
+    const maxAllowedHeight = window.innerHeight * 0.6;
     
     displayHeight = Math.min(displayHeight, maxAllowedHeight);
     this.maxDisplayHeight = Math.max(this.maxDisplayHeight, displayHeight);
@@ -582,7 +803,7 @@ class Slider {
     const padding = 32;
     const slideNumberHeight = 40;
     const finalHeight = this.maxDisplayHeight + padding + slideNumberHeight;
-    const minHeight = window.innerWidth <= 768 ? 250 : 300;
+    const minHeight = 300;
     
     this.wrapper.style.height = Math.max(finalHeight, minHeight) + "px";
     this.wrapper.classList.add('visible');
@@ -597,21 +818,48 @@ class Slider {
   }
 
   bind() {
-    this.prevBtn.addEventListener("click", () => {
-      if (this.isAnimating) return;
-      this.goTo((this.current - 1 + this.allItems.length) % this.allItems.length);
-    });
-    
-    this.nextBtn.addEventListener("click", () => {
-      if (this.isAnimating) return;
-      this.goTo((this.current + 1) % this.allItems.length);
-    });
+    if (!this.isMobile && this.prevBtn && this.nextBtn) {
+      this.prevBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.isAnimating) return;
+        this.goTo((this.current - 1 + this.allItems.length) % this.allItems.length);
+      });
+      
+      this.nextBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.isAnimating) return;
+        this.goTo((this.current + 1) % this.allItems.length);
+      });
+    }
     
     this.track.addEventListener("click", (e) => {
-      const s = e.target.closest(".slide");
-      if (!s) return;
-      const idx = this.slides.indexOf(s);
-      LB.open(this.allItems, idx);
+      // На мобильных предотвращаем открытие лайтбокса при свайпе
+      if (this.isMobile) {
+        const target = e.target;
+        if (target.tagName === 'VIDEO' || target.closest('video')) {
+          // Для видео открываем лайтбокс
+          e.preventDefault();
+          const idx = Array.from(this.slides).indexOf(e.target.closest(".slide"));
+          if (idx !== -1) {
+            LB.open(this.allItems, idx);
+          }
+        } else if (target.tagName === 'IMG' || target.closest('img')) {
+          // Для изображений открываем лайтбокс
+          e.preventDefault();
+          const idx = Array.from(this.slides).indexOf(e.target.closest(".slide"));
+          if (idx !== -1) {
+            LB.open(this.allItems, idx);
+          }
+        }
+      } else {
+        // На десктопе обычное поведение
+        const s = e.target.closest(".slide");
+        if (!s) return;
+        const idx = this.slides.indexOf(s);
+        LB.open(this.allItems, idx);
+      }
     });
   }
 
@@ -649,6 +897,9 @@ class Slider {
         s.classList.remove("active");
       }
     });
+    
+    // Показываем обертку
+    this.wrapper.classList.add('visible');
   }
 }
 
@@ -683,8 +934,8 @@ function setupHeroScrollAnimation() {
     }
   }
   
-  window.addEventListener('scroll', handleScroll);
-  window.addEventListener('resize', handleScroll);
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('resize', handleScroll, { passive: true });
   handleScroll();
   
   if (window.innerWidth > 768) {
@@ -739,7 +990,7 @@ function setupScrollReveal() {
     checkVisibility();
   }, { passive: true });
   
-  window.addEventListener('resize', checkVisibility);
+  window.addEventListener('resize', checkVisibility, { passive: true });
   
   setInterval(checkVisibility, 300);
 }
@@ -761,10 +1012,8 @@ function setupMusicPlayer() {
   let isMuted = false;
   let lastVolume = 0.3;
   
-  // Установить громкость по умолчанию
   audio.volume = lastVolume;
   
-  // Проверить поддержку аудио
   function checkAudioSupport() {
     const canPlayMP3 = audio.canPlayType('audio/mp3');
     const canPlayOGG = audio.canPlayType('audio/ogg');
@@ -777,14 +1026,12 @@ function setupMusicPlayer() {
     return true;
   }
   
-  // Обновить иконку кнопки воспроизведения
   function updatePlayButton() {
     const icon = isPlaying ? 'fa-pause' : 'fa-play';
     playPauseBtn.innerHTML = `<i class="fas ${icon}"></i>`;
     miniPlayPauseBtn.innerHTML = `<i class="fas ${icon}"></i>`;
   }
   
-  // Обновить иконку кнопки звука
   function updateMuteButton() {
     let icon;
     if (isMuted) {
@@ -799,14 +1046,12 @@ function setupMusicPlayer() {
     muteBtn.innerHTML = `<i class="fas ${icon}"></i>`;
   }
   
-  // Воспроизвести/пауза
   function togglePlayPause() {
     if (isPlaying) {
       audio.pause();
     } else {
       audio.play().catch(e => {
         console.log('Автовоспроизведение заблокировано. Нажмите на кнопку воспроизведения.');
-        // Показываем уведомление для пользователя
         playPauseBtn.style.animation = 'none';
         setTimeout(() => {
           playPauseBtn.style.animation = 'pulse 1s ease-in-out';
@@ -817,15 +1062,12 @@ function setupMusicPlayer() {
     updatePlayButton();
   }
   
-  // Включить/выключить звук
   function toggleMute() {
     if (isMuted) {
-      // Включаем звук
       audio.volume = lastVolume;
       volumeSlider.value = lastVolume;
       isMuted = false;
     } else {
-      // Выключаем звук
       lastVolume = audio.volume;
       audio.volume = 0;
       volumeSlider.value = 0;
@@ -834,7 +1076,6 @@ function setupMusicPlayer() {
     updateMuteButton();
   }
   
-  // Изменить громкость
   function changeVolume() {
     const volume = parseFloat(volumeSlider.value);
     audio.volume = volume;
@@ -849,36 +1090,55 @@ function setupMusicPlayer() {
     updateMuteButton();
   }
   
-  // Свернуть плеер
   function minimizePlayer() {
     playerControls.style.display = 'none';
     playerMinimized.style.display = 'flex';
     musicPlayer.style.width = 'auto';
   }
   
-  // Развернуть плеер
   function expandPlayer() {
     playerMinimized.style.display = 'none';
     playerControls.style.display = 'flex';
     musicPlayer.style.width = 'auto';
   }
   
-  // Закрыть плеер
   function closePlayer() {
     minimizePlayer();
   }
   
-  // Инициализация
   if (checkAudioSupport()) {
-    // События кнопок
-    playPauseBtn.addEventListener('click', togglePlayPause);
-    miniPlayPauseBtn.addEventListener('click', togglePlayPause);
-    muteBtn.addEventListener('click', toggleMute);
-    volumeSlider.addEventListener('input', changeVolume);
-    closePlayerBtn.addEventListener('click', closePlayer);
-    expandPlayerBtn.addEventListener('click', expandPlayer);
+    // Добавляем обработчики с preventDefault для мобильных
+    const addSafeClickListener = (element, handler) => {
+      element.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handler();
+      });
+      
+      element.addEventListener('touchstart', (e) => {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+      
+      element.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handler();
+      });
+    };
     
-    // События аудио
+    addSafeClickListener(playPauseBtn, togglePlayPause);
+    addSafeClickListener(miniPlayPauseBtn, togglePlayPause);
+    addSafeClickListener(muteBtn, toggleMute);
+    addSafeClickListener(closePlayerBtn, closePlayer);
+    addSafeClickListener(expandPlayerBtn, expandPlayer);
+    
+    volumeSlider.addEventListener('input', changeVolume);
+    volumeSlider.addEventListener('touchstart', (e) => {
+      e.stopPropagation();
+    }, { passive: true });
+    
     audio.addEventListener('play', () => {
       isPlaying = true;
       updatePlayButton();
@@ -985,7 +1245,15 @@ Slider = function(...args) {
   
   const originalSetFinalHeight = instance.setFinalHeight;
   instance.setFinalHeight = function() {
-    originalSetFinalHeight.call(this);
+    if (originalSetFinalHeight) {
+      originalSetFinalHeight.call(this);
+    }
+    onSliderLoaded();
+  };
+  
+  // Также отслеживаем загрузку на мобильных
+  instance.update = function() {
+    this.constructor.prototype.update.call(this);
     onSliderLoaded();
   };
   
@@ -995,6 +1263,23 @@ Slider = function(...args) {
 /* Инициализация */
 window.addEventListener("load", () => {
   window.scrollTo(0, 0);
+  
+  // Предотвращаем масштабирование на мобильных
+  document.addEventListener('touchmove', function(e) {
+    if(e.scale !== 1) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+  
+  // Предотвращаем двойной тап для зумирования
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', function(e) {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+      e.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, { passive: false });
   
   setupHeroScrollAnimation();
   renderSections();

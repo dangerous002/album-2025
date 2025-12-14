@@ -2,10 +2,13 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>Мы. Год первый.</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
   </head>
   <body>
     <!-- Прелоадер -->
@@ -16,7 +19,7 @@
 
     <!-- Музыкальный плеер -->
     <div class="music-player" id="musicPlayer">
-      <audio id="backgroundMusic" loop>
+      <audio id="backgroundMusic" loop playsinline>
         <source src="music.mp3" type="audio/mp3">
         <source src="music.ogg" type="audio/ogg">
         Ваш браузер не поддерживает аудио элемент.
@@ -101,7 +104,7 @@
       <div class="lb-stage">
         <div class="lb-content">
           <img src="" alt="" class="lb-image" />
-          <video controls class="lb-video hidden">
+          <video controls playsinline class="lb-video hidden">
             <source src="" type="video/mp4">
             Ваш браузер не поддерживает видео.
           </video>

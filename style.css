@@ -12,6 +12,11 @@
 /* base */
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+*:focus {
+  outline: none;
 }
 html,
 body {
@@ -21,6 +26,8 @@ body {
   color: var(--accent);
   font-family: "BetinaScript", system-ui, -apple-system, Segoe UI, Roboto, Arial;
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 a {
   color: inherit;
@@ -73,7 +80,7 @@ a {
   50% { opacity: 1; }
 }
 
-/* Музыкальный плеер */
+/* Музыкальный плеер - ШИРЕ */
 .music-player {
   position: fixed;
   bottom: 20px;
@@ -87,13 +94,13 @@ a {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 228, 240, 0.2);
   border-radius: 15px;
-  padding: 12px 16px;
+  padding: 12px 18px;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 18px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease;
-  width: 320px;
+  width: 380px; /* Увеличенная ширина */
   animation: slideInUp 0.5s ease-out;
 }
 
@@ -121,6 +128,10 @@ a {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 16px;
+  flex-shrink: 0;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .player-btn:hover {
@@ -136,6 +147,7 @@ a {
 .player-btn.close-btn {
   background: rgba(255, 100, 100, 0.1);
   border-color: rgba(255, 100, 100, 0.3);
+  flex-shrink: 0;
 }
 
 .player-btn.close-btn:hover {
@@ -145,11 +157,12 @@ a {
 .track-info {
   flex: 1;
   min-width: 0;
+  overflow: hidden;
 }
 
 .track-title {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--accent);
   white-space: nowrap;
   overflow: hidden;
@@ -157,7 +170,7 @@ a {
 }
 
 .track-artist {
-  font-size: 12px;
+  font-size: 13px;
   color: rgba(255, 228, 240, 0.7);
   white-space: nowrap;
   overflow: hidden;
@@ -167,7 +180,8 @@ a {
 .volume-control {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 .volume-btn {
@@ -183,6 +197,8 @@ a {
   justify-content: center;
   border-radius: 50%;
   transition: all 0.3s ease;
+  flex-shrink: 0;
+  touch-action: manipulation;
 }
 
 .volume-btn:hover {
@@ -190,12 +206,14 @@ a {
 }
 
 #volumeSlider {
-  width: 70px;
+  width: 80px;
   height: 4px;
   -webkit-appearance: none;
   background: rgba(255, 228, 240, 0.2);
   border-radius: 2px;
   outline: none;
+  flex-shrink: 0;
+  touch-action: manipulation;
 }
 
 #volumeSlider::-webkit-slider-thumb {
@@ -231,6 +249,7 @@ a {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 140px;
 }
 
 .player-minimized:hover {
@@ -251,6 +270,7 @@ a {
   justify-content: center;
   border-radius: 50%;
   transition: all 0.3s ease;
+  touch-action: manipulation;
 }
 
 .mini-player-btn:hover {
@@ -363,6 +383,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .hero-bg {
   position: absolute;
@@ -579,7 +601,7 @@ p {
 
 /* memory-section - увеличены отступы */
 .memory-section {
-  margin: 50px 0;
+  margin: 40px 0; /* Уменьшено для равных отступов с разделителями */
   opacity: 0;
   transform: translateY(40px);
   transition: all 0.8s cubic-bezier(0.22, 0.9, 0.32, 1);
@@ -590,11 +612,11 @@ p {
   transform: translateY(0);
 }
 
-/* divider - одинаковая полоска с равными отступами */
+/* divider - одинаковая полоска с РАВНЫМИ ОТСТУПАМИ */
 .section-divider {
   width: 70%;
   height: 2px;
-  margin: 50px auto; /* Одинаковые отступы сверху и снизу */
+  margin: 40px auto; /* РАВНЫЕ отступы 40px сверху и снизу */
   background: linear-gradient(
     90deg,
     transparent,
@@ -614,7 +636,13 @@ p {
   transform: scaleX(1);
 }
 
-/* SLIDER с фиксированной высотой по самому высокому изображению */
+/* summary и final-section - увеличены отступы для выравнивания */
+.summary,
+.final-section {
+  margin: 40px 0;
+}
+
+/* SLIDER - УЛУЧШЕННАЯ АДАПТИВНОСТЬ */
 .slider-wrapper {
   position: relative;
   max-width: 90%;
@@ -627,10 +655,9 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: height 0.3s ease;
+  transition: all 0.6s cubic-bezier(0.22, 0.9, 0.32, 1) 0.3s;
   opacity: 0;
   transform: translateY(30px);
-  transition: all 0.6s cubic-bezier(0.22, 0.9, 0.32, 1) 0.3s;
 }
 
 .slider-wrapper.visible {
@@ -680,7 +707,7 @@ p {
   transform: translateX(-20px);
 }
 
-/* Ограничения для изображений и видео - ВАЖНО: одинаковые для всех */
+/* Ограничения для изображений и видео - ДЕСКТОП */
 .slide img,
 .slide video {
   max-width: 92%;
@@ -744,6 +771,7 @@ p {
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateY(-50%) scale(0.8);
+  touch-action: manipulation;
 }
 
 .slider-wrapper.visible .slider-button {
@@ -762,7 +790,7 @@ p {
   right: -70px;
 }
 
-/* Lightbox с блюром фона */
+/* Lightbox с улучшенной адаптивностью */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -770,15 +798,17 @@ p {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
 }
 
 .lightbox::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.88);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.95);
   -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .lightbox.hidden {
@@ -792,6 +822,9 @@ p {
   justify-content: center;
   position: relative;
   z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
 }
 
 .lb-content {
@@ -801,16 +834,29 @@ p {
   justify-content: center;
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .lb-stage .lb-image,
 .lb-stage .lb-video {
-  max-width: 80vw;
-  max-height: 80vh;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
   border-radius: 12px;
   transition: opacity 0.4s ease;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  display: block;
+}
+
+/* Специальные стили для видео в лайтбоксе */
+.lb-stage .lb-video {
+  background: #000;
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
 }
 
 .lb-video.hidden {
@@ -829,15 +875,11 @@ p {
   opacity: 1;
 }
 
-.lb-stage .lb-video {
-  background: #000;
-}
-
 .lb-close,
 .lb-prev,
 .lb-next {
   position: absolute;
-  background: rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.6);
   color: #fff;
   border: none;
   cursor: pointer;
@@ -846,18 +888,28 @@ p {
   border-radius: 10px;
   z-index: 3;
   transition: all 0.3s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .lb-close:hover,
 .lb-prev:hover,
 .lb-next:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.8);
   transform: scale(1.1);
 }
 
+.lb-close:active,
+.lb-prev:active,
+.lb-next:active {
+  transform: scale(0.95);
+}
+
 .lb-close {
-  top: 18px;
-  right: 18px;
+  top: 20px;
+  right: 20px;
+  font-size: 32px;
+  padding: 10px 15px;
 }
 .lb-prev {
   left: 20px;
@@ -882,17 +934,17 @@ p {
   transform: translateY(0);
 }
 
-/* summary и final-section */
-.summary,
-.final-section {
-  margin: 40px 0;
-}
-
 /* ==================== */
-/* МОБИЛЬНАЯ АДАПТАЦИЯ */
+/* МОБИЛЬНАЯ АДАПТАЦИЯ - ИСПРАВЛЕНА */
 /* ==================== */
 
 @media (max-width: 768px) {
+  /* Убираем сердечки на мобильных */
+  .heart {
+    display: none !important;
+  }
+  
+  /* Улучшенный hero */
   .hero-we {
     font-size: 4rem;
   }
@@ -901,6 +953,7 @@ p {
     font-size: 3rem;
   }
   
+  /* Улучшенные заголовки */
   .sparkle-title {
     font-size: 32px;
     margin: 25px 0 15px;
@@ -911,6 +964,7 @@ p {
     margin: 25px 0 15px;
   }
   
+  /* Улучшенный текст */
   p {
     font-size: 18px;
     text-indent: 20px;
@@ -918,51 +972,70 @@ p {
     line-height: 1.6;
   }
   
+  /* Улучшенный контейнер */
   .container {
     padding: 20px 15px 40px;
   }
   
+  /* УБИРАЕМ РАМКУ У SLIDER НА МОБИЛЬНЫХ */
   .slider-wrapper {
-    max-width: 95%;
-    padding: 12px;
+    max-width: 100%;
+    padding: 0;
     margin: 25px auto;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
   }
   
-  .slider-button.prev {
-    left: -50px;
+  .slider-viewport {
+    padding: 0;
   }
   
-  .slider-button.next {
-    right: -50px;
-  }
-  
+  /* УБИРАЕМ СТРЕЛКИ НА МОБИЛЬНЫХ */
   .slider-button {
-    width: 40px;
-    height: 40px;
-    font-size: 22px;
+    display: none !important;
   }
   
+  /* ФОТО И ВИДЕО НА ВСЮ ШИРИНУ НА МОБИЛЬНЫХ */
   .slide img,
   .slide video {
-    max-width: 95%;
-    max-height: 50vh;
+    max-width: 100% !important;
+    max-height: 70vh !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
   }
   
+  .slide video {
+    max-height: 60vh !important;
+  }
+  
+  /* Улучшенный номер слайда */
   .slide-number {
     font-size: 16px;
     padding: 3px 10px;
-    top: 8px;
+    top: 15px;
+    background: rgba(0, 0, 0, 0.7);
   }
   
+  /* Улучшенные разделители */
   .section-divider {
     width: 80%;
-    margin: 40px auto;
+    margin: 30px auto; /* Меньшие отступы на мобильных */
   }
   
+  /* Улучшенные секции */
   .memory-section {
-    margin: 40px 0;
+    margin: 30px 0;
   }
   
+  .summary,
+  .final-section {
+    margin: 30px 0;
+  }
+  
+  /* Улучшенный scroll indicator */
   .scroll-indicator {
     bottom: 25px;
   }
@@ -976,34 +1049,79 @@ p {
     font-size: 20px;
   }
   
-  /* Lightbox на мобильных */
-  .lb-close,
-  .lb-prev,
-  .lb-next {
-    font-size: 28px;
-    padding: 8px;
+  /* УЛУЧШЕННЫЙ LIGHTBOX ДЛЯ МОБИЛЬНЫХ */
+  .lightbox {
+    touch-action: pan-x pan-y;
+  }
+  
+  .lb-stage {
+    max-width: 100vw;
+    max-height: 100vh;
+    padding: 10px;
   }
   
   .lb-stage .lb-image,
   .lb-stage .lb-video {
-    max-width: 95vw;
-    max-height: 70vh;
+    max-width: 100%;
+    max-height: calc(100vh - 40px);
+    border-radius: 0;
   }
   
+  .lb-stage .lb-video {
+    max-height: 70vh;
+    height: auto;
+  }
+  
+  /* Улучшенные кнопки лайтбокса на мобильных */
+  .lb-close,
+  .lb-prev,
+  .lb-next {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    font-size: 28px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  /* Уменьшаем кнопки на очень маленьких экранах */
   .lb-close {
     top: 10px;
     right: 10px;
+    font-size: 24px;
+    padding: 8px 12px;
   }
   
   .lb-prev {
     left: 10px;
+    padding: 8px 12px;
   }
   
   .lb-next {
     right: 10px;
+    padding: 8px 12px;
   }
   
-  /* Музыкальный плеер на мобильных */
+  /* Отключаем hover эффекты на тач-устройствах */
+  @media (hover: none) {
+    .lb-close:hover,
+    .lb-prev:hover,
+    .lb-next:hover {
+      transform: none;
+    }
+    
+    .slider-button:hover {
+      transform: translateY(-50%) scale(1);
+    }
+    
+    .player-btn:hover,
+    .volume-btn:hover,
+    .mini-player-btn:hover {
+      transform: none;
+      background: rgba(255, 228, 240, 0.1);
+    }
+  }
+  
+  /* Улучшенный музыкальный плеер на мобильных */
   .music-player {
     bottom: 10px;
     right: 10px;
@@ -1014,6 +1132,8 @@ p {
     width: auto;
     padding: 10px 12px;
     gap: 10px;
+    max-width: 100%;
+    border-radius: 12px;
   }
   
   .player-btn {
@@ -1036,6 +1156,8 @@ p {
   
   .player-minimized {
     padding: 6px 12px;
+    width: 120px;
+    border-radius: 20px;
   }
   
   .mini-player-btn {
@@ -1047,17 +1169,9 @@ p {
   .mini-player-text {
     font-size: 12px;
   }
-  
-  .heart {
-    display: none;
-  }
-  
-  .summary,
-  .final-section {
-    margin: 30px 0;
-  }
 }
 
+/* Дополнительные улучшения для очень маленьких экранов */
 @media (max-width: 480px) {
   .hero-we {
     font-size: 3rem;
@@ -1088,33 +1202,28 @@ p {
     bottom: 20px;
   }
   
-  .slider-button.prev {
-    left: -40px;
-  }
-  
-  .slider-button.next {
-    right: -40px;
-  }
-  
-  .slider-button {
-    width: 35px;
-    height: 35px;
-    font-size: 20px;
-  }
-  
   .slide img,
   .slide video {
-    max-height: 45vh;
+    max-height: 60vh !important;
+  }
+  
+  .slide video {
+    max-height: 50vh !important;
   }
   
   .slide-number {
     font-size: 14px;
     padding: 2px 8px;
+    top: 10px;
   }
   
   .section-divider {
     width: 85%;
-    margin: 30px auto;
+    margin: 25px auto; /* Еще меньше на очень маленьких экранах */
+  }
+  
+  .memory-section {
+    margin: 25px 0;
   }
   
   .summary,
@@ -1127,12 +1236,115 @@ p {
     right: 5px;
     left: 5px;
   }
+  
+  .player-controls {
+    padding: 8px 10px;
+    gap: 8px;
+    border-radius: 10px;
+  }
+  
+  .player-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  .track-title {
+    font-size: 11px;
+  }
+  
+  .track-artist {
+    font-size: 10px;
+  }
+  
+  /* Еще меньше кнопки лайтбокса */
+  .lb-close {
+    font-size: 20px;
+    padding: 6px 10px;
+    top: 5px;
+    right: 5px;
+  }
+  
+  .lb-prev,
+  .lb-next {
+    font-size: 24px;
+    padding: 6px 10px;
+  }
 }
 
 /* Для очень высоких изображений на маленьких экранах */
 @media (max-height: 700px) {
-  .slide img,
+  .slide img {
+    max-height: 55vh !important;
+  }
+  
   .slide video {
-    max-height: 55vh;
+    max-height: 45vh !important;
+  }
+  
+  .lb-stage .lb-image {
+    max-height: 80vh !important;
+  }
+  
+  .lb-stage .lb-video {
+    max-height: 60vh !important;
+  }
+}
+
+/* Исправления для Safari на iOS */
+@supports (-webkit-touch-callout: none) {
+  .hero {
+    height: -webkit-fill-available;
+    min-height: -webkit-fill-available;
+  }
+  
+  .lb-stage .lb-video {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  .player-controls,
+  .player-minimized {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Фикс для полноэкранного видео в iOS */
+  video {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}
+
+/* Фикс для Android Chrome */
+@media (hover: none) and (pointer: coarse) {
+  .slider-button,
+  .player-btn,
+  .volume-btn,
+  .mini-player-btn,
+  .lb-close,
+  .lb-prev,
+  .lb-next {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  input[type="range"] {
+    min-height: 44px;
+  }
+}
+
+/* Анимация для скрытия стрелок при клике на мобильных */
+@media (max-width: 768px) {
+  .lb-prev,
+  .lb-next {
+    transition: opacity 0.3s ease;
+  }
+  
+  .lightbox.touch-active .lb-prev,
+  .lightbox.touch-active .lb-next {
+    opacity: 0.5;
   }
 }
