@@ -594,6 +594,9 @@ class Slider {
     this.totalToLoad = this.allItems.length;
     this.maxDisplayHeight = 0;
     this.isMobile = window.innerWidth <= 768;
+    
+    // Для отслеживания ошибок
+    this.errorCount = 0;
 
     // Обновляем isMobile при ресайзе
     window.addEventListener('resize', () => {
@@ -703,20 +706,32 @@ class Slider {
         video.setAttribute("webkit-playsinline", "true");
         video.setAttribute("preload", "metadata");
         video.setAttribute("aria-label", `Видео ${i + 1} из ${this.allItems.length}`);
-        video.onerror = () => {
+        
+        // Биндим контекст для обработчика ошибок
+        const self = this;
+        video.onerror = function() {
           console.warn(`Не удалось загрузить видео: ${item.src}`);
-          this.onItemLoaded();
+          self.errorCount++;
+          self.loadedCount++;
+          window.updateGlobalLoadingProgress();
         };
+        
         s.appendChild(video);
       } else {
         const img = el("img");
         img.src = item.src;
         img.loading = "lazy";
         img.setAttribute("alt", `Фото ${i + 1} из ${this.allItems.length}`);
-        img.onerror = () => {
+        
+        // Биндим контекст для обработчика ошибок
+        const self = this;
+        img.onerror = function() {
           console.warn(`Не удалось загрузить фото: ${item.src}`);
-          this.onItemLoaded();
+          self.errorCount++;
+          self.loadedCount++;
+          window.updateGlobalLoadingProgress();
         };
+        
         s.appendChild(img);
       }
       
@@ -728,42 +743,62 @@ class Slider {
   }
 
   startLoadingAndCalculateHeight() {
-    const promises = this.allItems.map((item, index) => {
+    // Создаем промисы для каждого элемента
+    const loadPromises = this.allItems.map((item, index) => {
       return new Promise((resolve) => {
         if (item.type === "video") {
           const video = document.createElement("video");
           video.preload = "metadata";
+          
+          const self = this;
           video.onloadedmetadata = () => {
             if (!this.isMobile) {
               this.calculateDisplayHeight(video, true, index);
             }
+            self.loadedCount++;
+            window.updateGlobalLoadingProgress();
             resolve();
           };
+          
           video.onerror = () => {
-            console.warn(`Не удалось загрузить видео: ${item.src}`);
-            this.onItemLoaded();
+            console.warn(`Не удалось загрузить видео (метаданные): ${item.src}`);
+            self.errorCount++;
+            self.loadedCount++;
+            window.updateGlobalLoadingProgress();
             resolve();
           };
+          
           video.src = item.src;
         } else {
           const img = new Image();
+          
+          const self = this;
           img.onload = () => {
             if (!this.isMobile) {
               this.calculateDisplayHeight(img, false, index);
             }
+            self.loadedCount++;
+            window.updateGlobalLoadingProgress();
             resolve();
           };
+          
           img.onerror = () => {
             console.warn(`Не удалось загрузить фото: ${item.src}`);
-            this.onItemLoaded();
+            self.errorCount++;
+            self.loadedCount++;
+            window.updateGlobalLoadingProgress();
             resolve();
           };
+          
           img.src = item.src;
         }
       });
     });
 
-    Promise.all(promises).then(() => {
+    // Когда все промисы завершены
+    Promise.all(loadPromises).then(() => {
+      console.log(`Слайдер загружен: ${this.loadedCount}/${this.totalToLoad} элементов, ошибок: ${this.errorCount}`);
+      
       if (!this.isMobile) {
         this.setFinalHeight();
       } else {
@@ -775,52 +810,45 @@ class Slider {
       this.update();
       this.bind();
       
-      this.loadedCount = this.allItems.length;
-      
-      // Обновляем глобальный прогресс загрузки
-      window.updateGlobalLoadingProgress();
+      // Отмечаем, что этот слайдер полностью загружен
+      window.incrementLoadedSliders();
     });
   }
 
   calculateDisplayHeight(element, isVideo, index) {
-    const originalWidth = isVideo ? element.videoWidth : element.naturalWidth;
-    const originalHeight = isVideo ? element.videoHeight : element.naturalHeight;
-    
-    if (originalWidth === 0 || originalHeight === 0) return;
-    
-    const ratio = originalHeight / originalWidth;
-    const sliderMaxWidth = this.wrapper.clientWidth * 0.92;
-    let displayHeight = sliderMaxWidth * ratio;
-    
-    const maxAllowedHeight = window.innerHeight * 0.6;
-    
-    displayHeight = Math.min(displayHeight, maxAllowedHeight);
-    this.maxDisplayHeight = Math.max(this.maxDisplayHeight, displayHeight);
-    
-    this.loadedCount++;
-    
-    // Обновляем глобальный прогресс загрузки
-    window.updateGlobalLoadingProgress();
+    try {
+      const originalWidth = isVideo ? element.videoWidth : element.naturalWidth;
+      const originalHeight = isVideo ? element.videoHeight : element.naturalHeight;
+      
+      if (originalWidth === 0 || originalHeight === 0) return;
+      
+      const ratio = originalHeight / originalWidth;
+      const sliderMaxWidth = this.wrapper.clientWidth * 0.92;
+      let displayHeight = sliderMaxWidth * ratio;
+      
+      const maxAllowedHeight = window.innerHeight * 0.6;
+      
+      displayHeight = Math.min(displayHeight, maxAllowedHeight);
+      this.maxDisplayHeight = Math.max(this.maxDisplayHeight, displayHeight);
+    } catch (error) {
+      console.warn(`Ошибка при расчете высоты: ${error.message}`);
+    }
   }
 
   setFinalHeight() {
-    const padding = 32;
-    const slideNumberHeight = 40;
-    const finalHeight = this.maxDisplayHeight + padding + slideNumberHeight;
-    const minHeight = 300;
-    
-    this.wrapper.style.height = Math.max(finalHeight, minHeight) + "px";
-    this.wrapper.classList.add('visible');
-    
-    // Отмечаем, что этот слайдер полностью загружен
-    window.incrementLoadedSliders();
-  }
-
-  onItemLoaded() {
-    this.loadedCount++;
-    
-    // Обновляем глобальный прогресс загрузки
-    window.updateGlobalLoadingProgress();
+    try {
+      const padding = 32;
+      const slideNumberHeight = 40;
+      const finalHeight = this.maxDisplayHeight + padding + slideNumberHeight;
+      const minHeight = 300;
+      
+      this.wrapper.style.height = Math.max(finalHeight, minHeight) + "px";
+      this.wrapper.classList.add('visible');
+    } catch (error) {
+      console.warn(`Ошибка при установке высоты: ${error.message}`);
+      this.wrapper.style.height = 'auto';
+      this.wrapper.style.minHeight = '300px';
+    }
   }
 
   bind() {
@@ -906,13 +934,6 @@ class Slider {
     
     // Показываем обертку
     this.wrapper.classList.add('visible');
-    
-    // Отмечаем, что этот слайдер полностью загружен (для мобильных)
-    if (this.isMobile) {
-      setTimeout(() => {
-        window.incrementLoadedSliders();
-      }, 1000);
-    }
   }
 }
 
@@ -1226,40 +1247,26 @@ window.globalLoadingState = {
 window.updateGlobalLoadingProgress = function() {
   const state = window.globalLoadingState;
   
-  // Подсчитываем общее количество медиафайлов, если еще не подсчитано
-  if (state.totalMediaFiles === 0) {
-    sectionsData.forEach(sec => {
-      state.totalMediaFiles += sec.photos.length + (sec.videos ? sec.videos.length : 0);
-    });
-    
-    // Добавляем обложку hero
-    state.totalMediaFiles += 1;
-  }
-  
   // Обновляем текст загрузки
   const loadingText = document.querySelector('.loading-text');
   if (loadingText) {
-    const totalProgress = Math.round((state.loadedMediaFiles / state.totalMediaFiles) * 100);
+    // Используем прогресс слайдеров как основной индикатор
     const sliderProgress = Math.round((state.loadedSliders / state.totalSliders) * 100);
-    
-    // Показываем более точный прогресс
-    const overallProgress = Math.round((totalProgress + sliderProgress) / 2);
-    loadingText.textContent = `Загрузка воспоминаний... ${overallProgress}%`;
+    loadingText.textContent = `Загрузка воспоминаний... ${sliderProgress}%`;
   }
   
   // Проверяем, все ли загружено
-  if (state.heroImageLoaded && 
-      state.loadedSliders >= state.totalSliders && 
-      state.loadedMediaFiles >= state.totalMediaFiles) {
+  if (state.heroImageLoaded && state.loadedSliders >= state.totalSliders) {
     setTimeout(() => {
       window.hidePreloader();
-    }, 500);
+    }, 1000);
   }
 };
 
 /* Увеличение счетчика загруженных слайдеров */
 window.incrementLoadedSliders = function() {
   window.globalLoadingState.loadedSliders++;
+  console.log(`Загружен слайдер: ${window.globalLoadingState.loadedSliders}/${window.globalLoadingState.totalSliders}`);
   window.updateGlobalLoadingProgress();
 };
 
@@ -1267,6 +1274,7 @@ window.incrementLoadedSliders = function() {
 window.hidePreloader = function() {
   const loader = document.getElementById('loadingOverlay');
   if (loader && loader.style.display !== 'none') {
+    console.log('Все ресурсы загружены, скрываем прелоадер');
     loader.style.opacity = '0';
     setTimeout(() => {
       loader.style.display = 'none';
@@ -1295,8 +1303,8 @@ function preloadHeroImage() {
   
   const img = new Image();
   img.onload = function() {
+    console.log('Обложка загружена');
     window.globalLoadingState.heroImageLoaded = true;
-    window.globalLoadingState.loadedMediaFiles++;
     window.updateGlobalLoadingProgress();
     
     // Устанавливаем фон только после загрузки
@@ -1306,7 +1314,6 @@ function preloadHeroImage() {
   img.onerror = function() {
     console.warn(`Не удалось загрузить обложку: ${heroImageUrl}`);
     window.globalLoadingState.heroImageLoaded = true; // Все равно помечаем как загруженное
-    window.globalLoadingState.loadedMediaFiles++;
     window.updateGlobalLoadingProgress();
   };
   
@@ -1316,6 +1323,13 @@ function preloadHeroImage() {
 /* Инициализация */
 window.addEventListener("load", () => {
   window.scrollTo(0, 0);
+  
+  // Подсчитываем общее количество медиафайлов для отладки
+  let totalMediaCount = 0;
+  sectionsData.forEach(sec => {
+    totalMediaCount += sec.photos.length + (sec.videos ? sec.videos.length : 0);
+  });
+  console.log(`Всего медиафайлов: ${totalMediaCount}`);
   
   // Предотвращаем масштабирование на мобильных
   document.addEventListener('touchmove', function(e) {
@@ -1356,11 +1370,11 @@ window.addEventListener('beforeunload', () => {
   }
 });
 
-// Фоллбек на случай если прелоадер не скрылся (таймаут 15 секунд)
+// Фоллбек на случай если прелоадер не скрылся (таймаут 30 секунд)
 setTimeout(() => {
   const loader = document.getElementById('loadingOverlay');
   if (loader && loader.style.display !== 'none') {
-    console.warn('Таймаут загрузки. Скрываем прелоадер принудительно.');
+    console.warn('Таймаут загрузки (30 секунд). Скрываем прелоадер принудительно.');
     loader.style.opacity = '0';
     setTimeout(() => {
       loader.style.display = 'none';
@@ -1369,4 +1383,4 @@ setTimeout(() => {
       setupMusicPlayer();
     }, 500);
   }
-}, 15000);
+}, 30000);
