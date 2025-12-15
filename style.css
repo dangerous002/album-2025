@@ -80,13 +80,14 @@ a {
   50% { opacity: 1; }
 }
 
-/* Музыкальный плеер - ШИРЕ */
+/* Музыкальный плеер */
 .music-player {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 1000;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: all 0.3s ease;
 }
 
 .player-controls {
@@ -97,10 +98,10 @@ a {
   padding: 12px 18px;
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 15px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease;
-  width: 380px; /* Увеличенная ширина */
+  width: 350px;
   animation: slideInUp 0.5s ease-out;
 }
 
@@ -180,7 +181,7 @@ a {
 .volume-control {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
@@ -206,7 +207,7 @@ a {
 }
 
 #volumeSlider {
-  width: 80px;
+  width: 70px;
   height: 4px;
   -webkit-appearance: none;
   background: rgba(255, 228, 240, 0.2);
@@ -236,67 +237,16 @@ a {
   box-shadow: 0 0 5px rgba(255, 228, 240, 0.5);
 }
 
-/* Минимизированный плеер */
-.player-minimized {
-  background: rgba(26, 26, 26, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 228, 240, 0.2);
-  border-radius: 25px;
-  padding: 8px 15px;
-  display: none;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 140px;
-}
-
-.player-minimized:hover {
-  background: rgba(30, 30, 30, 0.95);
-  border-color: rgba(255, 228, 240, 0.3);
-}
-
-.mini-player-btn {
-  background: transparent;
-  border: none;
-  color: var(--accent);
-  cursor: pointer;
-  font-size: 14px;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-  touch-action: manipulation;
-}
-
-.mini-player-btn:hover {
-  background: rgba(255, 228, 240, 0.1);
-}
-
-.mini-player-text {
-  font-size: 13px;
-  color: var(--accent);
-  flex: 1;
-  white-space: nowrap;
-}
-
-.expand-btn {
-  font-size: 12px;
-}
-
 /* Летающие сердечки */
 .heart {
   position: fixed;
   pointer-events: none;
   z-index: 1;
   opacity: 0;
-  animation-duration: 8s;
+  animation-duration: 6s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
+  display: none; /* По умолчанию скрыто, включается на мобильных */
 }
 
 .heart svg {
@@ -935,13 +885,68 @@ p {
 }
 
 /* ==================== */
-/* МОБИЛЬНАЯ АДАПТАЦИЯ - ИСПРАВЛЕНА */
+/* МОБИЛЬНАЯ АДАПТАЦИЯ */
 /* ==================== */
 
 @media (max-width: 768px) {
-  /* Убираем сердечки на мобильных */
+  /* Включаем сердечки на мобильных */
   .heart {
-    display: none !important;
+    display: block !important;
+  }
+  
+  /* Улучшенный музыкальный плеер на мобильных */
+  .music-player {
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+    width: auto;
+  }
+  
+  .player-controls {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 12px;
+    gap: 8px;
+    border-radius: 12px;
+  }
+  
+  .player-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+  
+  .track-info {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+  
+  .track-title {
+    font-size: 12px;
+  }
+  
+  .track-artist {
+    font-size: 11px;
+  }
+  
+  .volume-control {
+    gap: 6px;
+  }
+  
+  #volumeSlider {
+    width: 40px;
+    min-width: 40px;
+  }
+  
+  .volume-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    min-width: 28px;
+    min-height: 28px;
   }
   
   /* Улучшенный hero */
@@ -1081,6 +1086,8 @@ p {
     font-size: 28px;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    min-width: 44px;
+    min-height: 44px;
   }
   
   /* Уменьшаем кнопки на очень маленьких экранах */
@@ -1120,59 +1127,51 @@ p {
       background: rgba(255, 228, 240, 0.1);
     }
   }
-  
-  /* Улучшенный музыкальный плеер на мобильных */
-  .music-player {
-    bottom: 10px;
-    right: 10px;
-    left: 10px;
-  }
-  
-  .player-controls {
-    width: auto;
-    padding: 10px 12px;
-    gap: 10px;
-    max-width: 100%;
-    border-radius: 12px;
-  }
-  
-  .player-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 14px;
-  }
-  
-  .track-title {
-    font-size: 12px;
-  }
-  
-  .track-artist {
-    font-size: 11px;
-  }
-  
-  #volumeSlider {
-    width: 50px;
-  }
-  
-  .player-minimized {
-    padding: 6px 12px;
-    width: 120px;
-    border-radius: 20px;
-  }
-  
-  .mini-player-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
-  }
-  
-  .mini-player-text {
-    font-size: 12px;
-  }
 }
 
 /* Дополнительные улучшения для очень маленьких экранов */
 @media (max-width: 480px) {
+  .music-player {
+    bottom: 5px;
+    right: 5px;
+    left: 5px;
+  }
+  
+  .player-controls {
+    padding: 8px 10px;
+    gap: 6px;
+    border-radius: 10px;
+  }
+  
+  .player-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+  
+  .track-title {
+    font-size: 11px;
+  }
+  
+  .track-artist {
+    font-size: 10px;
+  }
+  
+  .volume-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+    min-width: 24px;
+    min-height: 24px;
+  }
+  
+  #volumeSlider {
+    width: 35px;
+    min-width: 35px;
+  }
+  
   .hero-we {
     font-size: 3rem;
   }
@@ -1229,32 +1228,6 @@ p {
   .summary,
   .final-section {
     margin: 25px 0;
-  }
-  
-  .music-player {
-    bottom: 5px;
-    right: 5px;
-    left: 5px;
-  }
-  
-  .player-controls {
-    padding: 8px 10px;
-    gap: 8px;
-    border-radius: 10px;
-  }
-  
-  .player-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 12px;
-  }
-  
-  .track-title {
-    font-size: 11px;
-  }
-  
-  .track-artist {
-    font-size: 10px;
   }
   
   /* Еще меньше кнопки лайтбокса */

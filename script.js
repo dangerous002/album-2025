@@ -498,10 +498,17 @@ const LB = (() => {
   return { open, close };
 })();
 
-/* Система летающих сердечек */
+/* Система летающих сердечек ТОЛЬКО для мобильных устройств */
 function createHeartsSystem() {
+  // Проверяем, мобильное ли устройство
+  const isMobile = window.innerWidth <= 768;
+  if (!isMobile) {
+    console.log('Летающие сердечки отключены на десктопе');
+    return;
+  }
+  
   let heartCount = 0;
-  const maxHearts = 20;
+  const maxHearts = 15;
   
   // SVG для сердечка
   const heartSVG = `<svg viewBox="0 0 32 29" xmlns="http://www.w3.org/2000/svg">
@@ -511,19 +518,18 @@ function createHeartsSystem() {
   
   function createHeart() {
     if (heartCount >= maxHearts) return;
-    if (window.innerWidth <= 768) return;
     
     heartCount++;
     
     const heart = document.createElement('div');
     heart.className = 'heart';
     
-    // Чуть меньшие размеры сердечек
-    const size = 20 + Math.random() * 20; // 20-40px
+    // Размеры сердечек для мобильных
+    const size = 15 + Math.random() * 15; // 15-30px
     heart.style.width = `${size}px`;
     heart.style.height = `${size}px`;
     
-    // Случайные цвета сердечек
+    // Цвета сердечек
     const colors = [
       '#ff6bcb', '#ff8ac7', '#ffa8c3', '#ffc6bf', 
       '#ffe4f0', '#ffd1e0', '#ffb8d0', '#ff9fc0',
@@ -535,15 +541,15 @@ function createHeartsSystem() {
     // Случайная начальная позиция внизу экрана
     const startX = Math.random() * window.innerWidth;
     
-    // Разные анимации с долетом до середины экрана (50vh)
+    // Разные анимации
     const animations = ['floatHeart', 'floatHeart2', 'floatHeart3'];
     const animation = animations[Math.floor(Math.random() * animations.length)];
-    const duration = 6 + Math.random() * 6; // 6-12 секунд
+    const duration = 4 + Math.random() * 4; // 4-8 секунд
     
     // Устанавливаем стили
     heart.style.position = 'fixed';
     heart.style.left = `${startX}px`;
-    heart.style.top = `${window.innerHeight}px`; // Начинаем снизу экрана (viewport)
+    heart.style.top = `${window.innerHeight}px`;
     heart.style.zIndex = '1';
     heart.style.pointerEvents = 'none';
     heart.style.animation = `${animation} ${duration}s linear forwards`;
@@ -565,26 +571,45 @@ function createHeartsSystem() {
   }
   
   // Создаем начальные сердечки
-  for (let i = 0; i < 10; i++) {
-    setTimeout(() => createHeart(), i * 300);
+  for (let i = 0; i < 8; i++) {
+    setTimeout(() => createHeart(), i * 400);
   }
   
   // Периодически добавляем новые сердечки
   const heartInterval = setInterval(() => {
-    if (document.hidden) return;
+    if (document.hidden || !isMobile) return;
     createHeart();
-  }, 600);
+  }, 800);
   
   // Сохраняем интервал для очистки
   window.heartInterval = heartInterval;
+  
+  // Останавливаем сердечки при ресайзе, если стало не мобильным
+  window.addEventListener('resize', () => {
+    const currentIsMobile = window.innerWidth <= 768;
+    if (!currentIsMobile && isMobile) {
+      clearInterval(heartInterval);
+      document.querySelectorAll('.heart').forEach(heart => {
+        heart.remove();
+      });
+    }
+  });
 }
 
 /* Slider с правильной адаптивностью */
 class Slider {
   constructor(photos, videos, mount) {
+    // ФИКС: Используем относительные пути для GitHub Pages
+    // Если файлы в подпапках, оставляем как есть
     this.allItems = [
-      ...photos.map(src => ({ src, type: "image" })),
-      ...(videos || []).map(src => ({ src, type: "video" }))
+      ...photos.map(src => ({ 
+        src: this.fixPath(src), 
+        type: "image" 
+      })),
+      ...(videos || []).map(src => ({ 
+        src: this.fixPath(src), 
+        type: "video" 
+      }))
     ];
     
     this.mount = mount;
@@ -627,6 +652,19 @@ class Slider {
     this.buildSlides();
     this.startLoadingAndCalculateHeight();
     this.updateSliderForMobile();
+  }
+
+  // ФИКС: Исправляем пути для GitHub Pages
+  fixPath(path) {
+    // Убираем начальный слеш, если он есть
+    if (path.startsWith('/')) {
+      path = path.substring(1);
+    }
+    
+    // Проверяем, существует ли файл
+    console.log('Загрузка файла:', path);
+    
+    return path;
   }
 
   updateSliderForMobile() {
@@ -707,13 +745,20 @@ class Slider {
         video.setAttribute("preload", "metadata");
         video.setAttribute("aria-label", `Видео ${i + 1} из ${this.allItems.length}`);
         
-        // Биндим контекст для обработчика ошибок
-        const self = this;
-        video.onerror = function() {
+        // Обработчик ошибок с более подробной информацией
+        video.onerror = () => {
           console.warn(`Не удалось загрузить видео: ${item.src}`);
-          self.errorCount++;
-          self.loadedCount++;
+          this.errorCount++;
+          this.loadedCount++;
           window.updateGlobalLoadingProgress();
+          
+          // Показываем заглушку для видео
+          video.style.display = 'none';
+          const errorMsg = el("div", "", `❌ Видео не загружено`);
+          errorMsg.style.color = '#ff6b6b';
+          errorMsg.style.padding = '20px';
+          errorMsg.style.textAlign = 'center';
+          s.appendChild(errorMsg);
         };
         
         s.appendChild(video);
@@ -723,13 +768,20 @@ class Slider {
         img.loading = "lazy";
         img.setAttribute("alt", `Фото ${i + 1} из ${this.allItems.length}`);
         
-        // Биндим контекст для обработчика ошибок
-        const self = this;
-        img.onerror = function() {
+        // Обработчик ошибок с более подробной информацией
+        img.onerror = () => {
           console.warn(`Не удалось загрузить фото: ${item.src}`);
-          self.errorCount++;
-          self.loadedCount++;
+          this.errorCount++;
+          this.loadedCount++;
           window.updateGlobalLoadingProgress();
+          
+          // Показываем заглушку для фото
+          img.style.display = 'none';
+          const errorMsg = el("div", "", `❌ Фото не загружено`);
+          errorMsg.style.color = '#ff6b6b';
+          errorMsg.style.padding = '20px';
+          errorMsg.style.textAlign = 'center';
+          s.appendChild(errorMsg);
         };
         
         s.appendChild(img);
@@ -750,20 +802,19 @@ class Slider {
           const video = document.createElement("video");
           video.preload = "metadata";
           
-          const self = this;
           video.onloadedmetadata = () => {
             if (!this.isMobile) {
               this.calculateDisplayHeight(video, true, index);
             }
-            self.loadedCount++;
+            this.loadedCount++;
             window.updateGlobalLoadingProgress();
             resolve();
           };
           
           video.onerror = () => {
             console.warn(`Не удалось загрузить видео (метаданные): ${item.src}`);
-            self.errorCount++;
-            self.loadedCount++;
+            this.errorCount++;
+            this.loadedCount++;
             window.updateGlobalLoadingProgress();
             resolve();
           };
@@ -772,20 +823,19 @@ class Slider {
         } else {
           const img = new Image();
           
-          const self = this;
           img.onload = () => {
             if (!this.isMobile) {
               this.calculateDisplayHeight(img, false, index);
             }
-            self.loadedCount++;
+            this.loadedCount++;
             window.updateGlobalLoadingProgress();
             resolve();
           };
           
           img.onerror = () => {
             console.warn(`Не удалось загрузить фото: ${item.src}`);
-            self.errorCount++;
-            self.loadedCount++;
+            this.errorCount++;
+            this.loadedCount++;
             window.updateGlobalLoadingProgress();
             resolve();
           };
@@ -1029,22 +1079,34 @@ function setupScrollReveal() {
   setInterval(checkVisibility, 300);
 }
 
-/* Музыкальный плеер */
+/* Музыкальный плеер с адаптацией для мобильных */
 function setupMusicPlayer() {
   const audio = document.getElementById('backgroundMusic');
   const playPauseBtn = document.getElementById('playPauseBtn');
-  const miniPlayPauseBtn = document.getElementById('miniPlayPauseBtn');
   const muteBtn = document.getElementById('muteBtn');
   const volumeSlider = document.getElementById('volumeSlider');
   const closePlayerBtn = document.getElementById('closePlayerBtn');
-  const expandPlayerBtn = document.getElementById('expandPlayerBtn');
   const playerControls = document.querySelector('.player-controls');
-  const playerMinimized = document.getElementById('playerMinimized');
   const musicPlayer = document.getElementById('musicPlayer');
   
   let isPlaying = false;
   let isMuted = false;
   let lastVolume = 0.3;
+  
+  // ФИКС: Проверяем и исправляем путь к музыке для GitHub Pages
+  const audioSources = audio.querySelectorAll('source');
+  audioSources.forEach(source => {
+    const originalSrc = source.src;
+    if (originalSrc && !originalSrc.includes('http')) {
+      // Убираем начальный слеш, если он есть
+      const fixedSrc = originalSrc.startsWith('/') ? originalSrc.substring(1) : originalSrc;
+      source.src = fixedSrc;
+      console.log('Исправлен путь к музыке:', originalSrc, '->', fixedSrc);
+    }
+  });
+  
+  // Перезагружаем audio элемент с новыми путями
+  audio.load();
   
   audio.volume = lastVolume;
   
@@ -1063,7 +1125,6 @@ function setupMusicPlayer() {
   function updatePlayButton() {
     const icon = isPlaying ? 'fa-pause' : 'fa-play';
     playPauseBtn.innerHTML = `<i class="fas ${icon}"></i>`;
-    miniPlayPauseBtn.innerHTML = `<i class="fas ${icon}"></i>`;
   }
   
   function updateMuteButton() {
@@ -1124,20 +1185,8 @@ function setupMusicPlayer() {
     updateMuteButton();
   }
   
-  function minimizePlayer() {
-    playerControls.style.display = 'none';
-    playerMinimized.style.display = 'flex';
-    musicPlayer.style.width = 'auto';
-  }
-  
-  function expandPlayer() {
-    playerMinimized.style.display = 'none';
-    playerControls.style.display = 'flex';
-    musicPlayer.style.width = 'auto';
-  }
-  
   function closePlayer() {
-    minimizePlayer();
+    musicPlayer.style.display = 'none';
   }
   
   if (checkAudioSupport()) {
@@ -1163,10 +1212,8 @@ function setupMusicPlayer() {
     };
     
     addSafeClickListener(playPauseBtn, togglePlayPause);
-    addSafeClickListener(miniPlayPauseBtn, togglePlayPause);
     addSafeClickListener(muteBtn, toggleMute);
     addSafeClickListener(closePlayerBtn, closePlayer);
-    addSafeClickListener(expandPlayerBtn, expandPlayer);
     
     volumeSlider.addEventListener('input', changeVolume);
     volumeSlider.addEventListener('touchstart', (e) => {
@@ -1185,6 +1232,15 @@ function setupMusicPlayer() {
     
     audio.addEventListener('volumechange', updateMuteButton);
     
+    audio.addEventListener('error', (e) => {
+      console.error('Ошибка загрузки музыки:', audio.error);
+      // Показываем сообщение об ошибке
+      const trackInfo = document.querySelector('.track-info');
+      if (trackInfo) {
+        trackInfo.innerHTML = '<div class="track-title" style="color:#ff6b6b">Музыка не загружена</div>';
+      }
+    });
+    
     // Автовоспроизведение с задержкой
     setTimeout(() => {
       audio.play().catch(e => {
@@ -1195,9 +1251,6 @@ function setupMusicPlayer() {
     // Инициализация иконок
     updatePlayButton();
     updateMuteButton();
-    
-    // Автоматическое сворачивание через 10 секунд
-    setTimeout(minimizePlayer, 10000);
   }
 }
 
@@ -1315,6 +1368,13 @@ function preloadHeroImage() {
     console.warn(`Не удалось загрузить обложку: ${heroImageUrl}`);
     window.globalLoadingState.heroImageLoaded = true; // Все равно помечаем как загруженное
     window.updateGlobalLoadingProgress();
+    
+    // Показываем сообщение об ошибке
+    heroBg.style.backgroundColor = '#1a1a1a';
+    heroBg.style.display = 'flex';
+    heroBg.style.alignItems = 'center';
+    heroBg.style.justifyContent = 'center';
+    heroBg.innerHTML = '<div style="color:#ffe4f0; text-align:center; padding:20px;">Обложка не загружена</div>';
   };
   
   img.src = heroImageUrl;
