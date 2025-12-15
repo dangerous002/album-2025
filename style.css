@@ -237,16 +237,13 @@ a {
   box-shadow: 0 0 5px rgba(255, 228, 240, 0.5);
 }
 
-/* Летающие сердечки */
+/* Летающие сердечки - ВКЛЮЧЕНО ВСЕГДА */
 .heart {
   position: fixed;
   pointer-events: none;
   z-index: 1;
   opacity: 0;
-  animation-duration: 6s;
-  animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
-  display: none; /* По умолчанию скрыто, включается на мобильных */
 }
 
 .heart svg {
@@ -633,7 +630,7 @@ p {
   position: relative;
 }
 
-/* Анимации для слайдов */
+/* Анимации для слайдов - ИСПРАВЛЕНО для движения влево и вправо */
 .slide {
   display: flex;
   justify-content: center;
@@ -644,7 +641,7 @@ p {
   max-width: 100%;
   margin: 0 auto;
   opacity: 0;
-  transform: translateX(20px);
+  transform: translateX(0);
 }
 
 .slide.active {
@@ -652,9 +649,14 @@ p {
   transform: translateX(0);
 }
 
-.slide.exit {
+.slide.exit-right {
   opacity: 0;
   transform: translateX(-20px);
+}
+
+.slide.exit-left {
+  opacity: 0;
+  transform: translateX(20px);
 }
 
 /* Ограничения для изображений и видео - ДЕСКТОП */
@@ -889,11 +891,6 @@ p {
 /* ==================== */
 
 @media (max-width: 768px) {
-  /* Включаем сердечки на мобильных */
-  .heart {
-    display: block !important;
-  }
-  
   /* Улучшенный музыкальный плеер на мобильных */
   .music-player {
     bottom: 10px;

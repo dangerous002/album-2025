@@ -498,17 +498,10 @@ const LB = (() => {
   return { open, close };
 })();
 
-/* Система летающих сердечек ТОЛЬКО для мобильных устройств */
+/* Система летающих сердечек - РАБОТАЕТ НА ВСЕХ УСТРОЙСТВАХ */
 function createHeartsSystem() {
-  // Проверяем, мобильное ли устройство
-  const isMobile = window.innerWidth <= 768;
-  if (!isMobile) {
-    console.log('Летающие сердечки отключены на десктопе');
-    return;
-  }
-  
   let heartCount = 0;
-  const maxHearts = 15;
+  const maxHearts = window.innerWidth <= 768 ? 15 : 10; // Больше сердечек на мобильных
   
   // SVG для сердечка
   const heartSVG = `<svg viewBox="0 0 32 29" xmlns="http://www.w3.org/2000/svg">
@@ -524,8 +517,11 @@ function createHeartsSystem() {
     const heart = document.createElement('div');
     heart.className = 'heart';
     
-    // Размеры сердечек для мобильных
-    const size = 15 + Math.random() * 15; // 15-30px
+    // Разные размеры для мобильных и десктопа
+    const size = window.innerWidth <= 768 
+      ? 15 + Math.random() * 15 // 15-30px на мобильных
+      : 20 + Math.random() * 25; // 20-45px на десктопе
+    
     heart.style.width = `${size}px`;
     heart.style.height = `${size}px`;
     
@@ -544,7 +540,11 @@ function createHeartsSystem() {
     // Разные анимации
     const animations = ['floatHeart', 'floatHeart2', 'floatHeart3'];
     const animation = animations[Math.floor(Math.random() * animations.length)];
-    const duration = 4 + Math.random() * 4; // 4-8 секунд
+    
+    // Разная скорость на разных устройствах
+    const duration = window.innerWidth <= 768
+      ? 4 + Math.random() * 4 // 4-8 секунд на мобильных
+      : 6 + Math.random() * 6; // 6-12 секунд на десктопе
     
     // Устанавливаем стили
     heart.style.position = 'fixed';
@@ -571,36 +571,38 @@ function createHeartsSystem() {
   }
   
   // Создаем начальные сердечки
-  for (let i = 0; i < 8; i++) {
-    setTimeout(() => createHeart(), i * 400);
+  const initialHearts = window.innerWidth <= 768 ? 8 : 5;
+  for (let i = 0; i < initialHearts; i++) {
+    setTimeout(() => createHeart(), i * (window.innerWidth <= 768 ? 400 : 600));
   }
   
   // Периодически добавляем новые сердечки
   const heartInterval = setInterval(() => {
-    if (document.hidden || !isMobile) return;
+    if (document.hidden) return;
     createHeart();
-  }, 800);
+  }, window.innerWidth <= 768 ? 800 : 1200);
   
   // Сохраняем интервал для очистки
   window.heartInterval = heartInterval;
   
-  // Останавливаем сердечки при ресайзе, если стало не мобильным
+  // Обновляем параметры при ресайзе
   window.addEventListener('resize', () => {
-    const currentIsMobile = window.innerWidth <= 768;
-    if (!currentIsMobile && isMobile) {
-      clearInterval(heartInterval);
-      document.querySelectorAll('.heart').forEach(heart => {
-        heart.remove();
-      });
-    }
+    clearInterval(heartInterval);
+    
+    // Удаляем существующие сердечки
+    document.querySelectorAll('.heart').forEach(heart => {
+      heart.remove();
+    });
+    
+    // Перезапускаем систему с новыми параметрами
+    setTimeout(createHeartsSystem, 100);
   });
 }
 
-/* Slider с правильной адаптивностью */
+/* Slider с правильной адаптивностью и анимацией в обе стороны */
 class Slider {
   constructor(photos, videos, mount) {
     // ФИКС: Используем относительные пути для GitHub Pages
-    // Если файлы в подпапках, оставляем как есть
     this.allItems = [
       ...photos.map(src => ({ 
         src: this.fixPath(src), 
@@ -619,6 +621,9 @@ class Slider {
     this.totalToLoad = this.allItems.length;
     this.maxDisplayHeight = 0;
     this.isMobile = window.innerWidth <= 768;
+    
+    // Для отслеживания направления анимации
+    this.direction = 'right'; // 'right' или 'left'
     
     // Для отслеживания ошибок
     this.errorCount = 0;
@@ -721,8 +726,10 @@ class Slider {
       if (Math.abs(distance) < minSwipeDistance) return;
       
       if (distance > 0) {
+        this.direction = 'right';
         this.goTo((this.current + 1) % this.allItems.length);
       } else {
+        this.direction = 'left';
         this.goTo((this.current - 1 + this.allItems.length) % this.allItems.length);
       }
     };
@@ -907,6 +914,7 @@ class Slider {
         e.preventDefault();
         e.stopPropagation();
         if (this.isAnimating) return;
+        this.direction = 'left';
         this.goTo((this.current - 1 + this.allItems.length) % this.allItems.length);
       });
       
@@ -914,6 +922,7 @@ class Slider {
         e.preventDefault();
         e.stopPropagation();
         if (this.isAnimating) return;
+        this.direction = 'right';
         this.goTo((this.current + 1) % this.allItems.length);
       });
     }
@@ -954,12 +963,21 @@ class Slider {
     const oldIndex = this.current;
     this.current = index;
     
+    // Убираем активный класс у текущего слайда
     this.slides[oldIndex].classList.remove("active");
-    this.slides[oldIndex].classList.add("exit");
+    
+    // Добавляем класс анимации выхода с учетом направления
+    if (this.direction === 'right') {
+      this.slides[oldIndex].classList.remove("exit-left");
+      this.slides[oldIndex].classList.add("exit-right");
+    } else {
+      this.slides[oldIndex].classList.remove("exit-right");
+      this.slides[oldIndex].classList.add("exit-left");
+    }
     
     setTimeout(() => {
       this.slides[oldIndex].style.display = "none";
-      this.slides[oldIndex].classList.remove("exit");
+      this.slides[oldIndex].classList.remove("exit-right", "exit-left");
       
       this.slides[this.current].style.display = "flex";
       
@@ -987,25 +1005,49 @@ class Slider {
   }
 }
 
-/* Анимация обложки при прокрутке */
+/* Анимация обложки при прокрутке - ИСПРАВЛЕНО */
 function setupHeroScrollAnimation() {
   const hero = document.getElementById('hero');
   const heroBg = document.getElementById('heroBg');
+  const heroContent = document.querySelector('.hero-content');
+  const heroWe = document.querySelector('.hero-we');
+  const heroYear = document.querySelector('.hero-year');
+  
+  // Инициализируем начальное состояние
+  hero.classList.remove('hero-scrolled', 'hero-hidden');
+  heroBg.style.transform = 'scale(1)';
+  heroBg.style.filter = 'brightness(0.86) saturate(1.1)';
+  heroContent.style.opacity = '1';
+  heroContent.style.transform = 'translateY(0) scale(1)';
   
   function handleScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const heroHeight = hero.offsetHeight;
     const scrollPercent = Math.min(scrollTop / heroHeight, 1);
     
+    // Параллакс эффект для фона
     const parallaxOffset = scrollTop * 0.5;
-    heroBg.style.transform = `scale(1.05) translateY(${parallaxOffset * 0.2}px)`;
+    heroBg.style.transform = `scale(${1 + scrollPercent * 0.12}) translateY(${parallaxOffset * 0.2}px)`;
     
+    // Плавное изменение фильтров
     const brightness = 0.86 - (scrollPercent * 0.56);
     const blur = scrollPercent * 4;
     const saturate = 1.1 - (scrollPercent * 0.5);
     
     heroBg.style.filter = `brightness(${brightness}) saturate(${saturate}) blur(${blur}px)`;
     
+    // Плавное изменение прозрачности контента
+    heroContent.style.opacity = `${1 - scrollPercent * 0.7}`;
+    heroContent.style.transform = `translateY(${-scrollPercent * 40}px) scale(${1 - scrollPercent * 0.04})`;
+    
+    // Изменение тени текста
+    const textShadowOpacity = 0.6 - (scrollPercent * 0.5);
+    const textShadowBlur = 30 - (scrollPercent * 25);
+    
+    heroWe.style.textShadow = `0 0 ${textShadowBlur}px rgba(255, 228, 240, ${textShadowOpacity})`;
+    heroYear.style.textShadow = `0 0 ${textShadowBlur * 0.7}px rgba(255, 228, 240, ${textShadowOpacity})`;
+    
+    // Добавляем/убираем классы для триггерных точек
     if (scrollPercent > 0.8) {
       hero.classList.remove('hero-scrolled');
       hero.classList.add('hero-hidden');
@@ -1016,12 +1058,22 @@ function setupHeroScrollAnimation() {
       hero.classList.remove('hero-scrolled');
       hero.classList.remove('hero-hidden');
     }
+    
+    // Индикатор прокрутки
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+      scrollIndicator.style.opacity = `${0.8 - scrollPercent}`;
+    }
   }
   
+  // Добавляем обработчики событий
   window.addEventListener('scroll', handleScroll, { passive: true });
   window.addEventListener('resize', handleScroll, { passive: true });
-  handleScroll();
   
+  // Запускаем сразу для инициализации
+  setTimeout(handleScroll, 100);
+  
+  // Эффект параллакса при движении мыши (только на десктопе)
   if (window.innerWidth > 768) {
     document.addEventListener('mousemove', (e) => {
       if (hero.classList.contains('hero-hidden')) return;
@@ -1033,6 +1085,13 @@ function setupHeroScrollAnimation() {
       const moveY = (mouseY - 0.5) * 20;
       
       heroBg.style.transform = `scale(1.05) translate(${moveX}px, ${moveY}px)`;
+    });
+    
+    // Сбрасываем позицию при уходе мыши
+    document.addEventListener('mouseleave', () => {
+      if (!hero.classList.contains('hero-hidden')) {
+        heroBg.style.transform = 'scale(1.05)';
+      }
     });
   }
 }
@@ -1337,6 +1396,11 @@ window.hidePreloader = function() {
       createHeartsSystem();
       setupMusicPlayer();
       
+      // Запускаем анимацию героя
+      setTimeout(() => {
+        setupHeroScrollAnimation();
+      }, 100);
+      
       setTimeout(() => {
         document.querySelectorAll('.memory-section, .fade-in').forEach(el => {
           const rect = el.getBoundingClientRect();
@@ -1411,9 +1475,6 @@ window.addEventListener("load", () => {
   // Начинаем предзагрузку обложки
   preloadHeroImage();
   
-  // Инициализируем анимацию героя
-  setupHeroScrollAnimation();
-  
   // Рендерим секции
   renderSections();
   
@@ -1441,6 +1502,9 @@ setTimeout(() => {
       setupScrollReveal();
       createHeartsSystem();
       setupMusicPlayer();
+      setTimeout(() => {
+        setupHeroScrollAnimation();
+      }, 100);
     }, 500);
   }
 }, 30000);
