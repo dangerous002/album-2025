@@ -6,22 +6,22 @@ const sectionsData = [
       "С первых сообщений мы будто находили друг друга. Каждое твоё слово отзывалось внутри, делало дни ярче. Мы смеялись над мелочами, играли в Roblox, строили маленькие планы на будущее, ещё не осознавая, что между нами уже что-то особенное. С первых мгновений появилось ощущение близости, которое невозможно описать словами: лёгкое притяжение, трепет в груди и уверенность, что рядом свой человек. С того момент каждый день общения с тобой стал маленьким открытием, полным эмоций и тепла."
     ],
     photos: [
-      "1/1.jpg",
-      "1/2.jpg",
-      "1/3.jpg",
-      "1/4.jpg",
-      "1/5.jpg",
-      "1/6.jpg",
-      "1/7.jpg",
-      "1/8.jpg",
-      "1/9.jpg",
-      "1/10.jpg",
-      "1/11.jpg",
-      "1/12.jpg",
+      ["https://storage.yandexcloud.net/album-2025/1/1.JPG", "1/1.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/1/2.jpg", "1/2.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/1/3.jpg", "1/3.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/1/4.jpg", "1/4.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/1/5.jpg", "1/5.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/1/6.jpg", "1/6.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/1/7.jpg", "1/7.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/1/8.jpg", "1/8.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/1/9.jpg", "1/9.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/1/10.jpg", "1/10.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/1/11.jpg", "1/11.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/1/12.jpg", "1/12.jpg"],
     ],
     videos: [
-      "1/13.MP4",
-      "1/14.MP4"
+      ["https://storage.yandexcloud.net/album-2025/1/13.MP4", "1/13.MP4"],
+      ["https://storage.yandexcloud.net/album-2025/1/14.MP4", "1/14.MP4"]
     ]
   },
   {
@@ -33,18 +33,18 @@ const sectionsData = [
       "В электричке я светился. Слезы подходили к глазам сами собой. Ты написала: «Тимоша, я тебя так сильно люблю, это капец». А я ответил, что чувствую то же самое, что никто никогда так не открывался мне. Закат через окно электрички был красным, потом фиолетовым, мир будто замолчал. Я никогда в жизни не ощущал такого счастья. А когда пришёл домой, из окна слышались залпы салюта — как будто весь мир радовался за нас. В тот день я лег спать со слезами и с ощущением, что это начало чего-то невероятного."
     ],
     photos: [
-      "2/1.jpg",
-      "2/2.jpg",
-      "2/3.jpg",
-      "2/4.jpg",
-      "2/5.jpg",
-      "2/6.jpg",
-      "2/7.jpg",
+      ["https://storage.yandexcloud.net/album-2025/2/1.jpg", "2/1.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/2/2.jpg", "2/2.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/2/3.jpg", "2/3.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/2/4.jpg", "2/4.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/2/5.jpg", "2/5.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/2/6.jpg", "2/6.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/2/7.jpg", "2/7.jpg"],
     ],
     videos: [
-      "2/8.mp4",
-      "2/9.mp4",
-      "2/10.mp4",
+      ["https://storage.yandexcloud.net/album-2025/2/8.mp4", "2/8.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/2/9.mp4", "2/9.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/2/10.mp4", "2/10.mp4"],
     ]
   },
   {
@@ -53,20 +53,20 @@ const sectionsData = [
       
     ],
     photos: [
-      "3/1.jpg",
-      "3/2.jpg",
-      "3/3.jpg",
-      "3/4.jpg",
-      "3/5.jpg",
-      "3/6.jpg",
-      "3/7.jpg",
-      "3/8.jpg",
-      "3/9.jpg",
+      ["https://storage.yandexcloud.net/album-2025/3/1.jpg", "3/1.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/3/2.jpg", "3/2.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/3/3.jpg", "3/3.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/3/4.jpg", "3/4.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/3/5.jpg", "3/5.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/3/6.jpg", "3/6.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/3/7.jpg", "3/7.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/3/8.jpg", "3/8.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/3/9.jpg", "3/9.jpg"],
     ],
     videos: [
-      "3/10.mp4",
-      "3/11.mp4",
-      "3/12.mp4",
+      ["https://storage.yandexcloud.net/album-2025/3/10.mp4", "3/10.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/3/11.mp4", "3/11.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/3/12.mp4", "3/12.mp4"],
     ]
   },
   {
@@ -75,29 +75,29 @@ const sectionsData = [
       
     ],
     photos: [
-      "4/2.jpg",
-      "4/1.jpg",
-      "4/3.jpg",
-      "4/4.jpg",
-      "4/5.jpg",
-      "4/6.jpg",
-      "4/7.jpg",
-      "4/8.jpg",
-      "4/9.jpg",
-      "4/10.jpg",
-      "4/11.jpg",
-      "4/12.jpg",
-      "4/13.jpg",
-      "4/14.jpg",
+      ["https://storage.yandexcloud.net/album-2025/4/1.jpg", "4/1.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/2.jpg", "4/2.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/3.jpg", "4/3.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/4.jpg", "4/4.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/5.jpg", "4/5.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/6.jpg", "4/6.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/7.jpg", "4/7.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/8.jpg", "4/8.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/9.jpg", "4/9.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/10.jpg", "4/10.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/11.jpg", "4/11.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/12.jpg", "4/12.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/13.jpg", "4/13.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/4/14.jpg", "4/14.jpg"],
     ],
     videos: [
-      "4/15.mp4",
-      "4/16.mp4",
-      "4/17.mp4",
-      "4/18.mp4",
-      "4/19.mp4",
-      "4/20.mp4",
-      "4/21.mp4",
+      ["https://storage.yandexcloud.net/album-2025/4/15.mp4", "4/15.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/4/16.mp4", "4/16.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/4/17.mp4", "4/17.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/4/18.mp4", "4/18.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/4/19.mp4", "4/19.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/4/20.mp4", "4/20.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/4/21.mp4", "4/21.mp4"],
     ]
   },
   {
@@ -106,14 +106,14 @@ const sectionsData = [
       
     ],
     photos: [
-      "5/1.jpg",
-      "5/2.jpg",
-      "5/3.jpg",
-      "5/4.jpg",
-      "5/5.jpg",
-      "5/6.jpg",
-      "5/7.jpg",
-      "5/8.jpg",
+      ["https://storage.yandexcloud.net/album-2025/5/1.jpg", "5/1.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/5/2.jpg", "5/2.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/5/3.jpg", "5/3.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/5/4.jpg", "5/4.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/5/5.jpg", "5/5.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/5/6.jpg", "5/6.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/5/7.jpg", "5/7.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/5/8.jpg", "5/8.jpg"],
     ],
     videos: []
   },
@@ -123,21 +123,21 @@ const sectionsData = [
       
     ],
     photos: [
-      "6/1.jpg",
-      "6/2.jpg",
-      "6/3.jpg",
-      "6/4.jpg",
-      "6/5.jpg",
-      "6/6.jpg",
-      "6/7.jpg",
-      "6/8.jpg",
-      "6/9.jpg",
-      "6/10.jpg",
-      "6/11.jpg",
-      "6/12.jpg",
+      ["https://storage.yandexcloud.net/album-2025/6/1.jpg", "6/1.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/6/2.jpg", "6/2.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/6/3.jpg", "6/3.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/6/4.jpg", "6/4.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/6/5.jpg", "6/5.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/6/6.jpg", "6/6.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/6/7.jpg", "6/7.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/6/8.jpg", "6/8.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/6/9.jpg", "6/9.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/6/10.jpg", "6/10.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/6/11.jpg", "6/11.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/6/12.jpg", "6/12.jpg"],
     ],
     videos: [
-      "6/13.mp4",
+      ["https://storage.yandexcloud.net/album-2025/6/13.mp4", "6/13.mp4"],
     ]
   },
   {
@@ -146,26 +146,26 @@ const sectionsData = [
       
     ],
     photos: [
-      "7/1.jpg",
-      "7/2.jpg",
-      "7/3.jpg",
-      "7/4.jpg",
-      "7/5.jpg",
-      "7/6.jpg",
-      "7/7.jpg",
-      "7/8.jpg",
-      "7/9.jpg",
-      "7/10.jpg",
-      "7/11.jpg",
-      "7/12.jpg",
-      "7/13.jpg",
-      "7/14.jpg",
+      ["https://storage.yandexcloud.net/album-2025/7/1.jpg", "7/1.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/2.jpg", "7/2.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/3.jpg", "7/3.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/4.jpg", "7/4.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/5.jpg", "7/5.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/6.jpg", "7/6.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/7.jpg", "7/7.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/8.jpg", "7/8.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/9.jpg", "7/9.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/10.jpg", "7/10.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/11.jpg", "7/11.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/12.jpg", "7/12.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/13.jpg", "7/13.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/7/14.jpg", "7/14.jpg"],
     ],
     videos: [
-      "7/15.mp4",
-      "7/16.mp4",
-      "7/17.MP4",
-      "7/18.MP4",
+      ["https://storage.yandexcloud.net/album-2025/7/15.mp4", "7/15.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/7/16.mp4", "7/16.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/7/17.MP4", "7/17.MP4"],
+      ["https://storage.yandexcloud.net/album-2025/7/18.MP4", "7/18.MP4"],
     ]
   },
   {
@@ -174,33 +174,33 @@ const sectionsData = [
       
     ],
     photos: [
-      "8/1.jpg",
-      "8/2.jpg",
-      "8/3.jpg",
-      "8/4.jpg",
-      "8/5.jpg",
-      "8/6.jpg",
-      "8/7.jpg",
-      "8/8.jpg",
-      "8/9.jpg",
-      "8/10.jpg",
-      "8/11.jpg",
-      "8/12.jpg",
+      ["https://storage.yandexcloud.net/album-2025/8/1.jpg", "8/1.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/8/2.jpg", "8/2.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/8/3.jpg", "8/3.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/8/4.jpg", "8/4.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/8/5.jpg", "8/5.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/8/6.jpg", "8/6.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/8/7.jpg", "8/7.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/8/8.jpg", "8/8.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/8/9.jpg", "8/9.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/8/10.jpg", "8/10.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/8/11.jpg", "8/11.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/8/12.jpg", "8/12.jpg"],
     ],
     videos: [
-      "8/13.MP4",
-      "8/14.mp4",
-      "8/15.mp4",
-      "8/16.mp4",
-      "8/17.mp4",
-      "8/18.mp4",
-      "8/19.mp4",
-      "8/20.MP4",
-      "8/21.MP4",
-      "8/22.MP4",
-      "8/23.MP4",
-      "8/24.MP4",
-      "8/25.MP4",
+      ["https://storage.yandexcloud.net/album-2025/8/13.MP4", "8/13.MP4"],
+      ["https://storage.yandexcloud.net/album-2025/8/14.mp4", "8/14.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/8/15.mp4", "8/15.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/8/16.mp4", "8/16.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/8/17.mp4", "8/17.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/8/18.mp4", "8/18.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/8/19.mp4", "8/19.mp4"],
+      ["https://storage.yandexcloud.net/album-2025/8/20.MP4", "8/20.MP4"],
+      ["https://storage.yandexcloud.net/album-2025/8/21.MP4", "8/21.MP4"],
+      ["https://storage.yandexcloud.net/album-2025/8/22.MP4", "8/22.MP4"],
+      ["https://storage.yandexcloud.net/album-2025/8/23.MP4", "8/23.MP4"],
+      ["https://storage.yandexcloud.net/album-2025/8/24.MP4", "8/24.MP4"],
+      ["https://storage.yandexcloud.net/album-2025/8/25.MP4", "8/25.MP4"],
     ]
   },
   {
@@ -209,30 +209,30 @@ const sectionsData = [
       
     ],
     photos: [
-      "9/1.jpg",
-      "9/2.jpg",
-      "9/3.jpg",
-      "9/4.jpg",
-      "9/5.jpg",
-      "9/6.jpg",
-      "9/7.jpg",
-      "9/8.jpg",
-      "9/9.jpg",
-      "9/10.jpg",
-      "9/11.jpg",
-      "9/12.jpg",
-      "9/13.jpg",
-      "9/14.jpg",
-      "9/15.jpg",
-      "9/16.jpg",
-      "9/17.jpg",
-      "9/18.jpg",
-      "9/19.jpg",
+      ["https://storage.yandexcloud.net/album-2025/9/1.jpg", "9/1.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/2.jpg", "9/2.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/3.jpg", "9/3.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/4.jpg", "9/4.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/5.jpg", "9/5.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/6.jpg", "9/6.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/7.jpg", "9/7.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/8.jpg", "9/8.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/9.jpg", "9/9.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/10.jpg", "9/10.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/11.jpg", "9/11.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/12.jpg", "9/12.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/13.jpg", "9/13.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/14.jpg", "9/14.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/15.jpg", "9/15.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/16.jpg", "9/16.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/17.jpg", "9/17.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/18.jpg", "9/18.jpg"],
+      ["https://storage.yandexcloud.net/album-2025/9/19.jpg", "9/19.jpg"],
     ],
     videos: [
-      "9/20.MP4",
-      "9/21.MP4",
-      "9/22.MP4",
+      ["https://storage.yandexcloud.net/album-2025/9/20.MP4", "9/20.MP4"],
+      ["https://storage.yandexcloud.net/album-2025/9/21.MP4", "9/21.MP4"],
+      ["https://storage.yandexcloud.net/album-2025/9/22.MP4", "9/22.MP4"],
     ]
   },
 ];
@@ -603,13 +603,16 @@ function createHeartsSystem() {
 class Slider {
   constructor(photos, videos, mount) {
     // ФИКС: Используем относительные пути для GitHub Pages
+    // Обрабатываем массивы источников для каждого медиафайла
     this.allItems = [
-      ...photos.map(src => ({ 
-        src: this.fixPath(src), 
+      ...photos.map(srcArray => ({ 
+        src: this.fixPath(srcArray[0]), // Берем первый источник как основной
+        sources: srcArray.map(src => this.fixPath(src)), // Все источники
         type: "image" 
       })),
-      ...(videos || []).map(src => ({ 
-        src: this.fixPath(src), 
+      ...(videos || []).map(srcArray => ({ 
+        src: this.fixPath(srcArray[0]), // Берем первый источник как основной
+        sources: srcArray.map(src => this.fixPath(src)), // Все источники
         type: "video" 
       }))
     ];
@@ -665,9 +668,6 @@ class Slider {
     if (path.startsWith('/')) {
       path = path.substring(1);
     }
-    
-    // Проверяем, существует ли файл
-    console.log('Загрузка файла:', path);
     
     return path;
   }
@@ -745,51 +745,25 @@ class Slider {
       
       if (item.type === "video") {
         const video = el("video");
-        video.src = item.src;
+        
+        // Пробуем загручить видео из доступных источников
+        this.loadVideoWithFallback(video, item.sources, s);
+        
         video.controls = true;
         video.setAttribute("playsinline", "true");
         video.setAttribute("webkit-playsinline", "true");
         video.setAttribute("preload", "metadata");
         video.setAttribute("aria-label", `Видео ${i + 1} из ${this.allItems.length}`);
         
-        // Обработчик ошибок с более подробной информацией
-        video.onerror = () => {
-          console.warn(`Не удалось загрузить видео: ${item.src}`);
-          this.errorCount++;
-          this.loadedCount++;
-          window.updateGlobalLoadingProgress();
-          
-          // Показываем заглушку для видео
-          video.style.display = 'none';
-          const errorMsg = el("div", "", `❌ Видео не загружено`);
-          errorMsg.style.color = '#ff6b6b';
-          errorMsg.style.padding = '20px';
-          errorMsg.style.textAlign = 'center';
-          s.appendChild(errorMsg);
-        };
-        
         s.appendChild(video);
       } else {
         const img = el("img");
-        img.src = item.src;
+        
+        // Пробуем загручить изображение из доступных источников
+        this.loadImageWithFallback(img, item.sources, s);
+        
         img.loading = "lazy";
         img.setAttribute("alt", `Фото ${i + 1} из ${this.allItems.length}`);
-        
-        // Обработчик ошибок с более подробной информацией
-        img.onerror = () => {
-          console.warn(`Не удалось загрузить фото: ${item.src}`);
-          this.errorCount++;
-          this.loadedCount++;
-          window.updateGlobalLoadingProgress();
-          
-          // Показываем заглушку для фото
-          img.style.display = 'none';
-          const errorMsg = el("div", "", `❌ Фото не загружено`);
-          errorMsg.style.color = '#ff6b6b';
-          errorMsg.style.padding = '20px';
-          errorMsg.style.textAlign = 'center';
-          s.appendChild(errorMsg);
-        };
         
         s.appendChild(img);
       }
@@ -801,6 +775,86 @@ class Slider {
     });
   }
 
+  // Функция для загрузки изображения с fallback
+  loadImageWithFallback(img, sources, container) {
+    let currentIndex = 0;
+    
+    const tryNextSource = () => {
+      if (currentIndex >= sources.length) {
+        // Все источники не загрузились
+        img.style.display = 'none';
+        const errorMsg = el("div", "", `❌ Фото не загружено`);
+        errorMsg.style.color = '#ff6b6b';
+        errorMsg.style.padding = '20px';
+        errorMsg.style.textAlign = 'center';
+        container.appendChild(errorMsg);
+        
+        this.errorCount++;
+        this.loadedCount++;
+        window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, true);
+        return;
+      }
+      
+      img.src = sources[currentIndex];
+      
+      img.onload = () => {
+        if (!this.isMobile) {
+          this.calculateDisplayHeight(img, false, currentIndex);
+        }
+        this.loadedCount++;
+        window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, false);
+      };
+      
+      img.onerror = () => {
+        console.warn(`Не удалось загручить фото из источника ${currentIndex}: ${sources[currentIndex]}`);
+        currentIndex++;
+        tryNextSource();
+      };
+    };
+    
+    tryNextSource();
+  }
+
+  // Функция для загрузки видео с fallback
+  loadVideoWithFallback(video, sources, container) {
+    let currentIndex = 0;
+    
+    const tryNextSource = () => {
+      if (currentIndex >= sources.length) {
+        // Все источники не загрузились
+        video.style.display = 'none';
+        const errorMsg = el("div", "", `❌ Видео не загружено`);
+        errorMsg.style.color = '#ff6b6b';
+        errorMsg.style.padding = '20px';
+        errorMsg.style.textAlign = 'center';
+        container.appendChild(errorMsg);
+        
+        this.errorCount++;
+        this.loadedCount++;
+        window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, true);
+        return;
+      }
+      
+      video.src = sources[currentIndex];
+      
+      video.onloadedmetadata = () => {
+        if (!this.isMobile) {
+          this.calculateDisplayHeight(video, true, currentIndex);
+        }
+        this.loadedCount++;
+        window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, false);
+      };
+      
+      video.onerror = () => {
+        console.warn(`Не удалось загручить видео из источника ${currentIndex}: ${sources[currentIndex]}`);
+        currentIndex++;
+        tryNextSource();
+      };
+    };
+    
+    tryNextSource();
+  }
+
   startLoadingAndCalculateHeight() {
     // Создаем промисы для каждого элемента
     const loadPromises = this.allItems.map((item, index) => {
@@ -809,45 +863,73 @@ class Slider {
           const video = document.createElement("video");
           video.preload = "metadata";
           
-          video.onloadedmetadata = () => {
-            if (!this.isMobile) {
-              this.calculateDisplayHeight(video, true, index);
+          // Пробуем загручить из доступных источников
+          let currentSourceIndex = 0;
+          
+          const tryLoadVideo = () => {
+            if (currentSourceIndex >= item.sources.length) {
+              // Все источники не загрузились
+              this.errorCount++;
+              this.loadedCount++;
+              window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, true);
+              resolve();
+              return;
             }
-            this.loadedCount++;
-            window.updateGlobalLoadingProgress();
-            resolve();
+            
+            video.src = item.sources[currentSourceIndex];
+            
+            video.onloadedmetadata = () => {
+              if (!this.isMobile) {
+                this.calculateDisplayHeight(video, true, index);
+              }
+              this.loadedCount++;
+              window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, false);
+              resolve();
+            };
+            
+            video.onerror = () => {
+              console.warn(`Не удалось загручить видео (метаданные) из источника ${currentSourceIndex}: ${item.sources[currentSourceIndex]}`);
+              currentSourceIndex++;
+              tryLoadVideo();
+            };
           };
           
-          video.onerror = () => {
-            console.warn(`Не удалось загрузить видео (метаданные): ${item.src}`);
-            this.errorCount++;
-            this.loadedCount++;
-            window.updateGlobalLoadingProgress();
-            resolve();
-          };
-          
-          video.src = item.src;
+          tryLoadVideo();
         } else {
           const img = new Image();
           
-          img.onload = () => {
-            if (!this.isMobile) {
-              this.calculateDisplayHeight(img, false, index);
+          // Пробуем загручить из доступных источников
+          let currentSourceIndex = 0;
+          
+          const tryLoadImage = () => {
+            if (currentSourceIndex >= item.sources.length) {
+              // Все источники не загрузились
+              this.errorCount++;
+              this.loadedCount++;
+              window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, true);
+              resolve();
+              return;
             }
-            this.loadedCount++;
-            window.updateGlobalLoadingProgress();
-            resolve();
+            
+            img.src = item.sources[currentSourceIndex];
+            
+            img.onload = () => {
+              if (!this.isMobile) {
+                this.calculateDisplayHeight(img, false, index);
+              }
+              this.loadedCount++;
+              window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, false);
+              resolve();
+            };
+            
+            img.onerror = () => {
+              console.warn(`Не удалось загручить фото из источника ${currentSourceIndex}: ${item.sources[currentSourceIndex]}`);
+              currentSourceIndex++;
+              tryLoadImage();
+            };
           };
           
-          img.onerror = () => {
-            console.warn(`Не удалось загрузить фото: ${item.src}`);
-            this.errorCount++;
-            this.loadedCount++;
-            window.updateGlobalLoadingProgress();
-            resolve();
-          };
-          
-          img.src = item.src;
+          tryLoadImage();
         }
       });
     });
@@ -1138,15 +1220,16 @@ function setupScrollReveal() {
   setInterval(checkVisibility, 300);
 }
 
-/* Музыкальный плеер с адаптацией для мобильных */
+/* Музыкальный плеер с мини-плеером */
 function setupMusicPlayer() {
   const audio = document.getElementById('backgroundMusic');
   const playPauseBtn = document.getElementById('playPauseBtn');
   const muteBtn = document.getElementById('muteBtn');
   const volumeSlider = document.getElementById('volumeSlider');
   const closePlayerBtn = document.getElementById('closePlayerBtn');
-  const playerControls = document.querySelector('.player-controls');
   const musicPlayer = document.getElementById('musicPlayer');
+  const miniPlayer = document.getElementById('miniPlayer');
+  const miniPlayerBtn = document.getElementById('miniPlayerBtn');
   
   let isPlaying = false;
   let isMuted = false;
@@ -1157,10 +1240,8 @@ function setupMusicPlayer() {
   audioSources.forEach(source => {
     const originalSrc = source.src;
     if (originalSrc && !originalSrc.includes('http')) {
-      // Убираем начальный слеш, если он есть
       const fixedSrc = originalSrc.startsWith('/') ? originalSrc.substring(1) : originalSrc;
       source.src = fixedSrc;
-      console.log('Исправлен путь к музыке:', originalSrc, '->', fixedSrc);
     }
   });
   
@@ -1174,8 +1255,8 @@ function setupMusicPlayer() {
     const canPlayOGG = audio.canPlayType('audio/ogg');
     
     if (!canPlayMP3 && !canPlayOGG) {
-      console.warn('Браузер не поддерживает аудио форматы');
       musicPlayer.style.display = 'none';
+      miniPlayer.style.display = 'none';
       return false;
     }
     return true;
@@ -1205,7 +1286,6 @@ function setupMusicPlayer() {
       audio.pause();
     } else {
       audio.play().catch(e => {
-        console.log('Автовоспроизведение заблокировано. Нажмите на кнопку воспроизведения.');
         playPauseBtn.style.animation = 'none';
         setTimeout(() => {
           playPauseBtn.style.animation = 'pulse 1s ease-in-out';
@@ -1244,8 +1324,19 @@ function setupMusicPlayer() {
     updateMuteButton();
   }
   
+  function togglePlayer() {
+    if (musicPlayer.classList.contains('hidden')) {
+      musicPlayer.classList.remove('hidden');
+      miniPlayer.style.display = 'none';
+    } else {
+      musicPlayer.classList.add('hidden');
+      miniPlayer.style.display = 'block';
+    }
+  }
+  
   function closePlayer() {
-    musicPlayer.style.display = 'none';
+    musicPlayer.classList.add('hidden');
+    miniPlayer.style.display = 'block';
   }
   
   if (checkAudioSupport()) {
@@ -1273,6 +1364,7 @@ function setupMusicPlayer() {
     addSafeClickListener(playPauseBtn, togglePlayPause);
     addSafeClickListener(muteBtn, toggleMute);
     addSafeClickListener(closePlayerBtn, closePlayer);
+    addSafeClickListener(miniPlayerBtn, togglePlayer);
     
     volumeSlider.addEventListener('input', changeVolume);
     volumeSlider.addEventListener('touchstart', (e) => {
@@ -1292,19 +1384,19 @@ function setupMusicPlayer() {
     audio.addEventListener('volumechange', updateMuteButton);
     
     audio.addEventListener('error', (e) => {
-      console.error('Ошибка загрузки музыки:', audio.error);
-      // Показываем сообщение об ошибке
       const trackInfo = document.querySelector('.track-info');
       if (trackInfo) {
         trackInfo.innerHTML = '<div class="track-title" style="color:#ff6b6b">Музыка не загружена</div>';
       }
     });
     
+    // Скрываем полноценный плеер, показываем мини-плеер
+    musicPlayer.classList.add('hidden');
+    miniPlayer.style.display = 'block';
+    
     // Автовоспроизведение с задержкой
     setTimeout(() => {
-      audio.play().catch(e => {
-        console.log('Автовоспроизведение музыки отложено. Пользователь может включить музыку вручную.');
-      });
+      audio.play().catch(e => {});
     }, 2000);
     
     // Инициализация иконок
@@ -1352,41 +1444,64 @@ window.globalLoadingState = {
   loadedMediaFiles: 0,
   totalSliders: sectionsData.length,
   loadedSliders: 0,
-  heroImageLoaded: false
+  heroImageLoaded: false,
+  allSlidersReady: false
 };
 
+// Считаем общее количество медиафайлов
+function calculateTotalMediaFiles() {
+  let total = 0;
+  sectionsData.forEach(sec => {
+    total += sec.photos.length + (sec.videos ? sec.videos.length : 0);
+  });
+  return total;
+}
+
+window.globalLoadingState.totalMediaFiles = calculateTotalMediaFiles();
+
+// Общий счетчик для прогресса
+let totalMediaLoaded = 0;
+
 /* Обновление прогресса загрузки */
-window.updateGlobalLoadingProgress = function() {
+window.updateGlobalLoadingProgress = function(loaded, total, isError) {
   const state = window.globalLoadingState;
+  
+  // Обновляем счетчик
+  if (loaded !== undefined) {
+    totalMediaLoaded = loaded;
+  }
+  
+  // Рассчитываем процент
+  const percent = Math.round((totalMediaLoaded / state.totalMediaFiles) * 100);
   
   // Обновляем текст загрузки
   const loadingText = document.querySelector('.loading-text');
   if (loadingText) {
-    // Используем прогресс слайдеров как основной индикатор
-    const sliderProgress = Math.round((state.loadedSliders / state.totalSliders) * 100);
-    loadingText.textContent = `Загрузка воспоминаний... ${sliderProgress}%`;
+    loadingText.textContent = `Загрузка воспоминаний... ${percent}%`;
   }
   
   // Проверяем, все ли загружено
-  if (state.heroImageLoaded && state.loadedSliders >= state.totalSliders) {
+  const allLoaded = state.heroImageLoaded && 
+                    state.loadedSliders >= state.totalSliders;
+  
+  if (allLoaded && !state.allSlidersReady) {
+    state.allSlidersReady = true;
     setTimeout(() => {
       window.hidePreloader();
-    }, 1000);
+    }, 500);
   }
 };
 
 /* Увеличение счетчика загруженных слайдеров */
 window.incrementLoadedSliders = function() {
-  window.globalLoadingState.loadedSliders++;
-  console.log(`Загружен слайдер: ${window.globalLoadingState.loadedSliders}/${window.globalLoadingState.totalSliders}`);
-  window.updateGlobalLoadingProgress();
+  const state = window.globalLoadingState;
+  state.loadedSliders++;
 };
 
 /* Скрытие прелоадера */
 window.hidePreloader = function() {
   const loader = document.getElementById('loadingOverlay');
   if (loader && loader.style.display !== 'none') {
-    console.log('Все ресурсы загружены, скрываем прелоадер');
     loader.style.opacity = '0';
     setTimeout(() => {
       loader.style.display = 'none';
@@ -1395,11 +1510,7 @@ window.hidePreloader = function() {
       setupScrollReveal();
       createHeartsSystem();
       setupMusicPlayer();
-      
-      // Запускаем анимацию героя
-      setTimeout(() => {
-        setupHeroScrollAnimation();
-      }, 100);
+      setupHeroScrollAnimation();
       
       setTimeout(() => {
         document.querySelectorAll('.memory-section, .fade-in').forEach(el => {
@@ -1420,7 +1531,6 @@ function preloadHeroImage() {
   
   const img = new Image();
   img.onload = function() {
-    console.log('Обложка загружена');
     window.globalLoadingState.heroImageLoaded = true;
     window.updateGlobalLoadingProgress();
     
@@ -1429,8 +1539,7 @@ function preloadHeroImage() {
   };
   
   img.onerror = function() {
-    console.warn(`Не удалось загрузить обложку: ${heroImageUrl}`);
-    window.globalLoadingState.heroImageLoaded = true; // Все равно помечаем как загруженное
+    window.globalLoadingState.heroImageLoaded = true;
     window.updateGlobalLoadingProgress();
     
     // Показываем сообщение об ошибке
@@ -1447,13 +1556,6 @@ function preloadHeroImage() {
 /* Инициализация */
 window.addEventListener("load", () => {
   window.scrollTo(0, 0);
-  
-  // Подсчитываем общее количество медиафайлов для отладки
-  let totalMediaCount = 0;
-  sectionsData.forEach(sec => {
-    totalMediaCount += sec.photos.length + (sec.videos ? sec.videos.length : 0);
-  });
-  console.log(`Всего медиафайлов: ${totalMediaCount}`);
   
   // Предотвращаем масштабирование на мобильных
   document.addEventListener('touchmove', function(e) {
@@ -1477,11 +1579,6 @@ window.addEventListener("load", () => {
   
   // Рендерим секции
   renderSections();
-  
-  // Запускаем проверку видимости с задержкой
-  setTimeout(() => {
-    setupScrollReveal();
-  }, 100);
 });
 
 // Очистка интервала сердечек
@@ -1491,20 +1588,17 @@ window.addEventListener('beforeunload', () => {
   }
 });
 
-// Фоллбек на случай если прелоадер не скрылся (таймаут 30 секунд)
+// Фоллбек на случай если прелоадер не скрылся (таймаут 40 секунд)
 setTimeout(() => {
   const loader = document.getElementById('loadingOverlay');
   if (loader && loader.style.display !== 'none') {
-    console.warn('Таймаут загрузки (30 секунд). Скрываем прелоадер принудительно.');
     loader.style.opacity = '0';
     setTimeout(() => {
       loader.style.display = 'none';
       setupScrollReveal();
       createHeartsSystem();
       setupMusicPlayer();
-      setTimeout(() => {
-        setupHeroScrollAnimation();
-      }, 100);
+      setupHeroScrollAnimation();
     }, 500);
   }
-}, 30000);
+}, 40000);

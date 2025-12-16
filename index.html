@@ -17,8 +17,15 @@
       <div class="loading-text">Загрузка воспоминаний...</div>
     </div>
 
+    <!-- Мини-плеер -->
+    <div class="mini-player" id="miniPlayer">
+      <button class="mini-player-btn" id="miniPlayerBtn" aria-label="Открыть музыкальный плеер">
+        <i class="fas fa-music"></i>
+      </button>
+    </div>
+
     <!-- Музыкальный плеер -->
-    <div class="music-player" id="musicPlayer">
+    <div class="music-player hidden" id="musicPlayer">
       <audio id="backgroundMusic" loop playsinline>
         <source src="music.mp3" type="audio/mp3">
         <source src="music.ogg" type="audio/ogg">
