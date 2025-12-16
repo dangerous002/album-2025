@@ -6,7 +6,7 @@
   --accent-strong: rgba(255, 228, 240, 0.8);
   --container-width: 1100px;
   --gap: 12px;
-  --transition: 360ms cubic-bezier(0.22, 0.9, 0.32, 1);
+  --transition: 300ms cubic-bezier(0.22, 0.9, 0.32, 1); /* Ускоренная анимация */
 }
 
 /* base */
@@ -124,11 +124,27 @@ a {
   right: 20px;
   z-index: 1000;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.22, 0.9, 0.32, 1);
+  transform-origin: bottom right;
 }
 
 .music-player.hidden {
   display: none;
+}
+
+.music-player.closing {
+  animation: playerClose 0.25s ease forwards;
+}
+
+@keyframes playerClose {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
 }
 
 .player-controls {
@@ -136,13 +152,13 @@ a {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 228, 240, 0.2);
   border-radius: 15px;
-  padding: 12px 18px;
+  padding: 12px 25px;
   display: flex;
   align-items: center;
   gap: 15px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease;
-  width: 350px;
+  width: 380px;
 }
 
 @keyframes slideInUp {
@@ -189,6 +205,7 @@ a {
   background: rgba(255, 100, 100, 0.1);
   border-color: rgba(255, 100, 100, 0.3);
   flex-shrink: 0;
+  margin-right: -5px;
 }
 
 .player-btn.close-btn:hover {
@@ -223,6 +240,7 @@ a {
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+  margin-right: 5px;
 }
 
 .volume-btn {
@@ -247,7 +265,7 @@ a {
 }
 
 #volumeSlider {
-  width: 70px;
+  width: 80px; /* Увеличенная ширина полоски громкости */
   height: 4px;
   -webkit-appearance: none;
   background: rgba(255, 228, 240, 0.2);
@@ -255,6 +273,7 @@ a {
   outline: none;
   flex-shrink: 0;
   touch-action: manipulation;
+  min-width: 80px; /* Минимальная ширина */
 }
 
 #volumeSlider::-webkit-slider-thumb {
@@ -277,7 +296,7 @@ a {
   box-shadow: 0 0 5px rgba(255, 228, 240, 0.5);
 }
 
-/* Летающие сердечки - ВКЛЮЧЕНО ВСЕГДА */
+/* Летающие сердечки */
 .heart {
   position: fixed;
   pointer-events: none;
@@ -361,7 +380,7 @@ a {
   }
 }
 
-/* HERO с улучшенной анимацией */
+/* HERO с исправленной анимацией */
 .hero {
   position: relative;
   height: 100vh;
@@ -372,6 +391,7 @@ a {
   justify-content: center;
   -webkit-user-select: none;
   user-select: none;
+  transition: opacity 1.2s cubic-bezier(0.22, 0.9, 0.32, 1);
 }
 
 .hero-bg {
@@ -381,7 +401,7 @@ a {
   background-size: cover;
   background-position: center bottom;
   filter: brightness(0.86) saturate(1.1);
-  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 1.2s cubic-bezier(0.22, 0.9, 0.32, 1);
   will-change: transform, filter, opacity;
 }
 
@@ -391,28 +411,29 @@ a {
   transform: translateY(0);
   text-align: center;
   pointer-events: none;
-  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 1s cubic-bezier(0.22, 0.9, 0.32, 1);
   will-change: transform, opacity;
 }
 
-.hero.hero-scrolled .hero-bg {
+/* Состояния анимации героя */
+.hero-scrolled .hero-bg {
   opacity: 0.4;
-  transform: scale(1.08);
+  transform: scale(1.08) translateY(10px);
   filter: brightness(0.5) saturate(0.8) blur(2px);
 }
 
-.hero.hero-scrolled .hero-content {
+.hero-scrolled .hero-content {
   opacity: 0.6;
   transform: translateY(-20px) scale(0.98);
 }
 
-.hero.hero-hidden .hero-bg {
+.hero-hidden .hero-bg {
   opacity: 0.2;
-  transform: scale(1.12);
+  transform: scale(1.12) translateY(20px);
   filter: brightness(0.3) saturate(0.6) blur(4px);
 }
 
-.hero.hero-hidden .hero-content {
+.hero-hidden .hero-content {
   opacity: 0.3;
   transform: translateY(-40px) scale(0.96);
 }
@@ -428,7 +449,7 @@ a {
   transition: all 0.8s ease;
 }
 
-.hero.hero-scrolled .hero-we {
+.hero-scrolled .hero-we {
   text-shadow: 0 0 15px rgba(255, 228, 240, 0.4);
 }
 
@@ -440,7 +461,7 @@ a {
   transition: all 0.8s ease 0.1s;
 }
 
-.hero.hero-scrolled .hero-year {
+.hero-scrolled .hero-year {
   text-shadow: 0 0 10px rgba(255, 228, 240, 0.3);
 }
 
@@ -459,11 +480,11 @@ a {
   z-index: 3;
 }
 
-.hero.hero-scrolled .scroll-indicator {
+.hero-scrolled .scroll-indicator {
   opacity: 0.3;
 }
 
-.hero.hero-hidden .scroll-indicator {
+.hero-hidden .scroll-indicator {
   opacity: 0;
 }
 
@@ -514,12 +535,12 @@ a {
   }
 }
 
-/* Мерцающие заголовки */
+/* Мерцающие заголовки - УМЕНЬШЕНЫ ОТСТУПЫ В 2 РАЗА */
 .sparkle-title {
   position: relative;
   display: inline-block;
   font-size: 42px;
-  margin: 30px 0 20px;
+  margin: 20px 0 20px; /* Уменьшены отступы в 2 раза */
   text-align: center;
   width: 100%;
   animation: textSparkle 2.5s ease-in-out infinite;
@@ -568,7 +589,7 @@ a {
 h2,
 h3 {
   font-size: 42px;
-  margin: 30px 0 20px;
+  margin: 20px 0 20px; /* Уменьшены отступы в 2 раза */
   text-align: center;
   position: relative;
 }
@@ -577,7 +598,7 @@ h2, h3 {
   animation: textSparkle 2.5s ease-in-out infinite;
 }
 
-/* основной текст - увеличенный размер, выравнивание по левому краю с красной строки */
+/* основной текст */
 p {
   font-size: 20px;
   line-height: 1.7;
@@ -587,7 +608,7 @@ p {
   text-indent: 30px;
 }
 
-/* Контейнеры для текста секций - FIXED: убираем margin-top для первого параграфа */
+/* Контейнеры для текста секций */
 .summary-text,
 .final-text,
 .section-text {
@@ -602,12 +623,12 @@ p {
   margin-top: 0;
 }
 
-/* memory-section - увеличены отступы */
+/* memory-section */
 .memory-section {
-  margin: 0 0 40px 0; /* Только нижний отступ */
+  margin: 0 0 40px 0;
   opacity: 0;
   transform: translateY(40px);
-  transition: all 0.8s cubic-bezier(0.22, 0.9, 0.32, 1);
+  transition: all 0.6s cubic-bezier(0.22, 0.9, 0.32, 1); /* Ускоренная анимация */
 }
 
 .memory-section.visible {
@@ -615,11 +636,11 @@ p {
   transform: translateY(0);
 }
 
-/* divider - одинаковая полоска с РАВНЫМИ ОТСТУПАМИ */
+/* divider - полоска с РАВНЫМИ ОТСТУПАМИ */
 .section-divider {
   width: 70%;
   height: 2px;
-  margin: 40px auto 40px auto; /* РАВНЫЕ отступы 40px сверху и снизу */
+  margin: 40px auto 40px auto;
   background: linear-gradient(
     90deg,
     transparent,
@@ -631,7 +652,7 @@ p {
   border-radius: 50px;
   opacity: 0;
   transform: scaleX(0);
-  transition: all 0.8s cubic-bezier(0.22, 0.9, 0.32, 1) 0.3s;
+  transition: all 0.6s cubic-bezier(0.22, 0.9, 0.32, 1) 0.2s; /* Ускоренная анимация */
 }
 
 .section-divider.visible {
@@ -639,17 +660,17 @@ p {
   transform: scaleX(1);
 }
 
-/* summary и final-section - увеличены отступы для выравнивания */
+/* summary и final-section */
 .summary,
 .final-section {
-  margin: 0 0 40px 0; /* Только нижний отступ */
+  margin: 0 0 40px 0;
 }
 
-/* SLIDER - УЛУЧШЕННАЯ АДАПТИВНОСТЬ */
+/* SLIDER */
 .slider-wrapper {
   position: relative;
   max-width: 90%;
-  margin: 30px auto;
+  margin: 40px auto 40px;
   padding: 16px;
   border: 2px solid rgba(255, 228, 240, 0.35);
   border-radius: 18px;
@@ -658,7 +679,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.6s cubic-bezier(0.22, 0.9, 0.32, 1) 0.3s;
+  transition: all 0.4s cubic-bezier(0.22, 0.9, 0.32, 1) 0.2s; /* Ускоренная анимация */
   opacity: 0;
   transform: translateY(30px);
 }
@@ -677,7 +698,7 @@ p {
   padding: 6px;
 }
 
-/* Track - контейнер для слайдов */
+/* Track */
 .track {
   width: 100%;
   display: flex;
@@ -686,13 +707,13 @@ p {
   position: relative;
 }
 
-/* Анимации для слайдов - ИСПРАВЛЕНО для движения влево и вправо */
+/* Анимации для слайдов - УСКОРЕНЫ */
 .slide {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease; /* Ускоренная анимация */
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
@@ -715,7 +736,7 @@ p {
   transform: translateX(20px);
 }
 
-/* Ограничения для изображений и видео - ДЕСКТОП */
+/* Ограничения для изображений и видео */
 .slide img,
 .slide video {
   max-width: 92%;
@@ -739,7 +760,7 @@ p {
   background: #000;
 }
 
-/* photo number - теперь вверху по центру */
+/* photo number */
 .slide-number {
   position: absolute;
   top: 12px;
@@ -798,7 +819,7 @@ p {
   right: -70px;
 }
 
-/* Lightbox с улучшенной адаптивностью */
+/* Lightbox */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -855,12 +876,11 @@ p {
   height: auto;
   object-fit: contain;
   border-radius: 12px;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease; /* Ускоренная анимация */
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   display: block;
 }
 
-/* Специальные стили для видео в лайтбоксе */
 .lb-stage .lb-video {
   background: #000;
   width: 100%;
@@ -896,16 +916,21 @@ p {
   padding: 12px;
   border-radius: 10px;
   z-index: 3;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.22, 0.9, 0.32, 1);
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
 
-.lb-close:hover,
+/* Анимация увеличения стрелок при наведении */
 .lb-prev:hover,
 .lb-next:hover {
   background: rgba(0, 0, 0, 0.8);
-  transform: scale(1.1);
+  transform: translateY(-50%) scale(1.2) !important;
+}
+
+.lb-close:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.2);
 }
 
 .lb-close:active,
@@ -937,7 +962,7 @@ p {
 .fade-in {
   opacity: 0;
   transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.22, 0.9, 0.32, 1);
+  transition: all 0.6s cubic-bezier(0.22, 0.9, 0.32, 1); /* Ускоренная анимация */
 }
 
 .fade-in.visible {
@@ -973,17 +998,17 @@ p {
   .player-controls {
     width: 100%;
     max-width: 100%;
-    padding: 10px 12px;
-    gap: 8px;
+    padding: 12px 15px; /* Увеличен padding */
+    gap: 10px; /* Увеличен gap */
     border-radius: 12px;
   }
   
   .player-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 14px;
-    min-width: 36px;
-    min-height: 36px;
+    width: 40px; /* Увеличен размер кнопок */
+    height: 40px;
+    font-size: 16px; /* Увеличен размер шрифта */
+    min-width: 40px;
+    min-height: 40px;
   }
   
   .track-info {
@@ -993,28 +1018,33 @@ p {
   }
   
   .track-title {
-    font-size: 12px;
+    font-size: 15px; /* Увеличен размер текста на 3px */
+    font-weight: 600;
   }
   
   .track-artist {
-    font-size: 11px;
+    font-size: 13px; /* Увеличен размер текста на 2px */
   }
   
   .volume-control {
-    gap: 6px;
+    gap: 8px; /* Увеличен gap */
   }
   
   #volumeSlider {
-    width: 40px;
-    min-width: 40px;
+    width: 70px !important; /* Увеличенная ширина полоски громкости */
+    min-width: 70px !important; /* Минимальная ширина */
   }
   
   .volume-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
-    min-width: 28px;
-    min-height: 28px;
+    width: 32px; /* Увеличен размер кнопки */
+    height: 32px;
+    font-size: 16px; /* Увеличен размер иконки */
+    min-width: 32px;
+    min-height: 32px;
+  }
+  
+  .player-btn.close-btn {
+    margin-right: 0;
   }
   
   /* Улучшенный hero */
@@ -1029,12 +1059,12 @@ p {
   /* Улучшенные заголовки */
   .sparkle-title {
     font-size: 32px;
-    margin: 25px 0 15px;
+    margin: 20px 0 20px; /* Сохраняем уменьшенные отступы */
   }
   
   h2, h3 {
     font-size: 32px;
-    margin: 25px 0 15px;
+    margin: 20px 0 20px;
   }
   
   /* Улучшенный текст */
@@ -1054,7 +1084,7 @@ p {
   .slider-wrapper {
     max-width: 100%;
     padding: 0;
-    margin: 25px auto;
+    margin: 30px auto 30px;
     border: none;
     background: transparent;
     box-shadow: none;
@@ -1066,11 +1096,13 @@ p {
   }
   
   /* УБИРАЕМ СТРЕЛКИ НА МОБИЛЬНЫХ */
-  .slider-button {
+  .slider-button,
+  .lb-prev,
+  .lb-next {
     display: none !important;
   }
   
-  /* ФОТО И ВИДЕО НА ВСЮ ШИРИНУ НА МОБИЛЬНЫХ */
+  /* ФОТО И ВИДЕО НА ВСЮ ШИРИНУ */
   .slide img,
   .slide video {
     max-width: 100% !important;
@@ -1095,7 +1127,7 @@ p {
   /* Улучшенные разделители */
   .section-divider {
     width: 80%;
-    margin: 30px auto; /* Меньшие отступы на мобильных */
+    margin: 30px auto;
   }
   
   /* Улучшенные секции */
@@ -1122,7 +1154,7 @@ p {
     font-size: 20px;
   }
   
-  /* УЛУЧШЕННЫЙ LIGHTBOX ДЛЯ МОБИЛЬНЫХ */
+  /* УЛУЧШЕННЫЙ LIGHTBOX */
   .lightbox {
     touch-action: pan-x pan-y;
   }
@@ -1145,42 +1177,23 @@ p {
     height: auto;
   }
   
-  /* Улучшенные кнопки лайтбокса на мобильных */
-  .lb-close,
-  .lb-prev,
-  .lb-next {
+  /* Увеличенный крестик для закрытия */
+  .lb-close {
     background: rgba(0, 0, 0, 0.8);
-    padding: 10px;
-    font-size: 28px;
+    padding: 12px 16px;
+    font-size: 32px;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-    min-width: 44px;
-    min-height: 44px;
-  }
-  
-  /* Уменьшаем кнопки на очень маленьких экранах */
-  .lb-close {
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    padding: 8px 12px;
-  }
-  
-  .lb-prev {
-    left: 10px;
-    padding: 8px 12px;
-  }
-  
-  .lb-next {
-    right: 10px;
-    padding: 8px 12px;
+    min-width: 56px;
+    min-height: 56px;
+    border-radius: 50%;
+    top: 15px;
+    right: 15px;
   }
   
   /* Отключаем hover эффекты на тач-устройствах */
   @media (hover: none) {
-    .lb-close:hover,
-    .lb-prev:hover,
-    .lb-next:hover {
+    .lb-close:hover {
       transform: none;
     }
     
@@ -1217,38 +1230,38 @@ p {
   }
   
   .player-controls {
-    padding: 8px 10px;
-    gap: 6px;
+    padding: 10px 12px;
+    gap: 8px;
     border-radius: 10px;
   }
   
   .player-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 12px;
-    min-width: 32px;
-    min-height: 32px;
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+    min-width: 36px;
+    min-height: 36px;
   }
   
   .track-title {
-    font-size: 11px;
+    font-size: 14px; /* Увеличен размер текста */
   }
   
   .track-artist {
-    font-size: 10px;
+    font-size: 12px; /* Увеличен размер текста */
   }
   
   .volume-btn {
-    width: 24px;
-    height: 24px;
-    font-size: 11px;
-    min-width: 24px;
-    min-height: 24px;
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+    min-width: 30px;
+    min-height: 30px;
   }
   
   #volumeSlider {
-    width: 35px;
-    min-width: 35px;
+    width: 60px !important; /* Сохраняем увеличенную ширину */
+    min-width: 60px !important;
   }
   
   .hero-we {
@@ -1261,12 +1274,12 @@ p {
   
   .sparkle-title {
     font-size: 28px;
-    margin: 20px 0 12px;
+    margin: 20px 0 20px;
   }
   
   h2, h3 {
     font-size: 28px;
-    margin: 20px 0 12px;
+    margin: 20px 0 20px;
   }
   
   p {
@@ -1297,7 +1310,7 @@ p {
   
   .section-divider {
     width: 85%;
-    margin: 25px auto; /* Еще меньше на очень маленьких экранах */
+    margin: 25px auto;
   }
   
   .memory-section {
@@ -1309,18 +1322,14 @@ p {
     margin: 0 0 25px 0;
   }
   
-  /* Еще меньше кнопки лайтбокса */
+  /* Увеличенный крестик */
   .lb-close {
-    font-size: 20px;
-    padding: 6px 10px;
-    top: 5px;
-    right: 5px;
-  }
-  
-  .lb-prev,
-  .lb-next {
-    font-size: 24px;
-    padding: 6px 10px;
+    font-size: 28px;
+    padding: 10px 14px;
+    top: 10px;
+    right: 10px;
+    min-width: 48px;
+    min-height: 48px;
   }
 }
 
@@ -1385,18 +1394,5 @@ p {
   
   input[type="range"] {
     min-height: 44px;
-  }
-}
-
-/* Анимация для скрытия стрелок при клике на мобильных */
-@media (max-width: 768px) {
-  .lb-prev,
-  .lb-next {
-    transition: opacity 0.3s ease;
-  }
-  
-  .lightbox.touch-active .lb-prev,
-  .lightbox.touch-active .lb-next {
-    opacity: 0.5;
   }
 }

@@ -253,7 +253,7 @@ function isVideoFile(src) {
   return videoExtensions.some(ext => lowerSrc.endsWith(ext.toLowerCase()));
 }
 
-/* Улучшенный Lightbox для мобильных */
+/* Улучшенный Lightbox */
 const LB = (() => {
   const root = document.getElementById("lightbox");
   const content = root.querySelector(".lb-content");
@@ -270,9 +270,15 @@ const LB = (() => {
     touchStartX = 0,
     touchEndX = 0;
 
-  // Обновляем isMobile при ресайзе
   window.addEventListener('resize', () => {
     isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      btnPrev.style.display = 'none';
+      btnNext.style.display = 'none';
+    } else {
+      btnPrev.style.display = 'flex';
+      btnNext.style.display = 'flex';
+    }
   });
 
   function open(itemsArray, i) {
@@ -283,9 +289,12 @@ const LB = (() => {
     document.body.style.overflow = "hidden";
     document.documentElement.style.overflow = "hidden";
     
-    // Добавляем класс для тач-устройств
     if (isMobile) {
-      root.classList.add('touch-active');
+      btnPrev.style.display = 'none';
+      btnNext.style.display = 'none';
+    } else {
+      btnPrev.style.display = 'flex';
+      btnNext.style.display = 'flex';
     }
   }
   
@@ -298,41 +307,18 @@ const LB = (() => {
     video.pause();
     document.body.style.overflow = "";
     document.documentElement.style.overflow = "";
-    
-    // Удаляем класс для тач-устройств
-    root.classList.remove('touch-active');
   }
   
   function prev() {
     if (isAnimating) return;
     idx = (idx - 1 + items.length) % items.length;
     showItemWithAnimation();
-    
-    // На мобильных временно скрываем стрелки при клике
-    if (isMobile) {
-      btnPrev.style.opacity = '0.3';
-      btnNext.style.opacity = '0.3';
-      setTimeout(() => {
-        btnPrev.style.opacity = '';
-        btnNext.style.opacity = '';
-      }, 300);
-    }
   }
   
   function next() {
     if (isAnimating) return;
     idx = (idx + 1) % items.length;
     showItemWithAnimation();
-    
-    // На мобильных временно скрываем стрелки при клике
-    if (isMobile) {
-      btnPrev.style.opacity = '0.3';
-      btnNext.style.opacity = '0.3';
-      setTimeout(() => {
-        btnPrev.style.opacity = '';
-        btnNext.style.opacity = '';
-      }, 300);
-    }
   }
   
   function showItem() {
@@ -347,7 +333,6 @@ const LB = (() => {
         videoSource.src = currentItem.src || currentItem;
         video.load();
         
-        // На iOS предотвращаем автоматическое полноэкранное воспроизведение
         if (isMobile) {
           video.setAttribute('playsinline', 'true');
           video.setAttribute('webkit-playsinline', 'true');
@@ -386,7 +371,6 @@ const LB = (() => {
     }, 200);
   }
 
-  // Обработка свайпов на мобильных
   function handleTouchStart(e) {
     if (!isMobile) return;
     touchStartX = e.changedTouches[0].screenX;
@@ -423,36 +407,15 @@ const LB = (() => {
     next();
   });
   
-  // Предотвращаем всплытие событий на мобильных
   if (isMobile) {
     btnPrev.addEventListener('touchstart', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      btnPrev.style.opacity = '0.3';
-    });
-    
-    btnPrev.addEventListener('touchend', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      prev();
-      setTimeout(() => {
-        btnPrev.style.opacity = '';
-      }, 300);
     });
     
     btnNext.addEventListener('touchstart', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      btnNext.style.opacity = '0.3';
-    });
-    
-    btnNext.addEventListener('touchend', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      next();
-      setTimeout(() => {
-        btnNext.style.opacity = '';
-      }, 300);
     });
   }
   
@@ -460,7 +423,6 @@ const LB = (() => {
     if (e.target === root) close();
   });
   
-  // Добавляем обработчики свайпов
   root.addEventListener('touchstart', handleTouchStart, { passive: true });
   root.addEventListener('touchend', handleTouchEnd, { passive: true });
   
@@ -471,39 +433,17 @@ const LB = (() => {
     if (e.key === "ArrowRight") next();
   });
   
-  // Инициализация прозрачности контента
   content.style.transition = "opacity 0.3s ease";
   content.style.opacity = "1";
-  
-  // Скрываем стрелки на мобильных через несколько секунд
-  let hideTimer;
-  function hideArrowsOnMobile() {
-    if (!isMobile) return;
-    
-    clearTimeout(hideTimer);
-    btnPrev.style.opacity = '1';
-    btnNext.style.opacity = '1';
-    btnClose.style.opacity = '1';
-    
-    hideTimer = setTimeout(() => {
-      btnPrev.style.opacity = '0.3';
-      btnNext.style.opacity = '0.3';
-      btnClose.style.opacity = '0.7';
-    }, 2000);
-  }
-  
-  root.addEventListener('mousemove', hideArrowsOnMobile);
-  root.addEventListener('touchstart', hideArrowsOnMobile);
   
   return { open, close };
 })();
 
-/* Система летающих сердечек - РАБОТАЕТ НА ВСЕХ УСТРОЙСТВАХ */
+/* Система летающих сердечек */
 function createHeartsSystem() {
   let heartCount = 0;
-  const maxHearts = window.innerWidth <= 768 ? 15 : 10; // Больше сердечек на мобильных
+  const maxHearts = window.innerWidth <= 768 ? 15 : 10;
   
-  // SVG для сердечка
   const heartSVG = `<svg viewBox="0 0 32 29" xmlns="http://www.w3.org/2000/svg">
     <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
       c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" fill="currentColor"/>
@@ -517,15 +457,13 @@ function createHeartsSystem() {
     const heart = document.createElement('div');
     heart.className = 'heart';
     
-    // Разные размеры для мобильных и десктопа
     const size = window.innerWidth <= 768 
-      ? 15 + Math.random() * 15 // 15-30px на мобильных
-      : 20 + Math.random() * 25; // 20-45px на десктопе
+      ? 15 + Math.random() * 15
+      : 20 + Math.random() * 25;
     
     heart.style.width = `${size}px`;
     heart.style.height = `${size}px`;
     
-    // Цвета сердечек
     const colors = [
       '#ff6bcb', '#ff8ac7', '#ffa8c3', '#ffc6bf', 
       '#ffe4f0', '#ffd1e0', '#ffb8d0', '#ff9fc0',
@@ -534,19 +472,15 @@ function createHeartsSystem() {
     const color = colors[Math.floor(Math.random() * colors.length)];
     heart.style.color = color;
     
-    // Случайная начальная позиция внизу экрана
     const startX = Math.random() * window.innerWidth;
     
-    // Разные анимации
     const animations = ['floatHeart', 'floatHeart2', 'floatHeart3'];
     const animation = animations[Math.floor(Math.random() * animations.length)];
     
-    // Разная скорость на разных устройствах
     const duration = window.innerWidth <= 768
-      ? 4 + Math.random() * 4 // 4-8 секунд на мобильных
-      : 6 + Math.random() * 6; // 6-12 секунд на десктопе
+      ? 4 + Math.random() * 4
+      : 6 + Math.random() * 6;
     
-    // Устанавливаем стили
     heart.style.position = 'fixed';
     heart.style.left = `${startX}px`;
     heart.style.top = `${window.innerHeight}px`;
@@ -555,13 +489,10 @@ function createHeartsSystem() {
     heart.style.animation = `${animation} ${duration}s linear forwards`;
     heart.style.opacity = '0';
     
-    // Добавляем SVG сердечко
     heart.innerHTML = heartSVG;
     
-    // Добавляем сердечко в DOM
     document.body.appendChild(heart);
     
-    // Удаляем сердечко после анимации
     setTimeout(() => {
       if (heart.parentNode) {
         heart.remove();
@@ -570,50 +501,44 @@ function createHeartsSystem() {
     }, duration * 1000);
   }
   
-  // Создаем начальные сердечки
   const initialHearts = window.innerWidth <= 768 ? 8 : 5;
   for (let i = 0; i < initialHearts; i++) {
     setTimeout(() => createHeart(), i * (window.innerWidth <= 768 ? 400 : 600));
   }
   
-  // Периодически добавляем новые сердечки
   const heartInterval = setInterval(() => {
     if (document.hidden) return;
     createHeart();
   }, window.innerWidth <= 768 ? 800 : 1200);
   
-  // Сохраняем интервал для очистки
   window.heartInterval = heartInterval;
   
-  // Обновляем параметры при ресайзе
   window.addEventListener('resize', () => {
     clearInterval(heartInterval);
     
-    // Удаляем существующие сердечки
     document.querySelectorAll('.heart').forEach(heart => {
       heart.remove();
     });
     
-    // Перезапускаем систему с новыми параметрами
     setTimeout(createHeartsSystem, 100);
   });
 }
 
-/* Slider с правильной адаптивностью и анимацией в обе стороны */
+/* Улучшенный Slider с ускоренными анимациями */
 class Slider {
   constructor(photos, videos, mount) {
-    // ФИКС: Используем относительные пути для GitHub Pages
-    // Обрабатываем массивы источников для каждого медиафайла
     this.allItems = [
       ...photos.map(srcArray => ({ 
-        src: this.fixPath(srcArray[0]), // Берем первый источник как основной
-        sources: srcArray.map(src => this.fixPath(src)), // Все источники
-        type: "image" 
+        sources: srcArray.map(src => src),
+        type: "image",
+        loaded: false,
+        currentSourceIndex: 0
       })),
       ...(videos || []).map(srcArray => ({ 
-        src: this.fixPath(srcArray[0]), // Берем первый источник как основной
-        sources: srcArray.map(src => this.fixPath(src)), // Все источники
-        type: "video" 
+        sources: srcArray.map(src => src),
+        type: "video",
+        loaded: false,
+        currentSourceIndex: 0
       }))
     ];
     
@@ -625,13 +550,9 @@ class Slider {
     this.maxDisplayHeight = 0;
     this.isMobile = window.innerWidth <= 768;
     
-    // Для отслеживания направления анимации
-    this.direction = 'right'; // 'right' или 'left'
-    
-    // Для отслеживания ошибок
+    this.direction = 'right';
     this.errorCount = 0;
 
-    // Обновляем isMobile при ресайзе
     window.addEventListener('resize', () => {
       this.isMobile = window.innerWidth <= 768;
       this.updateSliderForMobile();
@@ -643,7 +564,6 @@ class Slider {
     this.wrapper.appendChild(this.viewport);
     this.viewport.appendChild(this.track);
 
-    // Стрелки только для десктопа
     if (!this.isMobile) {
       this.prevBtn = el("button", "slider-button prev", "◀");
       this.nextBtn = el("button", "slider-button next", "▶");
@@ -654,50 +574,253 @@ class Slider {
     }
 
     this.mount.appendChild(this.wrapper);
-
     this.slides = [];
     
     this.buildSlides();
-    this.startLoadingAndCalculateHeight();
+    this.startLoading();
     this.updateSliderForMobile();
   }
 
-  // ФИКС: Исправляем пути для GitHub Pages
-  fixPath(path) {
-    // Убираем начальный слеш, если он есть
-    if (path.startsWith('/')) {
-      path = path.substring(1);
+  async loadMediaWithPriority(item, index) {
+    let sourceIndex = 0;
+    
+    while (sourceIndex < item.sources.length) {
+      const sourceUrl = item.sources[sourceIndex];
+      
+      try {
+        if (item.type === "image") {
+          await this.loadImage(sourceUrl, index, sourceIndex);
+        } else {
+          await this.loadVideo(sourceUrl, index, sourceIndex);
+        }
+        
+        item.loaded = true;
+        item.currentSourceIndex = sourceIndex;
+        this.loadedCount++;
+        window.updateGlobalLoadingProgress(this.loadedCount);
+        
+        if (!this.isMobile) {
+          const element = this.slides[index].querySelector(item.type === "image" ? "img" : "video");
+          if (element) {
+            this.calculateDisplayHeight(element, item.type === "video", index);
+          }
+        }
+        
+        return true;
+      } catch (error) {
+        console.warn(`Не удалось загрузить из источника ${sourceIndex}: ${sourceUrl}`);
+        sourceIndex++;
+        
+        if (sourceIndex < item.sources.length) {
+          this.updateSlideSource(index, item.type, item.sources[sourceIndex]);
+        }
+      }
     }
     
-    return path;
+    this.showError(index, item.type);
+    this.errorCount++;
+    this.loadedCount++;
+    window.updateGlobalLoadingProgress(this.loadedCount);
+    return false;
+  }
+
+  async loadImage(url, index, sourceIndex) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      
+      img.onload = () => {
+        resolve(img);
+      };
+      
+      img.onerror = () => {
+        reject(new Error(`Failed to load image: ${url}`));
+      };
+      
+      img.src = url;
+      
+      setTimeout(() => {
+        reject(new Error(`Image loading timeout: ${url}`));
+      }, 10000);
+    });
+  }
+
+  async loadVideo(url, index, sourceIndex) {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement('video');
+      
+      video.addEventListener('loadedmetadata', () => {
+        resolve(video);
+      });
+      
+      video.addEventListener('error', () => {
+        reject(new Error(`Failed to load video: ${url}`));
+      });
+      
+      video.src = url;
+      
+      setTimeout(() => {
+        reject(new Error(`Video loading timeout: ${url}`));
+      }, 10000);
+    });
+  }
+
+  updateSlideSource(index, type, newSource) {
+    const slide = this.slides[index];
+    if (!slide) return;
+    
+    if (type === "image") {
+      const img = slide.querySelector('img');
+      if (img) {
+        img.src = newSource;
+      }
+    } else {
+      const video = slide.querySelector('video');
+      if (video) {
+        video.src = newSource;
+        video.load();
+      }
+    }
+  }
+
+  showError(index, type) {
+    const slide = this.slides[index];
+    if (!slide) return;
+    
+    const mediaElement = slide.querySelector(type === "image" ? "img" : "video");
+    if (mediaElement) {
+      mediaElement.style.display = 'none';
+    }
+    
+    const errorMsg = el("div", "", `❌ ${type === "image" ? "Фото" : "Видео"} не загружено`);
+    errorMsg.style.color = '#ff6b6b';
+    errorMsg.style.padding = '20px';
+    errorMsg.style.textAlign = 'center';
+    errorMsg.style.fontSize = '16px';
+    slide.appendChild(errorMsg);
+  }
+
+  buildSlides() {
+    this.track.innerHTML = "";
+    this.allItems.forEach((item, i) => {
+      const s = el("div", "slide");
+      
+      if (item.type === "video") {
+        const video = el("video");
+        video.controls = true;
+        video.setAttribute("playsinline", "true");
+        video.setAttribute("webkit-playsinline", "true");
+        video.setAttribute("preload", "metadata");
+        video.setAttribute("aria-label", `Видео ${i + 1} из ${this.allItems.length}`);
+        
+        if (item.sources.length > 0) {
+          video.src = item.sources[0];
+        }
+        
+        s.appendChild(video);
+      } else {
+        const img = el("img");
+        img.loading = "lazy";
+        img.setAttribute("alt", `Фото ${i + 1} из ${this.allItems.length}`);
+        
+        if (item.sources.length > 0) {
+          img.src = item.sources[0];
+        }
+        
+        s.appendChild(img);
+      }
+      
+      const num = el("div", "slide-number", `${i + 1}/${this.allItems.length}`);
+      s.appendChild(num);
+      this.slides.push(s);
+      this.track.appendChild(s);
+    });
+  }
+
+  async startLoading() {
+    const loadPromises = this.allItems.map((item, index) => 
+      this.loadMediaWithPriority(item, index)
+    );
+    
+    try {
+      await Promise.allSettled(loadPromises);
+      
+      console.log(`Слайдер загружен: ${this.loadedCount}/${this.totalToLoad} элементов, ошибок: ${this.errorCount}`);
+      
+      if (!this.isMobile && this.maxDisplayHeight > 0) {
+        this.setFinalHeight();
+      } else {
+        this.wrapper.style.height = 'auto';
+        this.wrapper.style.minHeight = '250px';
+      }
+      
+      this.update();
+      this.bind();
+      
+      window.incrementLoadedSliders();
+      window.checkAllLoaded();
+    } catch (error) {
+      console.error('Ошибка при загрузке слайдера:', error);
+    }
+  }
+
+  calculateDisplayHeight(element, isVideo, index) {
+    try {
+      const originalWidth = isVideo ? element.videoWidth : element.naturalWidth;
+      const originalHeight = isVideo ? element.videoHeight : element.naturalHeight;
+      
+      if (originalWidth === 0 || originalHeight === 0) return;
+      
+      const ratio = originalHeight / originalWidth;
+      const sliderMaxWidth = this.wrapper.clientWidth * 0.92;
+      let displayHeight = sliderMaxWidth * ratio;
+      
+      const maxAllowedHeight = window.innerHeight * 0.6;
+      
+      displayHeight = Math.min(displayHeight, maxAllowedHeight);
+      this.maxDisplayHeight = Math.max(this.maxDisplayHeight, displayHeight);
+    } catch (error) {
+      console.warn(`Ошибка при расчете высоты: ${error.message}`);
+    }
+  }
+
+  setFinalHeight() {
+    try {
+      const padding = 32;
+      const slideNumberHeight = 40;
+      const finalHeight = this.maxDisplayHeight + padding + slideNumberHeight;
+      const minHeight = 300;
+      
+      this.wrapper.style.height = Math.max(finalHeight, minHeight) + "px";
+      this.wrapper.classList.add('visible');
+    } catch (error) {
+      console.warn(`Ошибка при установке высоты: ${error.message}`);
+      this.wrapper.style.height = 'auto';
+      this.wrapper.style.minHeight = '300px';
+      this.wrapper.classList.add('visible');
+    }
   }
 
   updateSliderForMobile() {
     if (this.isMobile) {
-      // Убираем рамку и фон на мобильных
       this.wrapper.style.border = 'none';
       this.wrapper.style.background = 'transparent';
       this.wrapper.style.boxShadow = 'none';
       this.wrapper.style.padding = '0';
       this.wrapper.style.borderRadius = '0';
       
-      // Убираем стрелки если они есть
       if (this.prevBtn && this.nextBtn) {
         this.prevBtn.style.display = 'none';
         this.nextBtn.style.display = 'none';
       }
       
-      // Добавляем свайпы для мобильных
       this.addSwipeSupport();
     } else {
-      // Восстанавливаем стили для десктопа
       this.wrapper.style.border = '2px solid rgba(255, 228, 240, 0.35)';
       this.wrapper.style.background = '#181818';
       this.wrapper.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.4)';
       this.wrapper.style.padding = '16px';
       this.wrapper.style.borderRadius = '18px';
       
-      // Показываем стрелки если они есть
       if (this.prevBtn && this.nextBtn) {
         this.prevBtn.style.display = 'flex';
         this.nextBtn.style.display = 'flex';
@@ -738,258 +861,6 @@ class Slider {
     this.track.addEventListener('touchend', handleTouchEnd, { passive: true });
   }
 
-  buildSlides() {
-    this.track.innerHTML = "";
-    this.allItems.forEach((item, i) => {
-      const s = el("div", "slide");
-      
-      if (item.type === "video") {
-        const video = el("video");
-        
-        // Пробуем загручить видео из доступных источников
-        this.loadVideoWithFallback(video, item.sources, s);
-        
-        video.controls = true;
-        video.setAttribute("playsinline", "true");
-        video.setAttribute("webkit-playsinline", "true");
-        video.setAttribute("preload", "metadata");
-        video.setAttribute("aria-label", `Видео ${i + 1} из ${this.allItems.length}`);
-        
-        s.appendChild(video);
-      } else {
-        const img = el("img");
-        
-        // Пробуем загручить изображение из доступных источников
-        this.loadImageWithFallback(img, item.sources, s);
-        
-        img.loading = "lazy";
-        img.setAttribute("alt", `Фото ${i + 1} из ${this.allItems.length}`);
-        
-        s.appendChild(img);
-      }
-      
-      const num = el("div", "slide-number", `${i + 1}/${this.allItems.length}`);
-      s.appendChild(num);
-      this.slides.push(s);
-      this.track.appendChild(s);
-    });
-  }
-
-  // Функция для загрузки изображения с fallback
-  loadImageWithFallback(img, sources, container) {
-    let currentIndex = 0;
-    
-    const tryNextSource = () => {
-      if (currentIndex >= sources.length) {
-        // Все источники не загрузились
-        img.style.display = 'none';
-        const errorMsg = el("div", "", `❌ Фото не загружено`);
-        errorMsg.style.color = '#ff6b6b';
-        errorMsg.style.padding = '20px';
-        errorMsg.style.textAlign = 'center';
-        container.appendChild(errorMsg);
-        
-        this.errorCount++;
-        this.loadedCount++;
-        window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, true);
-        return;
-      }
-      
-      img.src = sources[currentIndex];
-      
-      img.onload = () => {
-        if (!this.isMobile) {
-          this.calculateDisplayHeight(img, false, currentIndex);
-        }
-        this.loadedCount++;
-        window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, false);
-      };
-      
-      img.onerror = () => {
-        console.warn(`Не удалось загручить фото из источника ${currentIndex}: ${sources[currentIndex]}`);
-        currentIndex++;
-        tryNextSource();
-      };
-    };
-    
-    tryNextSource();
-  }
-
-  // Функция для загрузки видео с fallback
-  loadVideoWithFallback(video, sources, container) {
-    let currentIndex = 0;
-    
-    const tryNextSource = () => {
-      if (currentIndex >= sources.length) {
-        // Все источники не загрузились
-        video.style.display = 'none';
-        const errorMsg = el("div", "", `❌ Видео не загружено`);
-        errorMsg.style.color = '#ff6b6b';
-        errorMsg.style.padding = '20px';
-        errorMsg.style.textAlign = 'center';
-        container.appendChild(errorMsg);
-        
-        this.errorCount++;
-        this.loadedCount++;
-        window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, true);
-        return;
-      }
-      
-      video.src = sources[currentIndex];
-      
-      video.onloadedmetadata = () => {
-        if (!this.isMobile) {
-          this.calculateDisplayHeight(video, true, currentIndex);
-        }
-        this.loadedCount++;
-        window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, false);
-      };
-      
-      video.onerror = () => {
-        console.warn(`Не удалось загручить видео из источника ${currentIndex}: ${sources[currentIndex]}`);
-        currentIndex++;
-        tryNextSource();
-      };
-    };
-    
-    tryNextSource();
-  }
-
-  startLoadingAndCalculateHeight() {
-    // Создаем промисы для каждого элемента
-    const loadPromises = this.allItems.map((item, index) => {
-      return new Promise((resolve) => {
-        if (item.type === "video") {
-          const video = document.createElement("video");
-          video.preload = "metadata";
-          
-          // Пробуем загручить из доступных источников
-          let currentSourceIndex = 0;
-          
-          const tryLoadVideo = () => {
-            if (currentSourceIndex >= item.sources.length) {
-              // Все источники не загрузились
-              this.errorCount++;
-              this.loadedCount++;
-              window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, true);
-              resolve();
-              return;
-            }
-            
-            video.src = item.sources[currentSourceIndex];
-            
-            video.onloadedmetadata = () => {
-              if (!this.isMobile) {
-                this.calculateDisplayHeight(video, true, index);
-              }
-              this.loadedCount++;
-              window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, false);
-              resolve();
-            };
-            
-            video.onerror = () => {
-              console.warn(`Не удалось загручить видео (метаданные) из источника ${currentSourceIndex}: ${item.sources[currentSourceIndex]}`);
-              currentSourceIndex++;
-              tryLoadVideo();
-            };
-          };
-          
-          tryLoadVideo();
-        } else {
-          const img = new Image();
-          
-          // Пробуем загручить из доступных источников
-          let currentSourceIndex = 0;
-          
-          const tryLoadImage = () => {
-            if (currentSourceIndex >= item.sources.length) {
-              // Все источники не загрузились
-              this.errorCount++;
-              this.loadedCount++;
-              window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, true);
-              resolve();
-              return;
-            }
-            
-            img.src = item.sources[currentSourceIndex];
-            
-            img.onload = () => {
-              if (!this.isMobile) {
-                this.calculateDisplayHeight(img, false, index);
-              }
-              this.loadedCount++;
-              window.updateGlobalLoadingProgress(this.loadedCount, this.totalToLoad, false);
-              resolve();
-            };
-            
-            img.onerror = () => {
-              console.warn(`Не удалось загручить фото из источника ${currentSourceIndex}: ${item.sources[currentSourceIndex]}`);
-              currentSourceIndex++;
-              tryLoadImage();
-            };
-          };
-          
-          tryLoadImage();
-        }
-      });
-    });
-
-    // Когда все промисы завершены
-    Promise.all(loadPromises).then(() => {
-      console.log(`Слайдер загружен: ${this.loadedCount}/${this.totalToLoad} элементов, ошибок: ${this.errorCount}`);
-      
-      if (!this.isMobile) {
-        this.setFinalHeight();
-      } else {
-        // На мобильных устанавливаем минимальную высоту
-        this.wrapper.style.height = 'auto';
-        this.wrapper.style.minHeight = '250px';
-      }
-      
-      this.update();
-      this.bind();
-      
-      // Отмечаем, что этот слайдер полностью загружен
-      window.incrementLoadedSliders();
-    });
-  }
-
-  calculateDisplayHeight(element, isVideo, index) {
-    try {
-      const originalWidth = isVideo ? element.videoWidth : element.naturalWidth;
-      const originalHeight = isVideo ? element.videoHeight : element.naturalHeight;
-      
-      if (originalWidth === 0 || originalHeight === 0) return;
-      
-      const ratio = originalHeight / originalWidth;
-      const sliderMaxWidth = this.wrapper.clientWidth * 0.92;
-      let displayHeight = sliderMaxWidth * ratio;
-      
-      const maxAllowedHeight = window.innerHeight * 0.6;
-      
-      displayHeight = Math.min(displayHeight, maxAllowedHeight);
-      this.maxDisplayHeight = Math.max(this.maxDisplayHeight, displayHeight);
-    } catch (error) {
-      console.warn(`Ошибка при расчете высоты: ${error.message}`);
-    }
-  }
-
-  setFinalHeight() {
-    try {
-      const padding = 32;
-      const slideNumberHeight = 40;
-      const finalHeight = this.maxDisplayHeight + padding + slideNumberHeight;
-      const minHeight = 300;
-      
-      this.wrapper.style.height = Math.max(finalHeight, minHeight) + "px";
-      this.wrapper.classList.add('visible');
-    } catch (error) {
-      console.warn(`Ошибка при установке высоты: ${error.message}`);
-      this.wrapper.style.height = 'auto';
-      this.wrapper.style.minHeight = '300px';
-    }
-  }
-
   bind() {
     if (!this.isMobile && this.prevBtn && this.nextBtn) {
       this.prevBtn.addEventListener("click", (e) => {
@@ -1010,30 +881,25 @@ class Slider {
     }
     
     this.track.addEventListener("click", (e) => {
-      // На мобильных предотвращаем открытие лайтбокса при свайпе
-      if (this.isMobile) {
-        const target = e.target;
-        if (target.tagName === 'VIDEO' || target.closest('video')) {
-          // Для видео открываем лайтбокс
-          e.preventDefault();
-          const idx = Array.from(this.slides).indexOf(e.target.closest(".slide"));
-          if (idx !== -1) {
-            LB.open(this.allItems, idx);
-          }
-        } else if (target.tagName === 'IMG' || target.closest('img')) {
-          // Для изображений открываем лайтбокс
-          e.preventDefault();
-          const idx = Array.from(this.slides).indexOf(e.target.closest(".slide"));
-          if (idx !== -1) {
-            LB.open(this.allItems, idx);
-          }
-        }
-      } else {
-        // На десктопе обычное поведение
-        const s = e.target.closest(".slide");
-        if (!s) return;
-        const idx = this.slides.indexOf(s);
-        LB.open(this.allItems, idx);
+      const target = e.target;
+      
+      if (target.classList.contains('slider-button') || 
+          target.classList.contains('slide-number') ||
+          target.closest('.slider-button') ||
+          target.closest('.slide-number')) {
+        return;
+      }
+      
+      const slide = e.target.closest(".slide");
+      if (!slide) return;
+      
+      const idx = Array.from(this.slides).indexOf(slide);
+      if (idx !== -1) {
+        const lbItems = this.allItems.map(item => ({
+          src: item.sources[item.currentSourceIndex] || item.sources[0],
+          type: item.type
+        }));
+        LB.open(lbItems, idx);
       }
     });
   }
@@ -1045,10 +911,8 @@ class Slider {
     const oldIndex = this.current;
     this.current = index;
     
-    // Убираем активный класс у текущего слайда
     this.slides[oldIndex].classList.remove("active");
     
-    // Добавляем класс анимации выхода с учетом направления
     if (this.direction === 'right') {
       this.slides[oldIndex].classList.remove("exit-left");
       this.slides[oldIndex].classList.add("exit-right");
@@ -1066,8 +930,8 @@ class Slider {
       setTimeout(() => {
         this.slides[this.current].classList.add("active");
         this.isAnimating = false;
-      }, 50);
-    }, 300);
+      }, 30); // Ускоренная анимация
+    }, 200); // Ускоренная анимация
   }
 
   update() {
@@ -1076,18 +940,17 @@ class Slider {
       if (i === this.current) {
         setTimeout(() => {
           s.classList.add("active");
-        }, 50);
+        }, 30); // Ускоренная анимация
       } else {
         s.classList.remove("active");
       }
     });
     
-    // Показываем обертку
     this.wrapper.classList.add('visible');
   }
 }
 
-/* Анимация обложки при прокрутке - ИСПРАВЛЕНО */
+/* РАБОТАЮЩАЯ анимация обложки при прокрутке */
 function setupHeroScrollAnimation() {
   const hero = document.getElementById('hero');
   const heroBg = document.getElementById('heroBg');
@@ -1095,67 +958,56 @@ function setupHeroScrollAnimation() {
   const heroWe = document.querySelector('.hero-we');
   const heroYear = document.querySelector('.hero-year');
   
-  // Инициализируем начальное состояние
+  // Инициализация
   hero.classList.remove('hero-scrolled', 'hero-hidden');
-  heroBg.style.transform = 'scale(1)';
-  heroBg.style.filter = 'brightness(0.86) saturate(1.1)';
-  heroContent.style.opacity = '1';
-  heroContent.style.transform = 'translateY(0) scale(1)';
   
   function handleScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const heroHeight = hero.offsetHeight;
     const scrollPercent = Math.min(scrollTop / heroHeight, 1);
     
-    // Параллакс эффект для фона
+    // Основные анимации
+    if (scrollPercent > 0.8) {
+      hero.classList.add('hero-hidden');
+      hero.classList.remove('hero-scrolled');
+    } else if (scrollPercent > 0.2) {
+      hero.classList.add('hero-scrolled');
+      hero.classList.remove('hero-hidden');
+    } else {
+      hero.classList.remove('hero-scrolled', 'hero-hidden');
+    }
+    
+    // Плавные изменения
     const parallaxOffset = scrollTop * 0.5;
     heroBg.style.transform = `scale(${1 + scrollPercent * 0.12}) translateY(${parallaxOffset * 0.2}px)`;
     
-    // Плавное изменение фильтров
     const brightness = 0.86 - (scrollPercent * 0.56);
     const blur = scrollPercent * 4;
     const saturate = 1.1 - (scrollPercent * 0.5);
     
     heroBg.style.filter = `brightness(${brightness}) saturate(${saturate}) blur(${blur}px)`;
+    heroBg.style.opacity = `${1 - scrollPercent * 0.8}`;
     
-    // Плавное изменение прозрачности контента
     heroContent.style.opacity = `${1 - scrollPercent * 0.7}`;
     heroContent.style.transform = `translateY(${-scrollPercent * 40}px) scale(${1 - scrollPercent * 0.04})`;
     
-    // Изменение тени текста
     const textShadowOpacity = 0.6 - (scrollPercent * 0.5);
     const textShadowBlur = 30 - (scrollPercent * 25);
     
     heroWe.style.textShadow = `0 0 ${textShadowBlur}px rgba(255, 228, 240, ${textShadowOpacity})`;
     heroYear.style.textShadow = `0 0 ${textShadowBlur * 0.7}px rgba(255, 228, 240, ${textShadowOpacity})`;
     
-    // Добавляем/убираем классы для триггерных точек
-    if (scrollPercent > 0.8) {
-      hero.classList.remove('hero-scrolled');
-      hero.classList.add('hero-hidden');
-    } else if (scrollPercent > 0.2) {
-      hero.classList.add('hero-scrolled');
-      hero.classList.remove('hero-hidden');
-    } else {
-      hero.classList.remove('hero-scrolled');
-      hero.classList.remove('hero-hidden');
-    }
-    
-    // Индикатор прокрутки
     const scrollIndicator = document.querySelector('.scroll-indicator');
     if (scrollIndicator) {
       scrollIndicator.style.opacity = `${0.8 - scrollPercent}`;
     }
   }
   
-  // Добавляем обработчики событий
   window.addEventListener('scroll', handleScroll, { passive: true });
   window.addEventListener('resize', handleScroll, { passive: true });
   
-  // Запускаем сразу для инициализации
   setTimeout(handleScroll, 100);
   
-  // Эффект параллакса при движении мыши (только на десктопе)
   if (window.innerWidth > 768) {
     document.addEventListener('mousemove', (e) => {
       if (hero.classList.contains('hero-hidden')) return;
@@ -1169,7 +1021,6 @@ function setupHeroScrollAnimation() {
       heroBg.style.transform = `scale(1.05) translate(${moveX}px, ${moveY}px)`;
     });
     
-    // Сбрасываем позицию при уходе мыши
     document.addEventListener('mouseleave', () => {
       if (!hero.classList.contains('hero-hidden')) {
         heroBg.style.transform = 'scale(1.05)';
@@ -1220,7 +1071,7 @@ function setupScrollReveal() {
   setInterval(checkVisibility, 300);
 }
 
-/* Музыкальный плеер с мини-плеером */
+/* Музыкальный плеер с плавной анимацией закрытия */
 function setupMusicPlayer() {
   const audio = document.getElementById('backgroundMusic');
   const playPauseBtn = document.getElementById('playPauseBtn');
@@ -1235,7 +1086,7 @@ function setupMusicPlayer() {
   let isMuted = false;
   let lastVolume = 0.3;
   
-  // ФИКС: Проверяем и исправляем путь к музыке для GitHub Pages
+  // ФИКС: Проверяем и исправляем путь к музыке
   const audioSources = audio.querySelectorAll('source');
   audioSources.forEach(source => {
     const originalSrc = source.src;
@@ -1245,9 +1096,7 @@ function setupMusicPlayer() {
     }
   });
   
-  // Перезагружаем audio элемент с новыми путями
   audio.load();
-  
   audio.volume = lastVolume;
   
   function checkAudioSupport() {
@@ -1326,21 +1175,29 @@ function setupMusicPlayer() {
   
   function togglePlayer() {
     if (musicPlayer.classList.contains('hidden')) {
+      // Открываем плеер
       musicPlayer.classList.remove('hidden');
       miniPlayer.style.display = 'none';
-    } else {
-      musicPlayer.classList.add('hidden');
-      miniPlayer.style.display = 'block';
+      musicPlayer.style.animation = 'slideInUp 0.3s ease-out';
     }
   }
   
   function closePlayer() {
-    musicPlayer.classList.add('hidden');
-    miniPlayer.style.display = 'block';
+    // Плавная анимация закрытия
+    musicPlayer.style.opacity = '0';
+    musicPlayer.style.transform = 'scale(0.9) translateY(20px)';
+    musicPlayer.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+    
+    setTimeout(() => {
+      musicPlayer.classList.add('hidden');
+      musicPlayer.style.opacity = '1';
+      musicPlayer.style.transform = 'scale(1) translateY(0)';
+      musicPlayer.style.transition = '';
+      miniPlayer.style.display = 'block';
+    }, 250);
   }
   
   if (checkAudioSupport()) {
-    // Добавляем обработчики с preventDefault для мобильных
     const addSafeClickListener = (element, handler) => {
       element.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1390,7 +1247,6 @@ function setupMusicPlayer() {
       }
     });
     
-    // Скрываем полноценный плеер, показываем мини-плеер
     musicPlayer.classList.add('hidden');
     miniPlayer.style.display = 'block';
     
@@ -1399,7 +1255,6 @@ function setupMusicPlayer() {
       audio.play().catch(e => {});
     }, 2000);
     
-    // Инициализация иконок
     updatePlayButton();
     updateMuteButton();
   }
@@ -1430,7 +1285,6 @@ function renderSections() {
     root.appendChild(section);
     new Slider(sec.photos, sec.videos || [], mount);
 
-    // Добавляем разделительную полоску ТОЛЬКО между секциями, не после последней
     if (idx !== sectionsData.length - 1) {
       const divider = el("div", "section-divider");
       root.appendChild(divider);
@@ -1438,15 +1292,9 @@ function renderSections() {
   });
 }
 
-/* Глобальный счетчик загрузки медиафайлов */
-window.globalLoadingState = {
-  totalMediaFiles: 0,
-  loadedMediaFiles: 0,
-  totalSliders: sectionsData.length,
-  loadedSliders: 0,
-  heroImageLoaded: false,
-  allSlidersReady: false
-};
+/* НОВАЯ система прелоадера */
+let maxLoadedCount = 0;
+let totalMediaFiles = 0;
 
 // Считаем общее количество медиафайлов
 function calculateTotalMediaFiles() {
@@ -1457,45 +1305,43 @@ function calculateTotalMediaFiles() {
   return total;
 }
 
-window.globalLoadingState.totalMediaFiles = calculateTotalMediaFiles();
+totalMediaFiles = calculateTotalMediaFiles();
 
-// Общий счетчик для прогресса
-let totalMediaLoaded = 0;
+let loadedSliders = 0;
+const totalSliders = sectionsData.length;
 
-/* Обновление прогресса загрузки */
-window.updateGlobalLoadingProgress = function(loaded, total, isError) {
-  const state = window.globalLoadingState;
-  
-  // Обновляем счетчик
-  if (loaded !== undefined) {
-    totalMediaLoaded = loaded;
+/* Обновление прогресса загрузки - БЕЗ УМЕНЬШЕНИЯ */
+window.updateGlobalLoadingProgress = function(loaded) {
+  // Увеличиваем только если текущее значение больше предыдущего
+  if (loaded > maxLoadedCount) {
+    maxLoadedCount = loaded;
   }
   
-  // Рассчитываем процент
-  const percent = Math.round((totalMediaLoaded / state.totalMediaFiles) * 100);
+  // Рассчитываем процент на основе максимального значения
+  const percent = Math.min(Math.round((maxLoadedCount / totalMediaFiles) * 100), 100);
   
   // Обновляем текст загрузки
-  const loadingText = document.querySelector('.loading-text');
+  const loadingText = document.getElementById('loadingText');
   if (loadingText) {
     loadingText.textContent = `Загрузка воспоминаний... ${percent}%`;
-  }
-  
-  // Проверяем, все ли загружено
-  const allLoaded = state.heroImageLoaded && 
-                    state.loadedSliders >= state.totalSliders;
-  
-  if (allLoaded && !state.allSlidersReady) {
-    state.allSlidersReady = true;
-    setTimeout(() => {
-      window.hidePreloader();
-    }, 500);
   }
 };
 
 /* Увеличение счетчика загруженных слайдеров */
 window.incrementLoadedSliders = function() {
-  const state = window.globalLoadingState;
-  state.loadedSliders++;
+  loadedSliders++;
+  window.checkAllLoaded();
+};
+
+/* Проверка, все ли загружено */
+window.checkAllLoaded = function() {
+  const allLoaded = loadedSliders >= totalSliders;
+  
+  if (allLoaded) {
+    setTimeout(() => {
+      window.hidePreloader();
+    }, 300);
+  }
 };
 
 /* Скрытие прелоадера */
@@ -1503,10 +1349,10 @@ window.hidePreloader = function() {
   const loader = document.getElementById('loadingOverlay');
   if (loader && loader.style.display !== 'none') {
     loader.style.opacity = '0';
+    loader.style.pointerEvents = 'none';
     setTimeout(() => {
       loader.style.display = 'none';
       
-      // Запускаем остальные функции после загрузки
       setupScrollReveal();
       createHeartsSystem();
       setupMusicPlayer();
@@ -1520,7 +1366,7 @@ window.hidePreloader = function() {
           }
         });
       }, 100);
-    }, 500);
+    }, 300);
   }
 };
 
@@ -1531,18 +1377,10 @@ function preloadHeroImage() {
   
   const img = new Image();
   img.onload = function() {
-    window.globalLoadingState.heroImageLoaded = true;
-    window.updateGlobalLoadingProgress();
-    
-    // Устанавливаем фон только после загрузки
     heroBg.style.backgroundImage = `url("${heroImageUrl}")`;
   };
   
   img.onerror = function() {
-    window.globalLoadingState.heroImageLoaded = true;
-    window.updateGlobalLoadingProgress();
-    
-    // Показываем сообщение об ошибке
     heroBg.style.backgroundColor = '#1a1a1a';
     heroBg.style.display = 'flex';
     heroBg.style.alignItems = 'center';
@@ -1588,7 +1426,7 @@ window.addEventListener('beforeunload', () => {
   }
 });
 
-// Фоллбек на случай если прелоадер не скрылся (таймаут 40 секунд)
+// Фоллбек на случай если прелоадер не скрылся
 setTimeout(() => {
   const loader = document.getElementById('loadingOverlay');
   if (loader && loader.style.display !== 'none') {
@@ -1599,6 +1437,6 @@ setTimeout(() => {
       createHeartsSystem();
       setupMusicPlayer();
       setupHeroScrollAnimation();
-    }, 500);
+    }, 300);
   }
 }, 40000);
