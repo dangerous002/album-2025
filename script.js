@@ -1,1418 +1,1519 @@
 const sectionsData = [
-  {
-    title: "Знакомство",
-    text: [
-      "Наше знакомство было странным и трепетным одновременно. Мы наблюдали друг за другом, даже не подозревая, что это взаимно. Я тайно фотографировал тебя в колледже, а ты иногда искала меня глазами, проверяла моё расписание. Каждый раз, когда наши взгляды встречались, внутри что-то замирало. Помню, как я впервые подошёл к тебе в курилке забрать 10 рублей, как мы тогда называли друг друга «лп». Я был неуверен, смущён. Помнишь, я сказал: «Чо, вы типа из Бердска, да?» Всё внутри дрожало, и я не знал, как себя вести. Когда Кирилл сказал: «Это те, которые тебе нравятся?» — ты смутилась, слегка посмеявшись. Этот короткий смех стал маленькой искрой, теплом, которое я сразу почувствовал.",
-      "С первых сообщений мы будто находили друг друга. Каждое твоё слово отзывалось внутри, делало дни ярче. Мы смеялись над мелочами, играли в Roblox, строили маленькие планы на будущее, ещё не осознавая, что между нами уже что-то особенное. С первых мгновений появилось ощущение близости, которое невозможно описать словами: лёгкое притяжение, трепет в груди и уверенность, что рядом свой человек. С того момент каждый день общения с тобой стал маленьким открытием, полным эмоций и тепла."
-    ],
-    photos: [
-      ["https://storage.yandexcloud.net/album-2025/1/1.JPG", "1/1.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/1/2.jpg", "1/2.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/1/3.jpg", "1/3.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/1/4.jpg", "1/4.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/1/5.jpg", "1/5.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/1/6.jpg", "1/6.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/1/7.jpg", "1/7.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/1/8.jpg", "1/8.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/1/9.jpg", "1/9.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/1/10.jpg", "1/10.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/1/11.jpg", "1/11.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/1/12.jpg", "1/12.jpg"],
-    ],
-    videos: [
-      ["https://storage.yandexcloud.net/album-2025/1/13.MP4", "1/13.MP4"],
-      ["https://storage.yandexcloud.net/album-2025/1/14.MP4", "1/14.MP4"]
-    ]
-  },
-  {
-    title: "Первая встреча",
-    text: [
-      "Первая встреча была 27 июня 2025 года. За день до этого мы уже начали встречаться — ещё только в переписке, но казалось, будто между нами давно что-то есть. В пятницу я приехал к тебе в Бердск. Мы пошли гулять в парк, сели на лавочке и начали тэгать стикер нашими локальными мемами. Я помню своё состояние почти покадрово. Меня трясло от волнения — серьёзно, я путался в мыслях, не мог нормально сформулировать ни одно предложение. Я был в полном шоке от твоей красоты. И при этом рядом с тобой было такое чувство лёгкости, будто время остановилось и всё вокруг перестало существовать. В этот момент мир заиграл новыми, не видаными раньше, красками.",
-      "Мы говорили о жизни. Я рассказывал историю о том, как нас с другом выселили из квартиры, делился смешными моментами про друзей. Ты слушала, очень тепло реагировала, когда я рассказывал о себе. А большую часть времени мы смотрели TikTok, записывали кружочки моим друзьям — будто были вместе уже тысячу лет, настолько всё было естественно. Был один момент, который я никогда не забуду. Ты внезапно сказала: «А ты знал, что я мама?». Я тогда просто выпал. Не понял, что ответить. И ты такая спокойная: «Да, у меня есть сын, я его крестила недавно». Напряжение исчезло, мы посмеялись. Это одно из самых теплых воспоминаний. К концу встречи тебе было больно, но ты всё равно проводила меня на вокзал.",
-      "Мы стояли, обнимались, оттягивали секунды перед расставанием. Был невероятно красивый закат, электричка подъезжала, и мы сделали фото — одно из тех, что останется на всю жизнь. Когда я убрал телефон, посмотрел тебе в глаза — в тот момент мы были самыми счастливыми людьми на свете. Ты слегка уводила взгляд, смущалась, смотрела, как близко подъезжала электричка. Я думал, может поцеловать тебя, но застеснялся. Тогда ты сама нежно взяла меня и поцеловала. У меня просто вырубились все мысли. Я был в шоке и счастье одновременно. Когда двери открылись, ты сказала: «Ну всё, иди. Я тебя люблю». Я развернулся, чтобы зайти, но внутри что-то рвануло назад. Я обернулся, схватил тебя за талию и поцеловал. Неловко, трясущимся голосом сказал: «Стой… это мой первый раз». И в последний момент прыгнул в вагон.",
-      "В электричке я светился. Слезы подходили к глазам сами собой. Ты написала: «Тимоша, я тебя так сильно люблю, это капец». А я ответил, что чувствую то же самое, что никто никогда так не открывался мне. Закат через окно электрички был красным, потом фиолетовым, мир будто замолчал. Я никогда в жизни не ощущал такого счастья. А когда пришёл домой, из окна слышались залпы салюта — как будто весь мир радовался за нас. В тот день я лег спать со слезами и с ощущением, что это начало чего-то невероятного."
-    ],
-    photos: [
-      ["https://storage.yandexcloud.net/album-2025/2/1.jpg", "2/1.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/2/2.jpg", "2/2.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/2/3.jpg", "2/3.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/2/4.jpg", "2/4.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/2/5.jpg", "2/5.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/2/6.jpg", "2/6.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/2/7.jpg", "2/7.jpg"],
-    ],
-    videos: [
-      ["https://storage.yandexcloud.net/album-2025/2/8.mp4", "2/8.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/2/9.mp4", "2/9.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/2/10.mp4", "2/10.mp4"],
-    ]
-  },
-  {
-    title: "Мы начали встречаться",
-    text: [
-      
-    ],
-    photos: [
-      ["https://storage.yandexcloud.net/album-2025/3/1.jpg", "3/1.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/3/2.jpg", "3/2.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/3/3.jpg", "3/3.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/3/4.jpg", "3/4.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/3/5.jpg", "3/5.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/3/6.jpg", "3/6.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/3/7.jpg", "3/7.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/3/8.jpg", "3/8.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/3/9.jpg", "3/9.jpg"],
-    ],
-    videos: [
-      ["https://storage.yandexcloud.net/album-2025/3/10.mp4", "3/10.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/3/11.mp4", "3/11.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/3/12.mp4", "3/12.mp4"],
-    ]
-  },
-  {
-    title: "Наш июль",
-    text: [
-      
-    ],
-    photos: [
-      ["https://storage.yandexcloud.net/album-2025/4/1.jpg", "4/1.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/2.jpg", "4/2.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/3.jpg", "4/3.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/4.jpg", "4/4.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/5.jpg", "4/5.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/6.jpg", "4/6.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/7.jpg", "4/7.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/8.jpg", "4/8.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/9.jpg", "4/9.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/10.jpg", "4/10.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/11.jpg", "4/11.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/12.jpg", "4/12.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/13.jpg", "4/13.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/4/14.jpg", "4/14.jpg"],
-    ],
-    videos: [
-      ["https://storage.yandexcloud.net/album-2025/4/15.mp4", "4/15.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/4/16.mp4", "4/16.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/4/17.mp4", "4/17.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/4/18.mp4", "4/18.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/4/19.mp4", "4/19.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/4/20.mp4", "4/20.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/4/21.mp4", "4/21.mp4"],
-    ]
-  },
-  {
-    title: "Алтай",
-    text: [
-      
-    ],
-    photos: [
-      ["https://storage.yandexcloud.net/album-2025/5/1.jpg", "5/1.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/5/2.jpg", "5/2.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/5/3.jpg", "5/3.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/5/4.jpg", "5/4.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/5/5.jpg", "5/5.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/5/6.jpg", "5/6.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/5/7.jpg", "5/7.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/5/8.jpg", "5/8.jpg"],
-    ],
-    videos: []
-  },
-  {
-    title: "Калачинск",
-    text: [
-      
-    ],
-    photos: [
-      ["https://storage.yandexcloud.net/album-2025/6/1.jpg", "6/1.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/6/2.jpg", "6/2.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/6/3.jpg", "6/3.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/6/4.jpg", "6/4.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/6/5.jpg", "6/5.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/6/6.jpg", "6/6.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/6/7.jpg", "6/7.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/6/8.jpg", "6/8.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/6/9.jpg", "6/9.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/6/10.jpg", "6/10.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/6/11.jpg", "6/11.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/6/12.jpg", "6/12.jpg"],
-    ],
-    videos: [
-      ["https://storage.yandexcloud.net/album-2025/6/13.mp4", "6/13.mp4"],
-    ]
-  },
-  {
-    title: "Последние дни лета",
-    text: [
-      
-    ],
-    photos: [
-      ["https://storage.yandexcloud.net/album-2025/7/1.jpg", "7/1.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/2.jpg", "7/2.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/3.jpg", "7/3.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/4.jpg", "7/4.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/5.jpg", "7/5.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/6.jpg", "7/6.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/7.jpg", "7/7.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/8.jpg", "7/8.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/9.jpg", "7/9.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/10.jpg", "7/10.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/11.jpg", "7/11.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/12.jpg", "7/12.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/13.jpg", "7/13.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/7/14.jpg", "7/14.jpg"],
-    ],
-    videos: [
-      ["https://storage.yandexcloud.net/album-2025/7/15.mp4", "7/15.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/7/16.mp4", "7/16.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/7/17.MP4", "7/17.MP4"],
-      ["https://storage.yandexcloud.net/album-2025/7/18.MP4", "7/18.MP4"],
-    ]
-  },
-  {
-    title: "Осень",
-    text: [
-      
-    ],
-    photos: [
-      ["https://storage.yandexcloud.net/album-2025/8/1.jpg", "8/1.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/8/2.jpg", "8/2.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/8/3.jpg", "8/3.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/8/4.jpg", "8/4.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/8/5.jpg", "8/5.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/8/6.jpg", "8/6.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/8/7.jpg", "8/7.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/8/8.jpg", "8/8.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/8/9.jpg", "8/9.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/8/10.jpg", "8/10.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/8/11.jpg", "8/11.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/8/12.jpg", "8/12.jpg"],
-    ],
-    videos: [
-      ["https://storage.yandexcloud.net/album-2025/8/13.MP4", "8/13.MP4"],
-      ["https://storage.yandexcloud.net/album-2025/8/14.mp4", "8/14.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/8/15.mp4", "8/15.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/8/16.mp4", "8/16.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/8/17.mp4", "8/17.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/8/18.mp4", "8/18.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/8/19.mp4", "8/19.mp4"],
-      ["https://storage.yandexcloud.net/album-2025/8/20.MP4", "8/20.MP4"],
-      ["https://storage.yandexcloud.net/album-2025/8/21.MP4", "8/21.MP4"],
-      ["https://storage.yandexcloud.net/album-2025/8/22.MP4", "8/22.MP4"],
-      ["https://storage.yandexcloud.net/album-2025/8/23.MP4", "8/23.MP4"],
-      ["https://storage.yandexcloud.net/album-2025/8/24.MP4", "8/24.MP4"],
-      ["https://storage.yandexcloud.net/album-2025/8/25.MP4", "8/25.MP4"],
-    ]
-  },
-  {
-    title: "Наша эстетика",
-    text: [
-      
-    ],
-    photos: [
-      ["https://storage.yandexcloud.net/album-2025/9/1.jpg", "9/1.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/2.jpg", "9/2.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/3.jpg", "9/3.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/4.jpg", "9/4.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/5.jpg", "9/5.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/6.jpg", "9/6.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/7.jpg", "9/7.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/8.jpg", "9/8.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/9.jpg", "9/9.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/10.jpg", "9/10.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/11.jpg", "9/11.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/12.jpg", "9/12.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/13.jpg", "9/13.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/14.jpg", "9/14.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/15.jpg", "9/15.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/16.jpg", "9/16.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/17.jpg", "9/17.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/18.jpg", "9/18.jpg"],
-      ["https://storage.yandexcloud.net/album-2025/9/19.jpg", "9/19.jpg"],
-    ],
-    videos: [
-      ["https://storage.yandexcloud.net/album-2025/9/20.MP4", "9/20.MP4"],
-      ["https://storage.yandexcloud.net/album-2025/9/21.MP4", "9/21.MP4"],
-      ["https://storage.yandexcloud.net/album-2025/9/22.MP4", "9/22.MP4"],
-    ]
-  },
+    {
+        title: "Знакомство",
+        text: [
+            "Наше знакомство было странным и трепетным одновременно. Мы наблюдали друг за другом, даже не подозревая, что это взаимно. Я тайно фотографировал тебя в колледже, а ты иногда искала меня глазами, проверяла моё расписание. Каждый раз, когда наши взгляды встречались, внутри что-то замирало. Помню, как я впервые подошёл к тебе в курилке забрать 10 рублей, как мы тогда называли друг друга «лп». Я был неуверен, смущён. Помнишь, я сказал: «Чо, вы типа из Бердска, да?» Всё внутри дрожало, и я не знал, как себя вести. Когда Кирилл сказал: «Это те, которые тебе нравятся?» — ты смутилась, слегка посмеявшись. Этот короткий смех стал маленькой искрой, теплом, которое я сразу почувствовал.",
+            "С первых сообщений мы будто находили друг друга. Каждое твоё слово отзывалось внутри, делало дни ярче. Мы смеялись над мелочами, играли в Roblox, строили маленькие планы на будущее, ещё не осознавая, что между нами уже что-то особенное. С первых мгновений появилось ощущение близости, которое невозможно описать словами: лёгкое притяжение, трепет в груди и уверенность, что рядом свой человек. С того момент каждый день общения с тобой стал маленьким открытием, полным эмоций и тепла."
+        ],
+        photos: [
+            ["https://storage.yandexcloud.net/album-2025/1/1.JPG", "1/1.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/1/2.jpg", "1/2.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/1/3.jpg", "1/3.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/1/4.jpg", "1/4.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/1/5.jpg", "1/5.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/1/6.jpg", "1/6.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/1/7.jpg", "1/7.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/1/8.jpg", "1/8.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/1/9.jpg", "1/9.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/1/10.jpg", "1/10.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/1/11.jpg", "1/11.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/1/12.jpg", "1/12.jpg"],
+        ],
+        videos: [
+            ["https://storage.yandexcloud.net/album-2025/1/13.MP4", "1/13.MP4"],
+            ["https://storage.yandexcloud.net/album-2025/1/14.MP4", "1/14.MP4"]
+        ]
+    },
+    {
+        title: "Первая встреча",
+        text: [
+            "Первая встреча была 27 июня 2025 года. За день до этого мы уже начали встречаться — ещё только в переписке, но казалось, будто между нами давно что-то есть. В пятницу я приехал к тебе в Бердск. Мы пошли гулять в парк, сели на лавочке и начали тэгать стикер нашими локальными мемами. Я помню своё состояние почти покадрово. Меня трясло от волнения — серьёзно, я путался в мыслях, не мог нормально сформулировать ни одно предложение. Я был в полном шоке от твоей красоты. И при этом рядом с тобой было такое чувство лёгкости, будто время остановилось и всё вокруг перестало существовать. В этот момент мир заиграл новыми, не видаными раньше, красками.",
+            "Мы говорили о жизни. Я рассказывал историю о том, как нас с другом выселили из квартиры, делился смешными моментами про друзей. Ты слушала, очень тепло реагировала, когда я рассказывал о себе. А большую часть времени мы смотрели TikTok, записывали кружочки моим друзьям — будто были вместе уже тысячу лет, настолько всё было естественно. Был один момент, который я никогда не забуду. Ты внезапно сказала: «А ты знал, что я мама?». Я тогда просто выпал. Не понял, что ответить. И ты такая спокойная: «Да, у меня есть сын, я его крестила недавно». Напряжение исчезло, мы посмеялись. Это одно из самых теплых воспоминаний. К концу встречи тебе было больно, но ты всё равно проводила меня на вокзал.",
+            "Мы стояли, обнимались, оттягивали секунды перед расставанием. Был невероятно красивый закат, электричка подъезжала, и мы сделали фото — одно из тех, что останется на всю жизнь. Когда я убрал телефон, посмотрел тебе в глаза — в тот момент мы были самыми счастливыми людьми на свете. Ты слегка уводила взгляд, смущалась, смотрела, как близко подъезжала электричка. Я думал, может поцеловать тебя, но застеснялся. Тогда ты сама нежно взяла меня и поцеловала. У меня просто вырубились все мысли. Я был в шоке и счастье одновременно. Когда двери открылись, ты сказала: «Ну всё, иди. Я тебя люблю». Я развернулся, чтобы зайти, но внутри что-то рвануло назад. Я обернулся, схватил тебя за талию и поцеловал. Неловко, трясущимся голосом сказал: «Стой… это мой первый раз». И в последний момент прыгнул в вагон.",
+            "В электричке я светился. Слезы подходили к глазам сами собой. Ты написала: «Тимоша, я тебя так сильно люблю, это капец». А я ответил, что чувствую то же самое, что никто никогда так не открывался мне. Закат через окно электрички был красным, потом фиолетовым, мир будто замолчал. Я никогда в жизни не ощущал такого счастья. А когда пришёл домой, из окна слышались залпы салюта — как будто весь мир радовался за нас. В тот день я лег спать со слезами и с ощущением, что это начало чего-то невероятного."
+        ],
+        photos: [
+            ["https://storage.yandexcloud.net/album-2025/2/1.jpg", "2/1.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/2/2.jpg", "2/2.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/2/3.jpg", "2/3.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/2/4.jpg", "2/4.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/2/5.jpg", "2/5.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/2/6.jpg", "2/6.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/2/7.jpg", "2/7.jpg"],
+        ],
+        videos: [
+            ["https://storage.yandexcloud.net/album-2025/2/8.mp4", "2/8.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/2/9.mp4", "2/9.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/2/10.mp4", "2/10.mp4"],
+        ]
+    },
+    {
+        title: "Мы начали встречаться",
+        text: [
+            
+        ],
+        photos: [
+            ["https://storage.yandexcloud.net/album-2025/3/1.jpg", "3/1.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/3/2.jpg", "3/2.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/3/3.jpg", "3/3.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/3/4.jpg", "3/4.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/3/5.jpg", "3/5.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/3/6.jpg", "3/6.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/3/7.jpg", "3/7.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/3/8.jpg", "3/8.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/3/9.jpg", "3/9.jpg"],
+        ],
+        videos: [
+            ["https://storage.yandexcloud.net/album-2025/3/10.mp4", "3/10.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/3/11.mp4", "3/11.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/3/12.mp4", "3/12.mp4"],
+        ]
+    },
+    {
+        title: "Наш июль",
+        text: [
+            
+        ],
+        photos: [
+            ["https://storage.yandexcloud.net/album-2025/4/1.jpg", "4/1.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/2.jpg", "4/2.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/3.jpg", "4/3.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/4.jpg", "4/4.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/5.jpg", "4/5.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/6.jpg", "4/6.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/7.jpg", "4/7.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/8.jpg", "4/8.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/9.jpg", "4/9.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/10.jpg", "4/10.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/11.jpg", "4/11.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/12.jpg", "4/12.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/13.jpg", "4/13.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/4/14.jpg", "4/14.jpg"],
+        ],
+        videos: [
+            ["https://storage.yandexcloud.net/album-2025/4/15.mp4", "4/15.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/4/16.mp4", "4/16.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/4/17.mp4", "4/17.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/4/18.mp4", "4/18.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/4/19.mp4", "4/19.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/4/20.mp4", "4/20.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/4/21.mp4", "4/21.mp4"],
+        ]
+    },
+    {
+        title: "Алтай",
+        text: [
+            
+        ],
+        photos: [
+            ["https://storage.yandexcloud.net/album-2025/5/1.jpg", "5/1.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/5/2.jpg", "5/2.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/5/3.jpg", "5/3.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/5/4.jpg", "5/4.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/5/5.jpg", "5/5.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/5/6.jpg", "5/6.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/5/7.jpg", "5/7.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/5/8.jpg", "5/8.jpg"],
+        ],
+        videos: []
+    },
+    {
+        title: "Калачинск",
+        text: [
+            
+        ],
+        photos: [
+            ["https://storage.yandexcloud.net/album-2025/6/1.jpg", "6/1.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/6/2.jpg", "6/2.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/6/3.jpg", "6/3.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/6/4.jpg", "6/4.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/6/5.jpg", "6/5.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/6/6.jpg", "6/6.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/6/7.jpg", "6/7.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/6/8.jpg", "6/8.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/6/9.jpg", "6/9.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/6/10.jpg", "6/10.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/6/11.jpg", "6/11.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/6/12.jpg", "6/12.jpg"],
+        ],
+        videos: [
+            ["https://storage.yandexcloud.net/album-2025/6/13.mp4", "6/13.mp4"],
+        ]
+    },
+    {
+        title: "Последние дни лета",
+        text: [
+            
+        ],
+        photos: [
+            ["https://storage.yandexcloud.net/album-2025/7/1.jpg", "7/1.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/2.jpg", "7/2.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/3.jpg", "7/3.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/4.jpg", "7/4.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/5.jpg", "7/5.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/6.jpg", "7/6.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/7.jpg", "7/7.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/8.jpg", "7/8.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/9.jpg", "7/9.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/10.jpg", "7/10.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/11.jpg", "7/11.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/12.jpg", "7/12.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/13.jpg", "7/13.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/7/14.jpg", "7/14.jpg"],
+        ],
+        videos: [
+            ["https://storage.yandexcloud.net/album-2025/7/15.mp4", "7/15.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/7/16.mp4", "7/16.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/7/17.MP4", "7/17.MP4"],
+            ["https://storage.yandexcloud.net/album-2025/7/18.MP4", "7/18.MP4"],
+        ]
+    },
+    {
+        title: "Осень",
+        text: [
+            
+        ],
+        photos: [
+            ["https://storage.yandexcloud.net/album-2025/8/1.jpg", "8/1.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/8/2.jpg", "8/2.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/8/3.jpg", "8/3.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/8/4.jpg", "8/4.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/8/5.jpg", "8/5.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/8/6.jpg", "8/6.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/8/7.jpg", "8/7.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/8/8.jpg", "8/8.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/8/9.jpg", "8/9.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/8/10.jpg", "8/10.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/8/11.jpg", "8/11.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/8/12.jpg", "8/12.jpg"],
+        ],
+        videos: [
+            ["https://storage.yandexcloud.net/album-2025/8/13.MP4", "8/13.MP4"],
+            ["https://storage.yandexcloud.net/album-2025/8/14.mp4", "8/14.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/8/15.mp4", "8/15.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/8/16.mp4", "8/16.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/8/17.mp4", "8/17.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/8/18.mp4", "8/18.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/8/19.mp4", "8/19.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/8/20.MP4", "8/20.MP4"],
+            ["https://storage.yandexcloud.net/album-2025/8/21.MP4", "8/21.MP4"],
+            ["https://storage.yandexcloud.net/album-2025/8/22.MP4", "8/22.MP4"],
+            ["https://storage.yandexcloud.net/album-2025/8/23.MP4", "8/23.MP4"],
+            ["https://storage.yandexcloud.net/album-2025/8/24.MP4", "8/24.MP4"],
+            ["https://storage.yandexcloud.net/album-2025/8/25.MP4", "8/25.MP4"],
+        ]
+    },
+    {
+        title: "Наша эстетика",
+        text: [
+            
+        ],
+        photos: [
+            ["https://storage.yandexcloud.net/album-2025/9/1.jpg", "9/1.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/2.jpg", "9/2.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/3.jpg", "9/3.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/4.jpg", "9/4.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/5.jpg", "9/5.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/6.jpg", "9/6.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/7.jpg", "9/7.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/8.jpg", "9/8.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/9.jpg", "9/9.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/10.jpg", "9/10.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/11.jpg", "9/11.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/12.jpg", "9/12.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/13.jpg", "9/13.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/14.jpg", "9/14.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/15.jpg", "9/15.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/16.jpg", "9/16.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/17.jpg", "9/17.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/18.jpg", "9/18.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/19.jpg", "9/19.jpg"],
+        ],
+        videos: [
+            ["https://storage.yandexcloud.net/album-2025/9/20.MP4", "9/20.MP4"],
+            ["https://storage.yandexcloud.net/album-2025/9/21.MP4", "9/21.MP4"],
+            ["https://storage.yandexcloud.net/album-2025/9/22.MP4", "9/22.MP4"],
+        ]
+    },
 ];
 
 /* Helpers */
 const el = (tag, cls = "", html = "") => {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (html) e.innerHTML = html;
-  return e;
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html) e.innerHTML = html;
+    return e;
 };
 
 /* Определение видеофайлов */
 function isVideoFile(src) {
-  if (!src) return false;
-  const videoExtensions = ['.mp4', '.MP4', '.mov', '.MOV', '.avi', '.webm', '.mkv'];
-  const lowerSrc = src.toLowerCase();
-  return videoExtensions.some(ext => lowerSrc.endsWith(ext.toLowerCase()));
+    if (!src) return false;
+    const videoExtensions = ['.mp4', '.MP4', '.mov', '.MOV', '.avi', '.webm', '.mkv'];
+    const lowerSrc = src.toLowerCase();
+    return videoExtensions.some(ext => lowerSrc.endsWith(ext.toLowerCase()));
 }
 
 /* Улучшенный Lightbox */
 const LB = (() => {
-  const root = document.getElementById("lightbox");
-  const content = root.querySelector(".lb-content");
-  const img = root.querySelector(".lb-image");
-  const video = root.querySelector(".lb-video");
-  const videoSource = video.querySelector("source");
-  const btnClose = root.querySelector(".lb-close");
-  const btnPrev = root.querySelector(".lb-prev");
-  const btnNext = root.querySelector(".lb-next");
-  let items = [],
-    idx = 0,
-    isAnimating = false,
-    isMobile = window.innerWidth <= 768,
-    touchStartX = 0,
-    touchEndX = 0,
-    isVideoInteracting = false;
+    const root = document.getElementById("lightbox");
+    const content = root.querySelector(".lb-content");
+    const img = root.querySelector(".lb-image");
+    const video = root.querySelector(".lb-video");
+    const videoSource = video.querySelector("source");
+    const btnClose = root.querySelector(".lb-close");
+    const btnPrev = root.querySelector(".lb-prev");
+    const btnNext = root.querySelector(".lb-next");
+    let items = [],
+        idx = 0,
+        isAnimating = false,
+        isMobile = window.innerWidth <= 768,
+        touchStartX = 0,
+        touchEndX = 0,
+        isVideoInteracting = false;
 
-  window.addEventListener('resize', () => {
-    isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-      btnPrev.style.display = 'none';
-      btnNext.style.display = 'none';
-    } else {
-      btnPrev.style.display = 'flex';
-      btnNext.style.display = 'flex';
-    }
-  });
+    window.addEventListener('resize', () => {
+        isMobile = window.innerWidth <= 768;
+    });
 
-  function open(itemsArray, i) {
-    items = itemsArray.slice();
-    idx = i;
-    showItem();
-    root.classList.remove("hidden");
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-    
-    if (isMobile) {
-      btnPrev.style.display = 'none';
-      btnNext.style.display = 'none';
-    } else {
-      btnPrev.style.display = 'flex';
-      btnNext.style.display = 'flex';
+    function open(itemsArray, i) {
+        items = itemsArray.slice();
+        idx = i;
+        showItem();
+        root.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
     }
-  }
-  
-  function close() {
-    root.classList.add("hidden");
-    img.src = "";
-    videoSource.src = "";
-    video.classList.add("hidden");
-    img.classList.add("hidden");
-    video.pause();
-    isVideoInteracting = false;
-    document.body.style.overflow = "";
-    document.documentElement.style.overflow = "";
-  }
-  
-  function prev() {
-    if (isAnimating || isVideoInteracting) return;
-    idx = (idx - 1 + items.length) % items.length;
-    showItemWithAnimation();
-  }
-  
-  function next() {
-    if (isAnimating || isVideoInteracting) return;
-    idx = (idx + 1) % items.length;
-    showItemWithAnimation();
-  }
-  
-  function showItem() {
-    const currentItem = items[idx];
-    const isVideo = currentItem.type === "video" || isVideoFile(currentItem.src);
     
-    if (isVideo) {
-      img.classList.add("hidden");
-      
-      setTimeout(() => {
-        video.classList.remove("hidden");
-        videoSource.src = currentItem.src || currentItem;
-        video.load();
+    function close() {
+        root.classList.add("hidden");
+        img.src = "";
+        videoSource.src = "";
+        video.classList.add("hidden");
+        img.classList.add("hidden");
+        video.pause();
+        isVideoInteracting = false;
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
+    }
+    
+    function prev() {
+        if (isAnimating || isVideoInteracting) return;
+        idx = (idx - 1 + items.length) % items.length;
+        showItemWithAnimation();
+    }
+    
+    function next() {
+        if (isAnimating || isVideoInteracting) return;
+        idx = (idx + 1) % items.length;
+        showItemWithAnimation();
+    }
+    
+    function showItem() {
+        const currentItem = items[idx];
+        const isVideo = currentItem.type === "video" || isVideoFile(currentItem.src);
         
-        video.addEventListener('seeking', () => {
-          isVideoInteracting = true;
-        });
-        
-        video.addEventListener('seeked', () => {
-          setTimeout(() => {
+        if (isVideo) {
+            img.classList.add("hidden");
+            
+            setTimeout(() => {
+                video.classList.remove("hidden");
+                videoSource.src = currentItem.src || currentItem;
+                video.load();
+                
+                video.addEventListener('seeking', () => {
+                    isVideoInteracting = true;
+                });
+                
+                video.addEventListener('seeked', () => {
+                    setTimeout(() => {
+                        isVideoInteracting = false;
+                    }, 300);
+                });
+                
+                if (isMobile) {
+                    video.setAttribute('playsinline', 'true');
+                    video.setAttribute('webkit-playsinline', 'true');
+                    video.setAttribute('controls', 'true');
+                }
+                
+                video.play().catch(e => {
+                    console.log("Автовоспроизведение заблокировано");
+                });
+            }, 50);
+        } else {
+            video.classList.add("hidden");
+            video.pause();
+            videoSource.src = "";
             isVideoInteracting = false;
-          }, 300);
-        });
-        
-        if (isMobile) {
-          video.setAttribute('playsinline', 'true');
-          video.setAttribute('webkit-playsinline', 'true');
-          video.setAttribute('controls', 'true');
+            
+            setTimeout(() => {
+                img.classList.remove("hidden");
+                img.src = currentItem.src || currentItem;
+                img.alt = `Фото ${idx + 1} из ${items.length}`;
+            }, 50);
         }
+    }
+    
+    function showItemWithAnimation() {
+        if (isAnimating) return;
+        isAnimating = true;
         
-        video.play().catch(e => {
-          console.log("Автовоспроизведение заблокировано");
-        });
-      }, 50);
-    } else {
-      video.classList.add("hidden");
-      video.pause();
-      videoSource.src = "";
-      isVideoInteracting = false;
-      
-      setTimeout(() => {
-        img.classList.remove("hidden");
-        img.src = currentItem.src || currentItem;
-        img.alt = `Фото ${idx + 1} из ${items.length}`;
-      }, 50);
+        content.style.opacity = "0";
+        
+        setTimeout(() => {
+            showItem();
+            
+            setTimeout(() => {
+                content.style.opacity = "1";
+                isAnimating = false;
+            }, 100);
+        }, 200);
     }
-  }
-  
-  function showItemWithAnimation() {
-    if (isAnimating) return;
-    isAnimating = true;
-    
-    content.style.opacity = "0";
-    
-    setTimeout(() => {
-      showItem();
-      
-      setTimeout(() => {
-        content.style.opacity = "1";
-        isAnimating = false;
-      }, 100);
-    }, 200);
-  }
 
-  function handleTouchStart(e) {
-    if (!isMobile || isVideoInteracting) return;
-    touchStartX = e.changedTouches[0].screenX;
-  }
-  
-  function handleTouchEnd(e) {
-    if (!isMobile || isAnimating || isVideoInteracting) return;
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  }
-  
-  function handleSwipe() {
-    const minSwipeDistance = 50;
-    const distance = touchStartX - touchEndX;
-    
-    if (Math.abs(distance) < minSwipeDistance) return;
-    
-    if (distance > 0) {
-      next();
-    } else {
-      prev();
+    function handleTouchStart(e) {
+        if (!isMobile || isVideoInteracting) return;
+        touchStartX = e.changedTouches[0].screenX;
     }
-  }
+    
+    function handleTouchEnd(e) {
+        if (!isMobile || isAnimating || isVideoInteracting) return;
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }
+    
+    function handleSwipe() {
+        const minSwipeDistance = 50;
+        const distance = touchStartX - touchEndX;
+        
+        if (Math.abs(distance) < minSwipeDistance) return;
+        
+        if (distance > 0) {
+            next();
+        } else {
+            prev();
+        }
+    }
 
-  btnClose.addEventListener("click", close);
-  btnPrev.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    prev();
-  });
-  btnNext.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    next();
-  });
-  
-  if (isMobile) {
-    btnPrev.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+    btnClose.addEventListener("click", close);
+    btnPrev.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        prev();
+    });
+    btnNext.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        next();
     });
     
-    btnNext.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+    root.addEventListener("click", (e) => {
+        if (e.target === root) close();
     });
-  }
-  
-  root.addEventListener("click", (e) => {
-    if (e.target === root) close();
-  });
-  
-  root.addEventListener('touchstart', handleTouchStart, { passive: true });
-  root.addEventListener('touchend', handleTouchEnd, { passive: true });
-  
-  document.addEventListener("keydown", (e) => {
-    if (root.classList.contains("hidden")) return;
-    if (e.key === "Escape") close();
-    if (e.key === "ArrowLeft") prev();
-    if (e.key === "ArrowRight") next();
-  });
-  
-  video.addEventListener('click', (e) => {
-    e.stopPropagation();
-  });
-  
-  video.addEventListener('touchstart', (e) => {
-    e.stopPropagation();
-  });
-  
-  content.style.transition = "opacity 0.3s ease";
-  content.style.opacity = "1";
-  
-  return { open, close };
+    
+    root.addEventListener('touchstart', handleTouchStart, { passive: true });
+    root.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    document.addEventListener("keydown", (e) => {
+        if (root.classList.contains("hidden")) return;
+        if (e.key === "Escape") close();
+        if (e.key === "ArrowLeft") prev();
+        if (e.key === "ArrowRight") next();
+    });
+    
+    video.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+    
+    video.addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+    });
+    
+    content.style.transition = "opacity 0.3s ease";
+    content.style.opacity = "1";
+    
+    return { open, close };
 })();
+
+/* Дебаунс для оптимизации */
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
 
 /* Система летающих сердечек */
 function createHeartsSystem() {
-  let heartCount = 0;
-  const maxHearts = window.innerWidth <= 768 ? 15 : 10;
-  
-  const heartSVG = `<svg viewBox="0 0 32 29" xmlns="http://www.w3.org/2000/svg">
-    <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
-      c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" fill="currentColor"/>
-  </svg>`;
-  
-  function createHeart() {
-    if (heartCount >= maxHearts) return;
+    let heartCount = 0;
+    const maxHearts = window.innerWidth <= 768 ? 15 : 10;
     
-    heartCount++;
+    const heartSVG = `<svg viewBox="0 0 32 29" xmlns="http://www.w3.org/2000/svg">
+        <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+        c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" fill="currentColor"/>
+    </svg>`;
     
-    const heart = document.createElement('div');
-    heart.className = 'heart';
-    
-    const size = window.innerWidth <= 768 
-      ? 15 + Math.random() * 15
-      : 20 + Math.random() * 25;
-    
-    heart.style.width = `${size}px`;
-    heart.style.height = `${size}px`;
-    
-    const colors = [
-      '#ff6bcb', '#ff8ac7', '#ffa8c3', '#ffc6bf', 
-      '#ffe4f0', '#ffd1e0', '#ffb8d0', '#ff9fc0',
-      '#ff6bd0', '#ff8ad0'
-    ];
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    heart.style.color = color;
-    
-    const startX = Math.random() * window.innerWidth;
-    
-    const animations = ['floatHeart', 'floatHeart2', 'floatHeart3'];
-    const animation = animations[Math.floor(Math.random() * animations.length)];
-    
-    const duration = window.innerWidth <= 768
-      ? 4 + Math.random() * 4
-      : 6 + Math.random() * 6;
-    
-    heart.style.position = 'fixed';
-    heart.style.left = `${startX}px`;
-    heart.style.top = `${window.innerHeight}px`;
-    heart.style.zIndex = '1';
-    heart.style.pointerEvents = 'none';
-    heart.style.animation = `${animation} ${duration}s linear forwards`;
-    heart.style.opacity = '0';
-    
-    heart.innerHTML = heartSVG;
-    
-    document.body.appendChild(heart);
-    
-    setTimeout(() => {
-      if (heart.parentNode) {
-        heart.remove();
-        heartCount--;
-      }
-    }, duration * 1000);
-  }
-  
-  const initialHearts = window.innerWidth <= 768 ? 8 : 5;
-  for (let i = 0; i < initialHearts; i++) {
-    setTimeout(() => createHeart(), i * (window.innerWidth <= 768 ? 400 : 600));
-  }
-  
-  const heartInterval = setInterval(() => {
-    if (document.hidden) return;
-    createHeart();
-  }, window.innerWidth <= 768 ? 800 : 1200);
-  
-  window.heartInterval = heartInterval;
-  
-  window.addEventListener('resize', () => {
-    clearInterval(heartInterval);
-    
-    document.querySelectorAll('.heart').forEach(heart => {
-      heart.remove();
-    });
-    
-    setTimeout(createHeartsSystem, 100);
-  });
-}
-
-/* Улучшенный Slider со стрелками */
-class Slider {
-  constructor(photos, videos, mount) {
-    this.allItems = [
-      ...photos.map(srcArray => ({ 
-        sources: srcArray.map(src => src),
-        type: "image",
-        loaded: false,
-        currentSourceIndex: 0,
-        retryCount: 0,
-        maxRetries: 5
-      })),
-      ...(videos || []).map(srcArray => ({ 
-        sources: srcArray.map(src => src),
-        type: "video",
-        loaded: false,
-        currentSourceIndex: 0,
-        retryCount: 0,
-        maxRetries: 5
-      }))
-    ];
-    
-    this.mount = mount;
-    this.current = 0;
-    this.isAnimating = false;
-    this.loadedCount = 0;
-    this.totalToLoad = this.allItems.length;
-    this.maxDisplayHeight = 0;
-    this.isMobile = window.innerWidth <= 768;
-    this.direction = 'right';
-    this.errorCount = 0;
-    this.loadingQueue = [];
-
-    window.addEventListener('resize', () => {
-      this.isMobile = window.innerWidth <= 768;
-      this.updateSliderForMobile();
-    });
-
-    this.wrapper = el("div", "slider-wrapper");
-    this.viewport = el("div", "slider-viewport");
-    this.track = el("div", "track");
-    this.wrapper.appendChild(this.viewport);
-    this.viewport.appendChild(this.track);
-
-    // Создаем кнопки
-    this.prevBtn = el("button", "slider-button prev", "◀");
-    this.nextBtn = el("button", "slider-button next", "▶");
-    this.prevBtn.setAttribute("aria-label", "Предыдущее фото");
-    this.nextBtn.setAttribute("aria-label", "Следующее фото");
-    this.wrapper.appendChild(this.prevBtn);
-    this.wrapper.appendChild(this.nextBtn);
-
-    this.mount.appendChild(this.wrapper);
-    this.slides = [];
-    
-    this.buildSlides();
-    this.startLoading();
-    this.updateSliderForMobile();
-    
-    setTimeout(() => {
-      this.bind();
-    }, 100);
-  }
-
-  async loadMediaWithPriority(item, index) {
-    this.loadingQueue.push({ item, index });
-    
-    if (this.loadingQueue.length === 1) {
-      this.processLoadingQueue();
-    }
-  }
-
-  async processLoadingQueue() {
-    while (this.loadingQueue.length > 0) {
-      const { item, index } = this.loadingQueue.shift();
-      await this.attemptLoadItem(item, index);
-      
-      await new Promise(resolve => setTimeout(resolve, 50));
-    }
-  }
-
-  async attemptLoadItem(item, index) {
-    let sourceIndex = item.currentSourceIndex;
-    
-    while (sourceIndex < item.sources.length) {
-      const sourceUrl = item.sources[sourceIndex];
-      
-      try {
-        if (item.type === "image") {
-          await this.loadImage(sourceUrl, index, sourceIndex);
-        } else {
-          await this.loadVideo(sourceUrl, index, sourceIndex);
-        }
+    function createHeart() {
+        if (heartCount >= maxHearts) return;
         
-        item.loaded = true;
-        item.currentSourceIndex = sourceIndex;
-        this.loadedCount++;
+        heartCount++;
         
-        // Обновляем счетчик загрузки для прелоадера
-        updateMediaLoadProgress();
+        const heart = document.createElement('div');
+        heart.className = 'heart';
         
-        if (!this.isMobile) {
-          const element = this.slides[index].querySelector(item.type === "image" ? "img" : "video");
-          if (element) {
-            this.calculateDisplayHeight(element, item.type === "video", index);
-          }
-        }
+        const size = window.innerWidth <= 768 
+            ? 15 + Math.random() * 15
+            : 20 + Math.random() * 25;
         
-        return true;
-      } catch (error) {
-        console.warn(`Не удалось загрузить из источника ${sourceIndex}: ${sourceUrl}`);
+        heart.style.width = `${size}px`;
+        heart.style.height = `${size}px`;
         
-        sourceIndex++;
-        if (sourceIndex < item.sources.length) {
-          this.updateSlideSource(index, item.type, item.sources[sourceIndex]);
-          item.currentSourceIndex = sourceIndex;
-          item.retryCount++;
-        }
-      }
-    }
-    
-    if (item.retryCount < item.maxRetries) {
-      console.log(`Повторная попытка загрузки ${item.type} ${index} (попытка ${item.retryCount + 1})`);
-      item.retryCount++;
-      this.loadingQueue.push({ item, index });
-      
-      setTimeout(() => this.processLoadingQueue(), 1000 * item.retryCount);
-    } else {
-      this.showError(index, item.type);
-      this.errorCount++;
-      this.loadedCount++;
-      updateMediaLoadProgress();
-    }
-    
-    return false;
-  }
-
-  async loadImage(url, index, sourceIndex) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      
-      img.onload = () => {
-        resolve(img);
-      };
-      
-      img.onerror = () => {
-        reject(new Error(`Failed to load image: ${url}`));
-      };
-      
-      img.src = url;
-      
-      setTimeout(() => {
-        reject(new Error(`Image loading timeout: ${url}`));
-      }, 30000);
-    });
-  }
-
-  async loadVideo(url, index, sourceIndex) {
-    return new Promise((resolve, reject) => {
-      const video = document.createElement('video');
-      let loaded = false;
-      
-      const cleanup = () => {
-        video.removeEventListener('loadedmetadata', onLoad);
-        video.removeEventListener('error', onError);
-      };
-      
-      const onLoad = () => {
-        if (!loaded) {
-          loaded = true;
-          cleanup();
-          resolve(video);
-        }
-      };
-      
-      const onError = () => {
-        if (!loaded) {
-          loaded = true;
-          cleanup();
-          reject(new Error(`Failed to load video: ${url}`));
-        }
-      };
-      
-      video.addEventListener('loadedmetadata', onLoad);
-      video.addEventListener('error', onError);
-      
-      video.src = url;
-      
-      setTimeout(() => {
-        if (!loaded) {
-          loaded = true;
-          cleanup();
-          reject(new Error(`Video loading timeout: ${url}`));
-        }
-      }, 30000);
-    });
-  }
-
-  updateSlideSource(index, type, newSource) {
-    const slide = this.slides[index];
-    if (!slide) return;
-    
-    if (type === "image") {
-      const img = slide.querySelector('img');
-      if (img) {
-        img.src = newSource;
-      }
-    } else {
-      const video = slide.querySelector('video');
-      if (video) {
-        video.src = newSource;
-        video.load();
-      }
-    }
-  }
-
-  showError(index, type) {
-    const slide = this.slides[index];
-    if (!slide) return;
-    
-    const mediaElement = slide.querySelector(type === "image" ? "img" : "video");
-    if (mediaElement) {
-      mediaElement.style.display = 'none';
-    }
-    
-    const errorMsg = el("div", "load-error", `❌ ${type === "image" ? "Фото" : "Видео"} не загружено`);
-    errorMsg.style.color = '#ff6b6b';
-    errorMsg.style.padding = '20px';
-    errorMsg.style.textAlign = 'center';
-    errorMsg.style.fontSize = '16px';
-    slide.appendChild(errorMsg);
-  }
-
-  buildSlides() {
-    this.track.innerHTML = "";
-    this.allItems.forEach((item, i) => {
-      const s = el("div", "slide");
-      
-      if (item.type === "video") {
-        const video = el("video");
-        video.controls = true;
-        video.setAttribute("playsinline", "true");
-        video.setAttribute("webkit-playsinline", "true");
-        video.setAttribute("preload", "metadata");
-        video.setAttribute("aria-label", `Видео ${i + 1} из ${this.allItems.length}`);
+        const colors = [
+            '#ff6bcb', '#ff8ac7', '#ffa8c3', '#ffc6bf', 
+            '#ffe4f0', '#ffd1e0', '#ffb8d0', '#ff9fc0',
+            '#ff6bd0', '#ff8ad0'
+        ];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        heart.style.color = color;
         
-        if (item.sources.length > 0) {
-          video.src = item.sources[0];
-        }
+        const startX = Math.random() * window.innerWidth;
         
-        s.appendChild(video);
-      } else {
-        const img = el("img");
-        img.loading = "lazy";
-        img.setAttribute("alt", `Фото ${i + 1} из ${this.allItems.length}`);
+        const animations = ['floatHeart', 'floatHeart2', 'floatHeart3'];
+        const animation = animations[Math.floor(Math.random() * animations.length)];
         
-        if (item.sources.length > 0) {
-          img.src = item.sources[0];
-        }
+        const duration = window.innerWidth <= 768
+            ? 4 + Math.random() * 4
+            : 6 + Math.random() * 6;
         
-        s.appendChild(img);
-      }
-      
-      const num = el("div", "slide-number", `${i + 1}/${this.allItems.length}`);
-      s.appendChild(num);
-      this.slides.push(s);
-      this.track.appendChild(s);
-    });
-  }
-
-  async startLoading() {
-    const loadPromises = this.allItems.map((item, index) => 
-      this.loadMediaWithPriority(item, index)
-    );
-    
-    try {
-      await Promise.allSettled(loadPromises);
-      
-      console.log(`Слайдер загружен: ${this.loadedCount}/${this.totalToLoad} элементов, ошибок: ${this.errorCount}`);
-      
-      await this.waitForAllImages();
-      
-      if (!this.isMobile && this.maxDisplayHeight > 0) {
-        this.setFinalHeight();
-      } else {
-        this.wrapper.style.height = 'auto';
-        this.wrapper.style.minHeight = '250px';
-      }
-      
-      this.update();
-      this.bind();
-      
-      window.incrementLoadedSliders();
-      window.checkAllLoaded();
-    } catch (error) {
-      console.error('Ошибка при загрузке слайдера:', error);
-    }
-  }
-
-  async waitForAllImages() {
-    const images = this.track.querySelectorAll('img');
-    const videoElements = this.track.querySelectorAll('video');
-    
-    const imagePromises = Array.from(images).map(img => {
-      if (img.complete) return Promise.resolve();
-      
-      return new Promise((resolve) => {
-        img.onload = resolve;
-        img.onerror = resolve;
-      });
-    });
-    
-    const videoPromises = Array.from(videoElements).map(video => {
-      return new Promise((resolve) => {
-        if (video.readyState >= 1) {
-          resolve();
-        } else {
-          video.addEventListener('loadedmetadata', resolve, { once: true });
-          video.addEventListener('error', resolve, { once: true });
-        }
-      });
-    });
-    
-    await Promise.all([...imagePromises, ...videoPromises]);
-    
-    if (!this.isMobile) {
-      this.calculateAllHeights();
-    }
-  }
-
-  calculateAllHeights() {
-    let maxHeight = 0;
-    
-    this.slides.forEach((slide, index) => {
-      const item = this.allItems[index];
-      if (!item.loaded) return;
-      
-      const element = slide.querySelector(item.type === "image" ? "img" : "video");
-      if (!element) return;
-      
-      try {
-        let originalWidth, originalHeight;
+        heart.style.position = 'fixed';
+        heart.style.left = `${startX}px`;
+        heart.style.top = `${window.innerHeight}px`;
+        heart.style.zIndex = '1';
+        heart.style.pointerEvents = 'none';
+        heart.style.animation = `${animation} ${duration}s linear forwards`;
+        heart.style.opacity = '0';
         
-        if (item.type === "image") {
-          originalWidth = element.naturalWidth;
-          originalHeight = element.naturalHeight;
-        } else {
-          originalWidth = element.videoWidth;
-          originalHeight = element.videoHeight;
-        }
+        heart.innerHTML = heartSVG;
         
-        if (originalWidth === 0 || originalHeight === 0) return;
+        document.body.appendChild(heart);
         
-        const ratio = originalHeight / originalWidth;
-        const sliderMaxWidth = this.wrapper.clientWidth * 0.92;
-        let displayHeight = sliderMaxWidth * ratio;
-        
-        const maxAllowedHeight = window.innerHeight * 0.6;
-        displayHeight = Math.min(displayHeight, maxAllowedHeight);
-        
-        maxHeight = Math.max(maxHeight, displayHeight);
-      } catch (error) {
-        console.warn(`Ошибка при расчете высоты: ${error.message}`);
-      }
-    });
-    
-    this.maxDisplayHeight = maxHeight;
-  }
-
-  calculateDisplayHeight(element, isVideo, index) {
-    try {
-      const originalWidth = isVideo ? element.videoWidth : element.naturalWidth;
-      const originalHeight = isVideo ? element.videoHeight : element.naturalHeight;
-      
-      if (originalWidth === 0 || originalHeight === 0) return;
-      
-      const ratio = originalHeight / originalWidth;
-      const sliderMaxWidth = this.wrapper.clientWidth * 0.92;
-      let displayHeight = sliderMaxWidth * ratio;
-      
-      const maxAllowedHeight = window.innerHeight * 0.6;
-      
-      displayHeight = Math.min(displayHeight, maxAllowedHeight);
-      this.maxDisplayHeight = Math.max(this.maxDisplayHeight, displayHeight);
-    } catch (error) {
-      console.warn(`Ошибка при расчете высоты: ${error.message}`);
-    }
-  }
-
-  setFinalHeight() {
-    try {
-      const padding = 32;
-      const slideNumberHeight = 40;
-      const finalHeight = this.maxDisplayHeight + padding + slideNumberHeight;
-      const minHeight = 350;
-      const maxHeight = 700;
-      
-      let height = Math.max(finalHeight, minHeight);
-      height = Math.min(height, maxHeight);
-      
-      this.wrapper.style.height = height + "px";
-      this.wrapper.classList.add('visible');
-      
-      console.log(`Установлена высота слайдера: ${height}px (maxDisplayHeight: ${this.maxDisplayHeight}px)`);
-    } catch (error) {
-      console.warn(`Ошибка при установке высоты: ${error.message}`);
-      this.wrapper.style.height = '350px';
-      this.wrapper.classList.add('visible');
-    }
-  }
-
-  updateSliderForMobile() {
-    if (this.isMobile) {
-      this.wrapper.style.border = 'none';
-      this.wrapper.style.background = 'transparent';
-      this.wrapper.style.boxShadow = 'none';
-      this.wrapper.style.padding = '0';
-      this.wrapper.style.borderRadius = '0';
-      
-      // На мобильных скрываем стрелки
-      this.prevBtn.style.display = 'none';
-      this.nextBtn.style.display = 'none';
-      
-      this.addSwipeSupport();
-    } else {
-      this.wrapper.style.border = '2px solid rgba(255, 228, 240, 0.35)';
-      this.wrapper.style.background = '#181818';
-      this.wrapper.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.4)';
-      this.wrapper.style.padding = '16px';
-      this.wrapper.style.borderRadius = '18px';
-      
-      // На десктопе показываем стрелки
-      this.prevBtn.style.display = 'flex';
-      this.nextBtn.style.display = 'flex';
-    }
-  }
-
-  addSwipeSupport() {
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    const handleTouchStart = (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    };
-    
-    const handleTouchEnd = (e) => {
-      if (this.isAnimating) return;
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    };
-    
-    const handleSwipe = () => {
-      const minSwipeDistance = 50;
-      const distance = touchStartX - touchEndX;
-      
-      if (Math.abs(distance) < minSwipeDistance) return;
-      
-      if (distance > 0) {
-        this.direction = 'right';
-        this.goTo((this.current + 1) % this.allItems.length);
-      } else {
-        this.direction = 'left';
-        this.goTo((this.current - 1 + this.allItems.length) % this.allItems.length);
-      }
-    };
-    
-    this.track.addEventListener('touchstart', handleTouchStart, { passive: true });
-    this.track.addEventListener('touchend', handleTouchEnd, { passive: true });
-  }
-
-  bind() {
-    this.prevBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (this.isAnimating) return;
-      this.direction = 'left';
-      this.goTo((this.current - 1 + this.allItems.length) % this.allItems.length);
-    });
-    
-    this.nextBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (this.isAnimating) return;
-      this.direction = 'right';
-      this.goTo((this.current + 1) % this.allItems.length);
-    });
-    
-    this.track.addEventListener("click", (e) => {
-      const target = e.target;
-      
-      if (target.classList.contains('slider-button') || 
-          target.classList.contains('slide-number') ||
-          target.closest('.slider-button') ||
-          target.closest('.slide-number')) {
-        return;
-      }
-      
-      const slide = e.target.closest(".slide");
-      if (!slide) return;
-      
-      const idx = Array.from(this.slides).indexOf(slide);
-      if (idx !== -1) {
-        const lbItems = this.allItems.map(item => ({
-          src: item.loaded ? (item.sources[item.currentSourceIndex] || item.sources[0]) : '',
-          type: item.type
-        })).filter(item => item.src);
-        if (lbItems.length > 0) {
-          LB.open(lbItems, idx);
-        }
-      }
-    });
-  }
-
-  goTo(index) {
-    if (this.isAnimating || index === this.current) return;
-    
-    this.isAnimating = true;
-    const oldIndex = this.current;
-    this.current = index;
-    
-    this.slides[oldIndex].classList.remove("active");
-    
-    if (this.direction === 'right') {
-      this.slides[oldIndex].classList.remove("exit-left");
-      this.slides[oldIndex].classList.add("exit-right");
-    } else {
-      this.slides[oldIndex].classList.remove("exit-right");
-      this.slides[oldIndex].classList.add("exit-left");
-    }
-    
-    setTimeout(() => {
-      this.slides[oldIndex].style.display = "none";
-      this.slides[oldIndex].classList.remove("exit-right", "exit-left");
-      
-      this.slides[this.current].style.display = "flex";
-      
-      setTimeout(() => {
-        this.slides[this.current].classList.add("active");
-        this.isAnimating = false;
-      }, 30);
-    }, 200);
-  }
-
-  update() {
-    this.slides.forEach((s, i) => {
-      s.style.display = i === this.current ? "flex" : "none";
-      if (i === this.current) {
         setTimeout(() => {
-          s.classList.add("active");
-        }, 30);
-      } else {
-        s.classList.remove("active");
-      }
-    });
+            if (heart.parentNode) {
+                heart.remove();
+                heartCount--;
+            }
+        }, duration * 1000);
+    }
     
-    this.wrapper.classList.add('visible');
-  }
+    const initialHearts = window.innerWidth <= 768 ? 8 : 5;
+    for (let i = 0; i < initialHearts; i++) {
+        setTimeout(() => createHeart(), i * (window.innerWidth <= 768 ? 400 : 600));
+    }
+    
+    const heartInterval = setInterval(() => {
+        if (document.hidden) return;
+        createHeart();
+    }, window.innerWidth <= 768 ? 800 : 1200);
+    
+    window.heartInterval = heartInterval;
+    
+    window.addEventListener('resize', () => {
+        clearInterval(heartInterval);
+        
+        document.querySelectorAll('.heart').forEach(heart => {
+            heart.remove();
+        });
+        
+        setTimeout(createHeartsSystem, 100);
+    });
 }
 
-/* Анимация обложки с параллаксом */
+/* ИСПРАВЛЕННЫЙ СЛАЙДЕР */
+class ImprovedSlider {
+    constructor(photos, videos, mount) {
+        this.photos = photos || [];
+        this.videos = videos || [];
+        this.allItems = [
+            ...this.photos.map(srcArray => ({ 
+                src: srcArray[0], // Берем только первый URL
+                type: "image",
+                loaded: false,
+                naturalWidth: 0,
+                naturalHeight: 0
+            })),
+            ...this.videos.map(srcArray => ({ 
+                src: srcArray[0], // Берем только первый URL
+                type: "video",
+                loaded: false,
+                naturalWidth: 0,
+                naturalHeight: 0
+            }))
+        ];
+        
+        this.mount = mount;
+        this.current = 0;
+        this.isAnimating = false;
+        this.loadedCount = 0;
+        this.totalToLoad = this.allItems.length;
+        this.isMobile = window.innerWidth <= 768;
+        this.direction = 'right';
+        this.errorCount = 0;
+        
+        // Свойства для управления высотой
+        this.sliderWrapper = null;
+        this.maxCalculatedHeight = 0;
+        this.slideDimensions = [];
+        this.isDesktop = !this.isMobile;
+        
+        // Для предотвращения прыжков высоты
+        this.nextSlideHeight = null;
+        this.isHeightTransitioning = false;
+        
+        // Инициализация
+        this.init();
+    }
+
+    init() {
+        this.createSliderStructure();
+        this.buildSlides();
+        this.startLoading();
+        
+        // Обработчик изменения размера окна с дебаунсом
+        window.addEventListener('resize', debounce(() => {
+            const wasMobile = this.isMobile;
+            this.isMobile = window.innerWidth <= 768;
+            this.isDesktop = !this.isMobile;
+            
+            // Если режим изменился (мобильный ↔ десктоп)
+            if (wasMobile !== this.isMobile) {
+                this.updateSliderForMobile();
+                if (this.isDesktop && this.maxCalculatedHeight > 0) {
+                    this.updateSliderHeight();
+                }
+            } else if (this.isDesktop) {
+                // Пересчет высоты при изменении размера окна на десктопе
+                this.calculateSliderHeight();
+                this.updateSliderHeight();
+            }
+        }, 250));
+        
+        // Начальная настройка
+        this.updateSliderForMobile();
+        this.bindEvents();
+        
+        // Отслеживаем появление слайдера на экране
+        this.setupIntersectionObserver();
+    }
+
+    createSliderStructure() {
+        this.sliderWrapper = el("div", "slider-wrapper");
+        
+        // Создаем viewport и track
+        const viewport = el("div", "slider-viewport");
+        this.track = el("div", "track");
+        viewport.appendChild(this.track);
+        this.sliderWrapper.appendChild(viewport);
+        
+        // Создаем улучшенные кнопки
+        this.prevBtn = el("button", "slider-button prev");
+        this.prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        this.prevBtn.setAttribute("aria-label", "Предыдущее фото");
+        
+        this.nextBtn = el("button", "slider-button next");
+        this.nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        this.nextBtn.setAttribute("aria-label", "Следующее фото");
+        
+        this.sliderWrapper.appendChild(this.prevBtn);
+        this.sliderWrapper.appendChild(this.nextBtn);
+        
+        this.mount.appendChild(this.sliderWrapper);
+        this.slides = [];
+    }
+
+    buildSlides() {
+        this.track.innerHTML = "";
+        this.allItems.forEach((item, i) => {
+            const slide = el("div", "slide");
+            
+            // Обертка для медиа
+            const mediaWrapper = el("div", "media-wrapper");
+            
+            // Контейнер для медиа
+            const mediaContainer = el("div", "media-container");
+            
+            if (item.type === "video") {
+                const video = el("video");
+                video.controls = true;
+                video.setAttribute("playsinline", "true");
+                video.setAttribute("webkit-playsinline", "true");
+                video.setAttribute("preload", "metadata");
+                video.setAttribute("aria-label", `Видео ${i + 1} из ${this.allItems.length}`);
+                video.src = item.src;
+                
+                mediaContainer.appendChild(video);
+            } else {
+                const img = el("img");
+                img.loading = "lazy";
+                img.setAttribute("alt", `Фото ${i + 1} из ${this.allItems.length}`);
+                img.src = item.src;
+                
+                mediaContainer.appendChild(img);
+            }
+            
+            // Номер слайда
+            const slideNumber = el("div", "slide-number", `${i + 1}/${this.allItems.length}`);
+            mediaContainer.appendChild(slideNumber);
+            
+            mediaWrapper.appendChild(mediaContainer);
+            slide.appendChild(mediaWrapper);
+            this.slides.push(slide);
+            this.track.appendChild(slide);
+        });
+    }
+
+    async startLoading() {
+        // Загружаем все медиа
+        const loadPromises = this.allItems.map((item, index) => 
+            this.loadMediaItem(item, index)
+        );
+        
+        try {
+            await Promise.allSettled(loadPromises);
+            console.log(`Слайдер загружен: ${this.loadedCount}/${this.totalToLoad} элементов, ошибок: ${this.errorCount}`);
+            
+            // После загрузки всех медиа рассчитываем высоту для десктопа
+            if (this.isDesktop) {
+                this.calculateSliderHeight();
+                this.updateSliderHeight();
+            } else {
+                // Для мобильных: устанавливаем начальную высоту
+                this.setInitialMobileHeight();
+            }
+            
+            // Показываем текущий слайд
+            this.update();
+            
+            // Уведомляем о загрузке слайдера
+            if (window.incrementLoadedSliders) {
+                window.incrementLoadedSliders();
+            }
+            if (window.checkAllLoaded) {
+                window.checkAllLoaded();
+            }
+        } catch (error) {
+            console.error('Ошибка при загрузке слайдера:', error);
+        }
+    }
+
+    async loadMediaItem(item, index) {
+        try {
+            if (item.type === "image") {
+                await this.loadImage(item.src, index);
+            } else {
+                await this.loadVideo(item.src, index);
+            }
+            
+            item.loaded = true;
+            this.loadedCount++;
+            
+            // Обновляем прогресс загрузки
+            if (updateMediaLoadProgress) {
+                updateMediaLoadProgress();
+            }
+            
+            return true;
+        } catch (error) {
+            console.warn(`Не удалось загрузить: ${item.src}`);
+            this.showError(index, item.type);
+            this.errorCount++;
+            this.loadedCount++;
+            
+            if (updateMediaLoadProgress) {
+                updateMediaLoadProgress();
+            }
+            
+            return false;
+        }
+    }
+
+    async loadImage(url, index) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            
+            img.onload = () => {
+                this.allItems[index].naturalWidth = img.naturalWidth;
+                this.allItems[index].naturalHeight = img.naturalHeight;
+                resolve(img);
+            };
+            
+            img.onerror = () => {
+                reject(new Error(`Failed to load image: ${url}`));
+            };
+            
+            img.src = url;
+            
+            setTimeout(() => {
+                reject(new Error(`Image loading timeout: ${url}`));
+            }, 30000);
+        });
+    }
+
+    async loadVideo(url, index) {
+        return new Promise((resolve, reject) => {
+            const video = document.createElement('video');
+            let loaded = false;
+            
+            const cleanup = () => {
+                video.removeEventListener('loadedmetadata', onLoad);
+                video.removeEventListener('error', onError);
+            };
+            
+            const onLoad = () => {
+                if (!loaded) {
+                    loaded = true;
+                    this.allItems[index].naturalWidth = video.videoWidth;
+                    this.allItems[index].naturalHeight = video.videoHeight;
+                    cleanup();
+                    resolve(video);
+                }
+            };
+            
+            const onError = () => {
+                if (!loaded) {
+                    loaded = true;
+                    cleanup();
+                    reject(new Error(`Failed to load video: ${url}`));
+                }
+            };
+            
+            video.addEventListener('loadedmetadata', onLoad);
+            video.addEventListener('error', onError);
+            
+            video.src = url;
+            
+            setTimeout(() => {
+                if (!loaded) {
+                    loaded = true;
+                    cleanup();
+                    reject(new Error(`Video loading timeout: ${url}`));
+                }
+            }, 30000);
+        });
+    }
+
+    showError(index, type) {
+        const slide = this.slides[index];
+        if (!slide) return;
+        
+        const mediaElement = slide.querySelector(type === "image" ? "img" : "video");
+        if (mediaElement) {
+            mediaElement.style.display = 'none';
+        }
+        
+        const errorMsg = el("div", "load-error", `❌ ${type === "image" ? "Фото" : "Видео"} не загружено`);
+        errorMsg.style.color = '#ff6b6b';
+        errorMsg.style.padding = '20px';
+        errorMsg.style.textAlign = 'center';
+        errorMsg.style.fontSize = '16px';
+        slide.appendChild(errorMsg);
+    }
+
+    calculateSliderHeight() {
+        if (this.isMobile) {
+            // На мобильных не рассчитываем фиксированную высоту
+            return;
+        }
+        
+        const wrapperWidth = this.sliderWrapper.clientWidth;
+        const maxDisplayWidth = wrapperWidth * 0.92; // 92% от ширины слайдера
+        
+        this.maxCalculatedHeight = 0;
+        this.slideDimensions = [];
+        
+        for (let i = 0; i < this.allItems.length; i++) {
+            const item = this.allItems[i];
+            let displayWidth, displayHeight;
+            
+            if (!item.loaded) {
+                // Для незагруженных используем минимальную высоту и максимальную ширину
+                displayWidth = maxDisplayWidth;
+                displayHeight = 350; // минимальная высота
+            } else {
+                const naturalWidth = item.naturalWidth;
+                const naturalHeight = item.naturalHeight;
+                
+                if (naturalWidth === 0 || naturalHeight === 0) {
+                    displayWidth = maxDisplayWidth;
+                    displayHeight = 350;
+                } else {
+                    // Рассчитываем размеры для отображения с сохранением пропорций
+                    const ratio = naturalHeight / naturalWidth;
+                    displayWidth = maxDisplayWidth;
+                    displayHeight = displayWidth * ratio;
+                    
+                    // Ограничиваем максимальную высоту
+                    const maxAllowedHeight = window.innerHeight * 0.6;
+                    if (displayHeight > maxAllowedHeight) {
+                        displayHeight = maxAllowedHeight;
+                        displayWidth = displayHeight / ratio;
+                    }
+                    
+                    // Минимальная и максимальная высота
+                    const minHeight = 350;
+                    const maxHeight = 700;
+                    displayHeight = Math.max(displayHeight, minHeight);
+                    displayHeight = Math.min(displayHeight, maxHeight);
+                }
+            }
+            
+            this.slideDimensions[i] = {
+                width: displayWidth,
+                height: displayHeight
+            };
+            
+            // Обновляем максимальную высоту
+            const totalHeight = displayHeight + 32 + 40; // displayHeight + padding + slide number
+            if (totalHeight > this.maxCalculatedHeight) {
+                this.maxCalculatedHeight = totalHeight;
+            }
+        }
+        
+        // Если не удалось рассчитать высоту, используем минимальную
+        if (this.maxCalculatedHeight === 0) {
+            this.maxCalculatedHeight = 400;
+        }
+    }
+
+    updateSliderHeight() {
+        if (this.isMobile) {
+            // На мобильных не устанавливаем фиксированную высоту
+            this.sliderWrapper.style.height = 'auto';
+            return;
+        }
+        
+        if (this.maxCalculatedHeight > 0) {
+            this.sliderWrapper.style.height = `${this.maxCalculatedHeight}px`;
+            
+            // Устанавливаем размеры для каждого слайда
+            for (let i = 0; i < this.slides.length; i++) {
+                const slide = this.slides[i];
+                const mediaContainer = slide.querySelector('.media-container');
+                if (mediaContainer && this.slideDimensions[i]) {
+                    const dims = this.slideDimensions[i];
+                    mediaContainer.style.width = `${dims.width}px`;
+                    mediaContainer.style.height = `${dims.height}px`;
+                }
+            }
+        }
+    }
+
+    setInitialMobileHeight() {
+        if (!this.isMobile) return;
+        
+        const currentItem = this.allItems[this.current];
+        if (currentItem && currentItem.loaded) {
+            const wrapperWidth = this.sliderWrapper.clientWidth || window.innerWidth * 0.9;
+            const naturalWidth = currentItem.naturalWidth || wrapperWidth;
+            const naturalHeight = currentItem.naturalHeight || naturalWidth * 0.75;
+            
+            const ratio = naturalHeight / naturalWidth;
+            let displayHeight = wrapperWidth * 0.9 * ratio;
+            
+            // Ограничения
+            const minHeight = 300;
+            const maxHeight = window.innerHeight * 0.7;
+            displayHeight = Math.max(displayHeight, minHeight);
+            displayHeight = Math.min(displayHeight, maxHeight);
+            
+            this.sliderWrapper.style.height = `${displayHeight}px`;
+        }
+    }
+
+    calculateNextSlideHeight(index) {
+        if (!this.isMobile) return null;
+        
+        const item = this.allItems[index];
+        if (!item || !item.loaded) {
+            return 300; // минимальная высота
+        }
+        
+        const wrapperWidth = this.sliderWrapper.clientWidth || window.innerWidth * 0.9;
+        const naturalWidth = item.naturalWidth || wrapperWidth;
+        const naturalHeight = item.naturalHeight || naturalWidth * 0.75;
+        
+        const ratio = naturalHeight / naturalWidth;
+        let displayHeight = wrapperWidth * 0.9 * ratio;
+        
+        // Ограничения
+        const minHeight = 300;
+        const maxHeight = window.innerHeight * 0.7;
+        displayHeight = Math.max(displayHeight, minHeight);
+        displayHeight = Math.min(displayHeight, maxHeight);
+        
+        return displayHeight;
+    }
+
+    updateSliderForMobile() {
+        if (this.isMobile) {
+            // Мобильный вид
+            this.sliderWrapper.style.border = 'none';
+            this.sliderWrapper.style.background = 'transparent';
+            this.sliderWrapper.style.boxShadow = 'none';
+            this.sliderWrapper.style.padding = '0';
+            this.sliderWrapper.style.borderRadius = '0';
+            this.sliderWrapper.style.height = 'auto';
+            this.sliderWrapper.style.maxHeight = '70vh';
+            
+            // Скрываем стрелки
+            this.prevBtn.style.display = 'none';
+            this.nextBtn.style.display = 'none';
+            
+            // Добавляем поддержку свайпа
+            this.addSwipeSupport();
+            
+            // Устанавливаем начальную высоту
+            setTimeout(() => {
+                this.setInitialMobileHeight();
+            }, 100);
+        } else {
+            // Десктопный вид - стрелки видны за пределами слайдера
+            this.sliderWrapper.style.border = '2px solid rgba(255, 228, 240, 0.35)';
+            this.sliderWrapper.style.background = '#181818';
+            this.sliderWrapper.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.4)';
+            this.sliderWrapper.style.padding = '16px';
+            this.sliderWrapper.style.borderRadius = '18px';
+            this.sliderWrapper.style.overflow = 'visible'; // Важно для видимости стрелок
+            
+            // Показываем стрелки
+            this.prevBtn.style.display = 'flex';
+            this.nextBtn.style.display = 'flex';
+            this.prevBtn.style.left = '-80px';
+            this.nextBtn.style.right = '-80px';
+            
+            // Рассчитываем и устанавливаем высоту
+            this.calculateSliderHeight();
+            this.updateSliderHeight();
+        }
+    }
+
+    addSwipeSupport() {
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        const handleTouchStart = (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        };
+        
+        const handleTouchEnd = (e) => {
+            if (this.isAnimating) return;
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        };
+        
+        const handleSwipe = () => {
+            const minSwipeDistance = 50;
+            const distance = touchStartX - touchEndX;
+            
+            if (Math.abs(distance) < minSwipeDistance) return;
+            
+            if (distance > 0) {
+                this.direction = 'right';
+                this.goTo((this.current + 1) % this.allItems.length);
+            } else {
+                this.direction = 'left';
+                this.goTo((this.current - 1 + this.allItems.length) % this.allItems.length);
+            }
+        };
+        
+        this.track.addEventListener('touchstart', handleTouchStart, { passive: true });
+        this.track.addEventListener('touchend', handleTouchEnd, { passive: true });
+    }
+
+    bindEvents() {
+        this.prevBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (this.isAnimating) return;
+            this.direction = 'left';
+            this.goTo((this.current - 1 + this.allItems.length) % this.allItems.length);
+        });
+        
+        this.nextBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (this.isAnimating) return;
+            this.direction = 'right';
+            this.goTo((this.current + 1) % this.allItems.length);
+        });
+        
+        // Открытие в лайтбоксе
+        this.track.addEventListener("click", (e) => {
+            const target = e.target;
+            
+            if (target.classList.contains('slider-button') || 
+                target.classList.contains('slide-number') ||
+                target.closest('.slider-button') ||
+                target.closest('.slide-number')) {
+                return;
+            }
+            
+            const slide = e.target.closest(".slide");
+            if (!slide) return;
+            
+            const idx = Array.from(this.slides).indexOf(slide);
+            if (idx !== -1) {
+                const lbItems = this.allItems.map(item => ({
+                    src: item.src,
+                    type: item.type
+                })).filter(item => item.src);
+                if (lbItems.length > 0) {
+                    LB.open(lbItems, idx);
+                }
+            }
+        });
+    }
+
+    goTo(index) {
+        if (this.isAnimating || index === this.current) return;
+        
+        this.isAnimating = true;
+        const oldIndex = this.current;
+        this.current = index;
+        
+        // Для мобильных: предварительно рассчитываем высоту следующего слайда
+        if (this.isMobile) {
+            this.nextSlideHeight = this.calculateNextSlideHeight(index);
+            this.isHeightTransitioning = true;
+            
+            // Добавляем класс для плавного перехода высоты
+            this.sliderWrapper.classList.add('fixed-height');
+            
+            // Устанавливаем новую высоту ДО начала анимации перехода слайда
+            if (this.nextSlideHeight) {
+                this.sliderWrapper.style.height = `${this.nextSlideHeight}px`;
+            }
+        }
+        
+        // Анимация перехода слайда
+        this.slides[oldIndex].classList.remove("active");
+        
+        if (this.direction === 'right') {
+            this.slides[oldIndex].classList.remove("exit-left");
+            this.slides[oldIndex].classList.add("exit-right");
+        } else {
+            this.slides[oldIndex].classList.remove("exit-right");
+            this.slides[oldIndex].classList.add("exit-left");
+        }
+        
+        setTimeout(() => {
+            this.slides[oldIndex].style.display = "none";
+            this.slides[oldIndex].classList.remove("exit-right", "exit-left");
+            
+            this.slides[this.current].style.display = "flex";
+            
+            setTimeout(() => {
+                this.slides[this.current].classList.add("active");
+                this.isAnimating = false;
+                
+                // Для мобильных: завершаем переход высоты
+                if (this.isMobile) {
+                    this.isHeightTransitioning = false;
+                    this.nextSlideHeight = null;
+                    
+                    // Убираем класс плавного перехода через небольшой таймаут
+                    setTimeout(() => {
+                        this.sliderWrapper.classList.remove('fixed-height');
+                    }, 400);
+                }
+            }, 30);
+        }, 200);
+    }
+
+    update() {
+        this.slides.forEach((s, i) => {
+            s.style.display = i === this.current ? "flex" : "none";
+            if (i === this.current) {
+                setTimeout(() => {
+                    s.classList.add("active");
+                }, 30);
+            } else {
+                s.classList.remove("active");
+            }
+        });
+        
+        this.sliderWrapper.classList.add('visible');
+    }
+
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.sliderWrapper.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        observer.observe(this.sliderWrapper);
+    }
+}
+
+/* ИСПРАВЛЕННАЯ АНИМАЦИЯ ОБЛОЖКИ */
 function setupHeroScrollAnimation() {
-  const hero = document.getElementById('hero');
-  const heroBg = document.getElementById('heroBg');
-  const heroContent = document.querySelector('.hero-content');
-  
-  function handleScroll() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const heroHeight = hero.offsetHeight;
-    const scrollPercent = Math.min(scrollTop / heroHeight, 1);
-    
-    if (scrollPercent > 0.8) {
-      hero.classList.add('hidden');
-      hero.classList.remove('scrolled');
-    } else if (scrollPercent > 0.2) {
-      hero.classList.add('scrolled');
-      hero.classList.remove('hidden');
-    } else {
-      hero.classList.remove('scrolled', 'hidden');
-    }
-    
-    const parallaxOffset = scrollTop * 0.5;
-    heroBg.style.transform = `scale(${1 + scrollPercent * 0.12}) translateY(${parallaxOffset * 0.2}px)`;
-    
-    const brightness = 0.86 - (scrollPercent * 0.56);
-    const blur = scrollPercent * 4;
-    const saturate = 1.1 - (scrollPercent * 0.5);
-    
-    heroBg.style.filter = `brightness(${brightness}) saturate(${saturate}) blur(${blur}px)`;
-    heroBg.style.opacity = `${1 - scrollPercent * 0.8}`;
-    
-    heroContent.style.opacity = `${1 - scrollPercent * 0.7}`;
-    heroContent.style.transform = `translateY(${-scrollPercent * 40}px) scale(${1 - scrollPercent * 0.04})`;
-    
+    const hero = document.getElementById('hero');
+    const heroBg = document.getElementById('heroBg');
+    const heroContent = document.querySelector('.hero-content');
     const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (scrollIndicator) {
-      scrollIndicator.style.opacity = `${0.8 - scrollPercent}`;
+    
+    function handleScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const heroHeight = hero.offsetHeight;
+        const scrollPercent = Math.min(scrollTop / heroHeight, 1);
+        
+        // Убираем все предыдущие классы
+        hero.classList.remove('scrolled', 'hidden');
+        
+        // Применяем новые классы в зависимости от процента прокрутки
+        if (scrollPercent > 0.8) {
+            hero.classList.add('hidden');
+        } else if (scrollPercent > 0.2) {
+            hero.classList.add('scrolled');
+        }
+        
+        // Параллакс и эффекты для фона
+        const parallaxOffset = scrollTop * 0.3;
+        const scaleValue = 1 + scrollPercent * 0.15;
+        
+        heroBg.style.transform = `scale(${scaleValue}) translateY(${parallaxOffset * 0.3}px)`;
+        
+        // Эффекты для фона
+        const brightness = 0.86 - (scrollPercent * 0.6);
+        const blur = scrollPercent * 3;
+        const saturate = 1.1 - (scrollPercent * 0.6);
+        
+        heroBg.style.filter = `brightness(${brightness}) saturate(${saturate}) blur(${blur}px)`;
+        heroBg.style.opacity = `${1 - scrollPercent * 0.8}`;
+        
+        // Эффекты для контента
+        const contentOpacity = 1 - scrollPercent * 0.8;
+        const contentTranslateY = -scrollPercent * 30;
+        const contentScale = 1 - scrollPercent * 0.05;
+        
+        heroContent.style.opacity = `${contentOpacity}`;
+        heroContent.style.transform = `translateY(${contentTranslateY}px) scale(${contentScale})`;
+        
+        // Эффекты для текста
+        const heroWe = document.querySelector('.hero-we');
+        const heroYear = document.querySelector('.hero-year');
+        
+        if (heroWe) {
+            const textGlow = 0.6 - scrollPercent * 0.5;
+            heroWe.style.textShadow = `0 0 ${30 * (1 - scrollPercent)}px rgba(255, 228, 240, ${textGlow})`;
+            heroWe.style.opacity = `${1 - scrollPercent * 0.5}`;
+        }
+        
+        if (heroYear) {
+            const textGlow = 0.5 - scrollPercent * 0.4;
+            heroYear.style.textShadow = `0 0 ${20 * (1 - scrollPercent)}px rgba(255, 228, 240, ${textGlow})`;
+            heroYear.style.opacity = `${1 - scrollPercent * 0.5}`;
+        }
+        
+        // Индикатор прокрутки
+        if (scrollIndicator) {
+            scrollIndicator.style.opacity = `${0.8 - scrollPercent}`;
+        }
     }
-  }
-  
-  handleScroll();
-  
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  window.addEventListener('resize', handleScroll, { passive: true });
+    
+    // Инициализация
+    handleScroll();
+    
+    // Обработчик скролла с оптимизацией
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                handleScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+    
+    // Обработчик изменения размера окна
+    window.addEventListener('resize', handleScroll, { passive: true });
 }
 
 /* Система появления элементов при скролле */
 function setupScrollReveal() {
-  let ticking = false;
-  
-  function checkVisibility() {
-    if (ticking) return;
+    let ticking = false;
     
-    ticking = true;
+    function checkVisibility() {
+        if (ticking) return;
+        
+        ticking = true;
+        
+        requestAnimationFrame(() => {
+            const elements = document.querySelectorAll('.memory-section, .section-divider, .fade-in, .slider-wrapper');
+            const windowHeight = window.innerHeight;
+            
+            const triggerPoint = windowHeight * 0.15;
+            
+            elements.forEach((element, index) => {
+                const rect = element.getBoundingClientRect();
+                
+                const isVisible = rect.top < windowHeight - triggerPoint;
+                
+                if (isVisible && !element.classList.contains('visible')) {
+                    setTimeout(() => {
+                        element.classList.add('visible');
+                    }, Math.min(index * 30, 200));
+                }
+            });
+            
+            ticking = false;
+        });
+    }
     
-    requestAnimationFrame(() => {
-      const elements = document.querySelectorAll('.memory-section, .section-divider, .fade-in, .slider-wrapper');
-      const windowHeight = window.innerHeight;
-      
-      const triggerPoint = windowHeight * 0.15;
-      
-      elements.forEach((element, index) => {
-        const rect = element.getBoundingClientRect();
-        
-        const isVisible = rect.top < windowHeight - triggerPoint;
-        
-        if (isVisible && !element.classList.contains('visible')) {
-          setTimeout(() => {
-            element.classList.add('visible');
-          }, Math.min(index * 30, 200));
-        }
-      });
-      
-      ticking = false;
-    });
-  }
-  
-  setTimeout(checkVisibility, 100);
-  
-  window.addEventListener('scroll', () => {
-    checkVisibility();
-  }, { passive: true });
-  
-  window.addEventListener('resize', checkVisibility, { passive: true });
-  
-  setInterval(checkVisibility, 300);
+    setTimeout(checkVisibility, 100);
+    
+    window.addEventListener('scroll', () => {
+        checkVisibility();
+    }, { passive: true });
+    
+    window.addEventListener('resize', checkVisibility, { passive: true });
+    
+    setInterval(checkVisibility, 300);
 }
 
 /* Музыкальный плеер */
 function setupMusicPlayer() {
-  const audio = document.getElementById('backgroundMusic');
-  const playPauseBtn = document.getElementById('playPauseBtn');
-  const muteBtn = document.getElementById('muteBtn');
-  const volumeSlider = document.getElementById('volumeSlider');
-  const closePlayerBtn = document.getElementById('closePlayerBtn');
-  const musicPlayer = document.getElementById('musicPlayer');
-  const miniPlayer = document.getElementById('miniPlayer');
-  const miniPlayerBtn = document.getElementById('miniPlayerBtn');
-  
-  let isPlaying = false;
-  let isMuted = false;
-  let lastVolume = 0.3;
-  
-  const audioSources = audio.querySelectorAll('source');
-  audioSources.forEach(source => {
-    const originalSrc = source.src;
-    if (originalSrc && !originalSrc.includes('http')) {
-      const fixedSrc = originalSrc.startsWith('/') ? originalSrc.substring(1) : originalSrc;
-      source.src = fixedSrc;
-    }
-  });
-  
-  audio.load();
-  audio.volume = lastVolume;
-  
-  function checkAudioSupport() {
-    const canPlayMP3 = audio.canPlayType('audio/mp3');
-    const canPlayOGG = audio.canPlayType('audio/ogg');
+    const audio = document.getElementById('backgroundMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const muteBtn = document.getElementById('muteBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const closePlayerBtn = document.getElementById('closePlayerBtn');
+    const musicPlayer = document.getElementById('musicPlayer');
+    const miniPlayer = document.getElementById('miniPlayer');
+    const miniPlayerBtn = document.getElementById('miniPlayerBtn');
     
-    if (!canPlayMP3 && !canPlayOGG) {
-      musicPlayer.style.display = 'none';
-      miniPlayer.style.display = 'none';
-      return false;
-    }
-    return true;
-  }
-  
-  function updatePlayButton() {
-    const icon = isPlaying ? 'fa-pause' : 'fa-play';
-    playPauseBtn.innerHTML = `<i class="fas ${icon}"></i>`;
-  }
-  
-  function updateMuteButton() {
-    let icon;
-    if (isMuted) {
-      icon = 'fa-volume-mute';
-    } else if (audio.volume >= 0.5) {
-      icon = 'fa-volume-up';
-    } else if (audio.volume > 0) {
-      icon = 'fa-volume-down';
-    } else {
-      icon = 'fa-volume-off';
-    }
-    muteBtn.innerHTML = `<i class="fas ${icon}"></i>`;
-  }
-  
-  function togglePlayPause() {
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play().catch(e => {
-        console.log("Автовоспроизведение заблокировано:", e);
-      });
-    }
-    isPlaying = !isPlaying;
-    updatePlayButton();
-  }
-  
-  function toggleMute() {
-    if (isMuted) {
-      audio.volume = lastVolume;
-      volumeSlider.value = lastVolume;
-      isMuted = false;
-    } else {
-      lastVolume = audio.volume;
-      audio.volume = 0;
-      volumeSlider.value = 0;
-      isMuted = true;
-    }
-    updateMuteButton();
-  }
-  
-  function changeVolume() {
-    const volume = parseFloat(volumeSlider.value);
-    audio.volume = volume;
+    let isPlaying = false;
+    let isMuted = false;
+    let lastVolume = 0.3;
     
-    if (volume === 0) {
-      isMuted = true;
-    } else {
-      isMuted = false;
-      lastVolume = volume;
-    }
-    
-    updateMuteButton();
-  }
-  
-  function togglePlayer() {
-    if (musicPlayer.classList.contains('hidden')) {
-      musicPlayer.classList.remove('hidden');
-      miniPlayer.style.display = 'none';
-      musicPlayer.style.animation = 'slideInUp 0.3s ease-out';
-    }
-  }
-  
-  function closePlayer() {
-    musicPlayer.style.opacity = '0';
-    musicPlayer.style.transform = 'scale(0.9) translateY(20px)';
-    musicPlayer.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-    
-    setTimeout(() => {
-      musicPlayer.classList.add('hidden');
-      musicPlayer.style.opacity = '1';
-      musicPlayer.style.transform = 'scale(1) translateY(0)';
-      musicPlayer.style.transition = '';
-      miniPlayer.style.display = 'block';
-    }, 250);
-  }
-  
-  if (checkAudioSupport()) {
-    const addSafeClickListener = (element, handler) => {
-      element.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handler();
-      });
-      
-      element.addEventListener('touchstart', (e) => {
-        if (e.cancelable) {
-          e.preventDefault();
+    // Проверяем и фиксим источники аудио
+    const audioSources = audio.querySelectorAll('source');
+    audioSources.forEach(source => {
+        const originalSrc = source.src;
+        if (originalSrc && !originalSrc.includes('http') && !originalSrc.startsWith('data:')) {
+            // Убираем начальный слеш если есть
+            const fixedSrc = originalSrc.startsWith('/') ? originalSrc.substring(1) : originalSrc;
+            source.src = fixedSrc;
         }
-      }, { passive: false });
-      
-      element.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handler();
-      });
-    };
-    
-    addSafeClickListener(playPauseBtn, togglePlayPause);
-    addSafeClickListener(muteBtn, toggleMute);
-    addSafeClickListener(closePlayerBtn, closePlayer);
-    addSafeClickListener(miniPlayerBtn, togglePlayer);
-    
-    volumeSlider.addEventListener('input', changeVolume);
-    volumeSlider.addEventListener('change', changeVolume);
-    
-    volumeSlider.addEventListener('touchstart', (e) => {
-      e.stopPropagation();
-    }, { passive: true });
-    
-    audio.addEventListener('play', () => {
-      isPlaying = true;
-      updatePlayButton();
     });
     
-    audio.addEventListener('pause', () => {
-      isPlaying = false;
-      updatePlayButton();
-    });
+    audio.load();
+    audio.volume = lastVolume;
     
-    audio.addEventListener('volumechange', updateMuteButton);
+    function checkAudioSupport() {
+        const canPlayMP3 = audio.canPlayType('audio/mp3');
+        const canPlayOGG = audio.canPlayType('audio/ogg');
+        
+        if (!canPlayMP3 && !canPlayOGG) {
+            musicPlayer.style.display = 'none';
+            miniPlayer.style.display = 'none';
+            return false;
+        }
+        return true;
+    }
     
-    audio.addEventListener('error', (e) => {
-      console.error('Ошибка аудио:', e);
-      const trackInfo = document.querySelector('.track-info');
-      if (trackInfo) {
-        trackInfo.innerHTML = '<div class="track-title" style="color:#ff6b6b">Музыка не загружена</div>';
-      }
-    });
+    function updatePlayButton() {
+        const icon = isPlaying ? 'fa-pause' : 'fa-play';
+        playPauseBtn.innerHTML = `<i class="fas ${icon}"></i>`;
+    }
     
-    musicPlayer.classList.add('hidden');
-    miniPlayer.style.display = 'block';
+    function updateMuteButton() {
+        let icon;
+        if (isMuted) {
+            icon = 'fa-volume-mute';
+        } else if (audio.volume >= 0.5) {
+            icon = 'fa-volume-up';
+        } else if (audio.volume > 0) {
+            icon = 'fa-volume-down';
+        } else {
+            icon = 'fa-volume-off';
+        }
+        muteBtn.innerHTML = `<i class="fas ${icon}"></i>`;
+    }
     
-    setTimeout(() => {
-      audio.play().catch(e => {
-        console.log("Автовоспроизведение заблокировано, требуется действие пользователя");
-      });
-    }, 2000);
+    function togglePlayPause() {
+        if (isPlaying) {
+            audio.pause();
+        } else {
+            audio.play().catch(e => {
+                console.log("Автовоспроизведение заблокировано:", e);
+            });
+        }
+        isPlaying = !isPlaying;
+        updatePlayButton();
+    }
     
-    updatePlayButton();
-    updateMuteButton();
-  }
+    function toggleMute() {
+        if (isMuted) {
+            audio.volume = lastVolume;
+            volumeSlider.value = lastVolume;
+            isMuted = false;
+        } else {
+            lastVolume = audio.volume;
+            audio.volume = 0;
+            volumeSlider.value = 0;
+            isMuted = true;
+        }
+        updateMuteButton();
+    }
+    
+    function changeVolume() {
+        const volume = parseFloat(volumeSlider.value);
+        audio.volume = volume;
+        
+        if (volume === 0) {
+            isMuted = true;
+        } else {
+            isMuted = false;
+            lastVolume = volume;
+        }
+        
+        updateMuteButton();
+    }
+    
+    function togglePlayer() {
+        if (musicPlayer.classList.contains('hidden')) {
+            musicPlayer.classList.remove('hidden');
+            miniPlayer.style.display = 'none';
+            musicPlayer.style.animation = 'slideInUp 0.3s ease-out';
+        }
+    }
+    
+    function closePlayer() {
+        musicPlayer.style.opacity = '0';
+        musicPlayer.style.transform = 'scale(0.9) translateY(20px)';
+        musicPlayer.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        
+        setTimeout(() => {
+            musicPlayer.classList.add('hidden');
+            musicPlayer.style.opacity = '1';
+            musicPlayer.style.transform = 'scale(1) translateY(0)';
+            musicPlayer.style.transition = '';
+            miniPlayer.style.display = 'block';
+        }, 250);
+    }
+    
+    if (checkAudioSupport()) {
+        const addSafeClickListener = (element, handler) => {
+            element.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handler();
+            });
+            
+            element.addEventListener('touchstart', (e) => {
+                if (e.cancelable) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            element.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handler();
+            });
+        };
+        
+        addSafeClickListener(playPauseBtn, togglePlayPause);
+        addSafeClickListener(muteBtn, toggleMute);
+        addSafeClickListener(closePlayerBtn, closePlayer);
+        addSafeClickListener(miniPlayerBtn, togglePlayer);
+        
+        volumeSlider.addEventListener('input', changeVolume);
+        volumeSlider.addEventListener('change', changeVolume);
+        
+        volumeSlider.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+        }, { passive: true });
+        
+        audio.addEventListener('play', () => {
+            isPlaying = true;
+            updatePlayButton();
+        });
+        
+        audio.addEventListener('pause', () => {
+            isPlaying = false;
+            updatePlayButton();
+        });
+        
+        audio.addEventListener('volumechange', updateMuteButton);
+        
+        audio.addEventListener('error', (e) => {
+            console.error('Ошибка аудио:', e);
+            const trackInfo = document.querySelector('.track-info');
+            if (trackInfo) {
+                trackInfo.innerHTML = '<div class="track-title" style="color:#ff6b6b">Музыка не загружена</div>';
+            }
+        });
+        
+        musicPlayer.classList.add('hidden');
+        miniPlayer.style.display = 'block';
+        
+        // Пробуем запустить музыку через некоторое время
+        setTimeout(() => {
+            audio.play().catch(e => {
+                console.log("Автовоспроизведение заблокировано, требуется действие пользователя");
+            });
+        }, 2000);
+        
+        updatePlayButton();
+        updateMuteButton();
+    }
 }
 
 /* Render sections */
 function renderSections() {
-  const root = document.getElementById("sections");
-  sectionsData.forEach((sec, idx) => {
-    const section = el("section", "memory-section");
-    const title = el("h3", "sparkle-title", sec.title);
-    section.appendChild(title);
-    
-    const mount = el("div", "slider-mount");
-    section.appendChild(mount);
-    
-    const textContainer = el("div", "section-text");
-    sec.text.forEach(paragraph => {
-      if (paragraph.trim()) {
-        const p = el("p", "", paragraph);
-        textContainer.appendChild(p);
-      }
-    });
-    if (textContainer.children.length > 0) {
-      section.appendChild(textContainer);
-    }
-    
-    root.appendChild(section);
-    new Slider(sec.photos, sec.videos || [], mount);
+    const root = document.getElementById("sections");
+    sectionsData.forEach((sec, idx) => {
+        const section = el("section", "memory-section");
+        const title = el("h3", "sparkle-title", sec.title);
+        section.appendChild(title);
+        
+        const mount = el("div", "slider-mount");
+        section.appendChild(mount);
+        
+        const textContainer = el("div", "section-text");
+        if (sec.text && sec.text.length > 0) {
+            sec.text.forEach(paragraph => {
+                if (paragraph && paragraph.trim()) {
+                    const p = el("p", "", paragraph);
+                    textContainer.appendChild(p);
+                }
+            });
+        }
+        if (textContainer.children.length > 0) {
+            section.appendChild(textContainer);
+        }
+        
+        root.appendChild(section);
+        new ImprovedSlider(sec.photos, sec.videos || [], mount);
 
-    if (idx !== sectionsData.length - 1) {
-      const divider = el("div", "section-divider");
-      root.appendChild(divider);
-    }
-  });
+        if (idx !== sectionsData.length - 1) {
+            const divider = el("div", "section-divider");
+            root.appendChild(divider);
+        }
+    });
 }
 
-/* НОВАЯ система прелоадера с отслеживанием прогресса */
+/* Система прелоадера */
 let totalMediaItems = 0;
 let loadedMediaItems = 0;
 let totalSliders = 0;
@@ -1420,180 +1521,188 @@ let loadedSliders = 0;
 
 /* Подсчет общего количества медиафайлов */
 function countTotalMedia() {
-  sectionsData.forEach(section => {
-    totalMediaItems += section.photos.length;
-    if (section.videos) {
-      totalMediaItems += section.videos.length;
-    }
-  });
-  
-  totalSliders = sectionsData.length;
-  console.log(`Всего медиафайлов для загрузки: ${totalMediaItems}`);
-  console.log(`Всего слайдеров: ${totalSliders}`);
+    sectionsData.forEach(section => {
+        totalMediaItems += section.photos.length;
+        if (section.videos) {
+            totalMediaItems += section.videos.length;
+        }
+    });
+    
+    totalSliders = sectionsData.length;
+    console.log(`Всего медиафайлов для загрузки: ${totalMediaItems}`);
+    console.log(`Всего слайдеров: ${totalSliders}`);
 }
 
 /* Обновление прогресса загрузки медиафайлов */
 function updateMediaLoadProgress() {
-  loadedMediaItems++;
-  const progressPercent = Math.round((loadedMediaItems / totalMediaItems) * 100);
-  
-  const progressBar = document.getElementById('progressBar');
-  const progressText = document.getElementById('progressText');
-  
-  if (progressBar && progressText) {
-    progressBar.style.width = `${progressPercent}%`;
-    progressText.textContent = `${progressPercent}%`;
+    loadedMediaItems++;
+    let progressPercent = Math.round((loadedMediaItems / totalMediaItems) * 100);
+    progressPercent = Math.min(progressPercent, 100);
     
-    if (progressPercent < 33) {
-      progressText.textContent = `${progressPercent}% - Загрузка фотографий...`;
-    } else if (progressPercent < 66) {
-      progressText.textContent = `${progressPercent}% - Обработка...`;
-    } else {
-      progressText.textContent = `${progressPercent}% - Почти готово...`;
+    const loadingText = document.getElementById('loadingText');
+    
+    if (loadingText) {
+        loadingText.textContent = `Загрузка воспоминаний... ${progressPercent}%`;
     }
-  }
 }
 
 /* Увеличение счетчика загруженных слайдеров */
 window.incrementLoadedSliders = function() {
-  loadedSliders++;
-  console.log(`Загружен слайдер ${loadedSliders}/${totalSliders}`);
-  window.checkAllLoaded();
+    loadedSliders++;
+    console.log(`Загружен слайдер ${loadedSliders}/${totalSliders}`);
+    if (window.checkAllLoaded) {
+        window.checkAllLoaded();
+    }
 };
 
 /* Проверка, все ли загружено */
 window.checkAllLoaded = function() {
-  const allSlidersLoaded = loadedSliders >= totalSliders;
-  const allMediaLoaded = loadedMediaItems >= totalMediaItems;
-  
-  if (allSlidersLoaded && allMediaLoaded) {
-    console.log("Все загружено!");
-    setTimeout(() => {
-      window.hidePreloader();
-    }, 1000);
-  }
+    const allSlidersLoaded = loadedSliders >= totalSliders;
+    const allMediaLoaded = loadedMediaItems >= totalMediaItems;
+    
+    if (allSlidersLoaded && allMediaLoaded) {
+        console.log("Все загружено!");
+        setTimeout(() => {
+            if (window.hidePreloader) {
+                window.hidePreloader();
+            }
+        }, 1000);
+    }
 };
 
 /* Скрытие прелоадера */
 window.hidePreloader = function() {
-  const loader = document.getElementById('loadingOverlay');
-  if (loader && loader.style.display !== 'none') {
-    loader.style.opacity = '0';
-    loader.style.pointerEvents = 'none';
-    setTimeout(() => {
-      loader.style.display = 'none';
-      
-      setupScrollReveal();
-      createHeartsSystem();
-      setupMusicPlayer();
-      setupHeroScrollAnimation();
-      
-      setTimeout(() => {
-        document.querySelectorAll('.memory-section, .fade-in').forEach(el => {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight * 0.9) {
-            el.classList.add('visible');
-          }
-        });
-      }, 100);
-    }, 300);
-  }
+    const loader = document.getElementById('loadingOverlay');
+    if (loader && loader.style.display !== 'none') {
+        loader.style.opacity = '0';
+        loader.style.pointerEvents = 'none';
+        setTimeout(() => {
+            loader.style.display = 'none';
+            
+            setupScrollReveal();
+            createHeartsSystem();
+            setupMusicPlayer();
+            setupHeroScrollAnimation();
+            
+            setTimeout(() => {
+                document.querySelectorAll('.memory-section, .fade-in').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.9) {
+                        el.classList.add('visible');
+                    }
+                });
+            }, 100);
+        }, 300);
+    }
 };
 
 /* Предзагрузка изображения героя */
 function preloadHeroImage() {
-  const heroBg = document.getElementById('heroBg');
-  const heroImageUrl = "обложка.jpg";
-  
-  const img = new Image();
-  img.onload = function() {
-    heroBg.style.backgroundImage = `url("${heroImageUrl}")`;
-    updateMediaLoadProgress();
-  };
-  
-  img.onerror = function() {
-    heroBg.style.backgroundColor = '#1a1a1a';
-    heroBg.style.display = 'flex';
-    heroBg.style.alignItems = 'center';
-    heroBg.style.justifyContent = 'center';
-    heroBg.innerHTML = '<div style="color:#ffe4f0; text-align:center; padding:20px;">Обложка не загружена</div>';
-    updateMediaLoadProgress();
-  };
-  
-  img.src = heroImageUrl;
+    const heroBg = document.getElementById('heroBg');
+    const heroImageUrl = "обложка.jpg";
+    
+    const img = new Image();
+    img.onload = function() {
+        heroBg.style.backgroundImage = `url("${heroImageUrl}")`;
+        if (updateMediaLoadProgress) {
+            updateMediaLoadProgress();
+        }
+    };
+    
+    img.onerror = function() {
+        heroBg.style.backgroundColor = '#1a1a1a';
+        heroBg.style.display = 'flex';
+        heroBg.style.alignItems = 'center';
+        heroBg.style.justifyContent = 'center';
+        heroBg.innerHTML = '<div style="color:#ffe4f0; text-align:center; padding:20px;">Обложка не загружена</div>';
+        if (updateMediaLoadProgress) {
+            updateMediaLoadProgress();
+        }
+    };
+    
+    img.src = heroImageUrl;
 }
 
 /* Загрузка музыки для отслеживания прогресса */
 function preloadMusic() {
-  const audio = document.getElementById('backgroundMusic');
-  const audioSources = audio.querySelectorAll('source');
-  let musicLoaded = false;
-  
-  audio.addEventListener('canplaythrough', function() {
-    if (!musicLoaded) {
-      musicLoaded = true;
-      updateMediaLoadProgress();
-    }
-  });
-  
-  audio.addEventListener('error', function() {
-    if (!musicLoaded) {
-      musicLoaded = true;
-      updateMediaLoadProgress();
-    }
-  });
-  
-  audio.load();
-  
-  setTimeout(() => {
-    if (!musicLoaded) {
-      musicLoaded = true;
-      updateMediaLoadProgress();
-    }
-  }, 5000);
+    const audio = document.getElementById('backgroundMusic');
+    let musicLoaded = false;
+    
+    audio.addEventListener('canplaythrough', function() {
+        if (!musicLoaded) {
+            musicLoaded = true;
+            if (updateMediaLoadProgress) {
+                updateMediaLoadProgress();
+            }
+        }
+    });
+    
+    audio.addEventListener('error', function() {
+        if (!musicLoaded) {
+            musicLoaded = true;
+            if (updateMediaLoadProgress) {
+                updateMediaLoadProgress();
+            }
+        }
+    });
+    
+    audio.load();
+    
+    setTimeout(() => {
+        if (!musicLoaded) {
+            musicLoaded = true;
+            if (updateMediaLoadProgress) {
+                updateMediaLoadProgress();
+            }
+        }
+    }, 5000);
 }
 
 /* Инициализация */
-window.addEventListener("load", () => {
-  window.scrollTo(0, 0);
-  
-  document.addEventListener('touchmove', function(e) {
-    if(e.scale !== 1) {
-      e.preventDefault();
-    }
-  }, { passive: false });
-  
-  let lastTouchEnd = 0;
-  document.addEventListener('touchend', function(e) {
-    const now = Date.now();
-    if (now - lastTouchEnd <= 300) {
-      e.preventDefault();
-    }
-    lastTouchEnd = now;
-  }, { passive: false });
-  
-  countTotalMedia();
-  preloadHeroImage();
-  preloadMusic();
-  renderSections();
+window.addEventListener("DOMContentLoaded", () => {
+    window.scrollTo(0, 0);
+    
+    // Защита от масштабирования на мобильных
+    document.addEventListener('touchmove', function(e) {
+        if(e.scale !== 1) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+            e.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, { passive: false });
+    
+    // Инициализация приложения
+    countTotalMedia();
+    preloadHeroImage();
+    preloadMusic();
+    renderSections();
 });
 
-window.addEventListener('beforeunload', () => {
-  if (window.heartInterval) {
-    clearInterval(window.heartInterval);
-  }
-});
-
+// Фолбэк на случай если загрузка затянется
 setTimeout(() => {
-  const loader = document.getElementById('loadingOverlay');
-  if (loader && loader.style.display !== 'none') {
-    loader.style.opacity = '0';
-    setTimeout(() => {
-      loader.style.display = 'none';
-      setupScrollReveal();
-      createHeartsSystem();
-      setupMusicPlayer();
-      setupHeroScrollAnimation();
-    }, 300);
-  }
-}, 60000);
+    const loader = document.getElementById('loadingOverlay');
+    if (loader && loader.style.display !== 'none') {
+        loader.style.opacity = '0';
+        setTimeout(() => {
+            loader.style.display = 'none';
+            setupScrollReveal();
+            createHeartsSystem();
+            setupMusicPlayer();
+            setupHeroScrollAnimation();
+        }, 300);
+    }
+}, 15000);
+
+// Очистка при закрытии страницы
+window.addEventListener('beforeunload', () => {
+    if (window.heartInterval) {
+        clearInterval(window.heartInterval);
+    }
+});
