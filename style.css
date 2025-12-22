@@ -753,19 +753,37 @@ p {
     }
 }
 
-/* Мобильный: адаптивная высота без прыжков */
+/* ==================== */
+/* ИСПРАВЛЕННЫЙ СЛАЙДЕР */
+/* ==================== */
+
+/* Добавляем плавную анимацию высоты для мобильных */
 @media (max-width: 768px) {
     .slider-wrapper {
-        min-height: 300px;
-        height: auto;
-        transition: opacity 0.4s ease, transform 0.4s ease !important;
-        max-height: none !important;
-        overflow: hidden !important;
+        transition: opacity 0.4s ease, transform 0.4s ease, height 0.5s cubic-bezier(0.22, 0.9, 0.32, 1) !important;
     }
     
-    /* ФИКС ДЛЯ ВЫСОТЫ: слайдер не меняет высоту до полной загрузки следующего слайда */
-    .slider-wrapper.fixed-height {
-        transition: height 0.4s cubic-bezier(0.22, 0.9, 0.32, 1) !important;
+    /* ИСПРАВЛЕНИЕ ПРОБЛЕМЫ №1: Всегда добавляем закругление и обрезку */
+    .media-container {
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        width: calc(100% - 20px) !important;
+        height: calc(100% - 20px) !important;
+        margin: 10px !important;
+        position: relative !important;
+    }
+    
+    .slide img,
+    .slide video {
+        max-width: 100% !important;
+        max-height: 100% !important;
+        width: auto !important; /* ВОЗВРАЩАЕМ auto */
+        height: auto !important; /* ВОЗВРАЩАЕМ auto */
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        object-fit: contain !important;
+        display: block !important;
+        margin: 0 auto !important; /* Центрируем */
     }
 }
 
@@ -843,6 +861,8 @@ p {
     align-items: center;
     max-width: 100%;
     max-height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 /* Ограничения для изображений и видео */
@@ -850,11 +870,10 @@ p {
 .slide video {
     max-width: 100%;
     max-height: 100%;
-    width: auto;
-    height: auto;
+    width: auto; /* ОСТАВЛЯЕМ auto */
+    height: auto; /* ОСТАВЛЯЕМ auto */
     object-fit: contain;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     transition: transform 0.3s ease;
     display: block;
 }
@@ -1261,7 +1280,6 @@ p {
         width: auto;
         height: auto;
         border-radius: 12px !important; /* Добавлено закругление */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important; /* Возвращаем тень */
     }
     
     .slide video {

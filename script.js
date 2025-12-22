@@ -1077,7 +1077,7 @@ class ImprovedSlider {
         });
     }
 
-    goTo(index) {
+        goTo(index) {
         if (this.isAnimating || index === this.current) return;
         
         this.isAnimating = true;
@@ -1089,10 +1089,10 @@ class ImprovedSlider {
             this.nextSlideHeight = this.calculateNextSlideHeight(index);
             this.isHeightTransitioning = true;
             
-            // Добавляем класс для плавного перехода высоты
-            this.sliderWrapper.classList.add('fixed-height');
+            // Устанавливаем плавную анимацию высоты
+            this.sliderWrapper.style.transition = `opacity 0.4s ease, transform 0.4s ease, height 0.5s cubic-bezier(0.22, 0.9, 0.32, 1)`;
             
-            // Устанавливаем новую высоту ДО начала анимации перехода слайда
+            // Устанавливаем новую высоту
             if (this.nextSlideHeight) {
                 this.sliderWrapper.style.height = `${this.nextSlideHeight}px`;
             }
@@ -1123,14 +1123,9 @@ class ImprovedSlider {
                 if (this.isMobile) {
                     this.isHeightTransitioning = false;
                     this.nextSlideHeight = null;
-                    
-                    // Убираем класс плавного перехода через небольшой таймаут
-                    setTimeout(() => {
-                        this.sliderWrapper.classList.remove('fixed-height');
-                    }, 400);
                 }
-            }, 30);
-        }, 200);
+            }, 50);
+        }, 300);
     }
 
     update() {
