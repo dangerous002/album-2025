@@ -977,6 +977,9 @@ class ImprovedSlider {
             item.loaded = true;
             this.loadedCount++;
             
+            // УДАЛЯЕМ СООБЩЕНИЕ ОБ ОШИБКЕ, ЕСЛИ ОНО ЕСТЬ
+            this.removeErrorMessage(index);
+            
             return true;
         } catch (error) {
             console.warn(`Не удалось загрузить: ${item.src}`);
@@ -985,6 +988,23 @@ class ImprovedSlider {
             this.loadedCount++;
             
             return false;
+        }
+    }
+
+    // ДОБАВЛЯЕМ НОВЫЙ МЕТОД ДЛЯ УДАЛЕНИЯ СООБЩЕНИЯ ОБ ОШИБКЕ
+    removeErrorMessage(index) {
+        const slide = this.slides[index];
+        if (!slide) return;
+        
+        const errorMsg = slide.querySelector(".load-error");
+        if (errorMsg) {
+            errorMsg.remove();
+        }
+        
+        // ПОКАЗЫВАЕМ МЕДИА-ЭЛЕМЕНТ, ЕСЛИ ОН БЫЛ СКРЫТ
+        const mediaElement = slide.querySelector("img, video");
+        if (mediaElement) {
+            mediaElement.style.display = 'block';
         }
     }
 
@@ -1061,6 +1081,9 @@ class ImprovedSlider {
         if (mediaElement) {
             mediaElement.style.display = 'none';
         }
+        
+        // УДАЛЯЕМ СТАРЫЕ СООБЩЕНИЯ ОБ ОШИБКЕ, ЧТОБЫ ИЗБЕЖАТЬ ДУБЛИРОВАНИЯ
+        this.removeErrorMessage(index);
         
         const errorMsg = el("div", "load-error", `❌ ${type === "image" ? "Фото" : "Видео"} не загружено`);
         errorMsg.style.color = '#ff6b6b';
