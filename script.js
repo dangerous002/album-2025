@@ -1137,18 +1137,24 @@ class ImprovedSlider {
             this.goTo((this.current + 1) % this.allItems.length);
         });
         
-        // Открытие в лайтбоксе
+        // Открытие в лайтбоксе - УЛУЧШЕННАЯ ВЕРСИЯ
         this.track.addEventListener("click", (e) => {
             const target = e.target;
             
+            // Если клик был на видео или его элементах управления - не открываем лайтбокс
+            if (target.tagName === 'VIDEO' || target.closest('video')) {
+                return; // Просто выходим, позволяя controls работать как обычно
+            }
+            
+            // Если клик был на кнопках слайдера или номере слайда - пропускаем
             if (target.classList.contains('slider-button') || 
-                target.classList.contains('slide-number') ||
                 target.closest('.slider-button') ||
+                target.classList.contains('slide-number') ||
                 target.closest('.slide-number')) {
                 return;
             }
             
-            const slide = e.target.closest(".slide");
+            const slide = target.closest(".slide");
             if (!slide) return;
             
             const idx = Array.from(this.slides).indexOf(slide);
