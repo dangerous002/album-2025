@@ -773,20 +773,30 @@ p {
         position: relative !important;
     }
     
-    /* УДАЛЕНИЕ АНИМАЦИИ НА МОБИЛЬНОМ УСТРОЙСТВЕ - ПРАВКА №1 */
+    /* ИСПРАВЛЕНИЕ ПРОБЛЕМЫ ВЫСОТЫ: Делаем медиа-контейнер и изображение одинаковой высоты */
+    .media-container {
+        height: 100% !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        position: relative !important;
+    }
+    
     .slide img,
     .slide video {
-        max-width: 100% !important;
-        max-height: 100% !important;
-        width: auto !important;
-        height: auto !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
         border-radius: 0 !important;
         box-shadow: none !important;
-        object-fit: contain !important;
         display: block !important;
-        margin: 0 auto !important;
-        transition: none !important; /* Удаляем анимацию */
-        transform: none !important; /* Убираем трансформации */
+        margin: 0 !important;
+        transition: none !important;
+        transform: none !important;
     }
     
     /* Убираем ховер-эффекты на мобильных */
