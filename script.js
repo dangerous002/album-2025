@@ -509,8 +509,8 @@ class MediaLoader {
         
         const loader = document.getElementById('loadingOverlay');
         if (loader) {
-            // Плавно скрываем прелоадер
             loader.style.opacity = '0';
+            loader.style.pointerEvents = 'none';
             
             setTimeout(() => {
                 loader.style.display = 'none';
@@ -521,12 +521,6 @@ class MediaLoader {
                 setupHeroScrollAnimation();
                 
                 this.log('Приложение запущено', 'Все системы активны');
-                
-                // Убеждаемся, что скролл работает
-                setTimeout(() => {
-                    document.body.style.overflow = 'auto';
-                    document.documentElement.style.overflow = 'auto';
-                }, 50);
                 
             }, 500);
         }
@@ -1828,15 +1822,21 @@ function renderSections() {
 /* =========================================== */
 
 window.addEventListener("DOMContentLoaded", () => {
-    // НЕ отключаем скролл
-    document.body.style.overflow = 'auto';
-    document.documentElement.style.overflow = 'auto';
+    window.scrollTo(0, 0);
     
-    // Предотвращаем зум на мобильных (не влияет на скролл)
     document.addEventListener('touchmove', function(e) {
         if(e.scale !== 1) {
             e.preventDefault();
         }
+    }, { passive: false });
+    
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+            e.preventDefault();
+        }
+        lastTouchEnd = now;
     }, { passive: false });
     
     mediaLoader.initialize();
@@ -1846,7 +1846,6 @@ window.addEventListener("DOMContentLoaded", () => {
         mediaLoader.startLoading();
     }, 500);
     
-    // Fallback на случай долгой загрузки
     setTimeout(() => {
         const loader = document.getElementById('loadingOverlay');
         if (loader && loader.style.display !== 'none') {
