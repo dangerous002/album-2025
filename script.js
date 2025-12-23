@@ -276,7 +276,6 @@ class MediaLoader {
             }
         });
         
-        // Добавляем обложку и музыку
         this.totalMediaItems += 2;
         
         this.log('Подсчет медиа', `Общее количество: ${this.totalMediaItems}`);
@@ -522,7 +521,7 @@ class MediaLoader {
                 setupScrollReveal();
                 createHeartsSystem();
                 setupMusicPlayer();
-                setupHeroScrollAnimation();
+                setupCoverAnimation(); // <-- Эта строка должна быть здесь
                 
                 this.log('Приложение запущено', 'Все системы активны');
                 
@@ -977,7 +976,6 @@ class ImprovedSlider {
             item.loaded = true;
             this.loadedCount++;
             
-            // УДАЛЯЕМ СООБЩЕНИЕ ОБ ОШИБКЕ, ЕСЛИ ОНО ЕСТЬ
             this.removeErrorMessage(index);
             
             return true;
@@ -991,7 +989,6 @@ class ImprovedSlider {
         }
     }
 
-    // ДОБАВЛЯЕМ НОВЫЙ МЕТОД ДЛЯ УДАЛЕНИЯ СООБЩЕНИЯ ОБ ОШИБКЕ
     removeErrorMessage(index) {
         const slide = this.slides[index];
         if (!slide) return;
@@ -1001,7 +998,6 @@ class ImprovedSlider {
             errorMsg.remove();
         }
         
-        // ПОКАЗЫВАЕМ МЕДИА-ЭЛЕМЕНТ, ЕСЛИ ОН БЫЛ СКРЫТ
         const mediaElement = slide.querySelector("img, video");
         if (mediaElement) {
             mediaElement.style.display = 'block';
@@ -1082,7 +1078,6 @@ class ImprovedSlider {
             mediaElement.style.display = 'none';
         }
         
-        // УДАЛЯЕМ СТАРЫЕ СООБЩЕНИЯ ОБ ОШИБКЕ, ЧТОБЫ ИЗБЕЖАТЬ ДУБЛИРОВАНИЯ
         this.removeErrorMessage(index);
         
         const errorMsg = el("div", "load-error", `❌ ${type === "image" ? "Фото" : "Видео"} не загружено`);
@@ -1495,81 +1490,70 @@ function createHeartsSystem() {
 }
 
 /* =========================================== */
-/* АНИМАЦИЯ ОБЛОЖКИ                           */
+/* ПРОСТАЯ АНИМАЦИЯ ОБЛОЖКИ ПРИ СКРОЛЛЕ       */
 /* =========================================== */
 
-function setupHeroScrollAnimation() {
+function setupCoverAnimation() {
     const hero = document.getElementById('hero');
     const heroBg = document.getElementById('heroBg');
     const heroContent = document.querySelector('.hero-content');
-    const scrollIndicator = document.querySelector('.scroll-indicator');
     
-    function handleScroll() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (!hero || !heroBg) {
+        console.error('Hero элементы не найдены');
+        return;
+    }
+    
+    // Устанавливаем начальные значения
+    heroBg.style.transform = 'scale(1)';
+    heroBg.style.opacity = '1';
+    
+    function updateCoverAnimation() {
+        // Получаем позицию скролла
+        const scrollY = window.scrollY || window.pageYOffset;
         const heroHeight = hero.offsetHeight;
-        const scrollPercent = Math.min(scrollTop / heroHeight, 1);
         
-        hero.classList.remove('scrolled', 'hidden');
+        // Рассчитываем прогресс от 0 до 1
+        let progress = scrollY / (heroHeight * 0.7);
+        progress = Math.min(progress, 1); // Не больше 1
         
-        if (scrollPercent > 0.8) {
-            hero.classList.add('hidden');
-        } else if (scrollPercent > 0.2) {
-            hero.classList.add('scrolled');
+        // Применяем анимацию
+        // 1. Увеличение размера: от 1 до 1.3
+        const scale = 1 + (progress * 0.3);
+        heroBg.style.transform = `scale(${scale})`;
+        
+        // 2. Прозрачность: от 1 до 0
+        const opacity = 1 - progress;
+        heroBg.style.opacity = opacity;
+        
+        // 3. Также анимируем контент
+        if (heroContent) {
+            heroContent.style.opacity = Math.max(0, 1 - (progress * 1.5));
+            heroContent.style.transform = `translateY(${progress * 20}px)`;
         }
         
-        const parallaxOffset = scrollTop * 0.3;
-        const scaleValue = 1 + scrollPercent * 0.15;
-        
-        heroBg.style.transform = `scale(${scaleValue}) translateY(${parallaxOffset * 0.3}px)`;
-        
-        const brightness = 0.86 - (scrollPercent * 0.6);
-        const blur = scrollPercent * 3;
-        const saturate = 1.1 - (scrollPercent * 0.6);
-        
-        heroBg.style.filter = `brightness(${brightness}) saturate(${saturate}) blur(${blur}px)`;
-        heroBg.style.opacity = `${1 - scrollPercent * 0.8}`;
-        
-        const contentOpacity = 1 - scrollPercent * 0.8;
-        const contentTranslateY = -scrollPercent * 30;
-        const contentScale = 1 - scrollPercent * 0.05;
-        
-        heroContent.style.opacity = `${contentOpacity}`;
-        heroContent.style.transform = `translateY(${contentTranslateY}px) scale(${contentScale})`;
-        
-        const heroWe = document.querySelector('.hero-we');
-        const heroYear = document.querySelector('.hero-year');
-        
-        if (heroWe) {
-            const textGlow = 0.6 - scrollPercent * 0.5;
-            heroWe.style.textShadow = `0 0 ${30 * (1 - scrollPercent)}px rgba(255, 228, 240, ${textGlow})`;
-            heroWe.style.opacity = `${1 - scrollPercent * 0.5}`;
-        }
-        
-        if (heroYear) {
-            const textGlow = 0.5 - scrollPercent * 0.4;
-            heroYear.style.textShadow = `0 0 ${20 * (1 - scrollPercent)}px rgba(255, 228, 240, ${textGlow})`;
-            heroYear.style.opacity = `${1 - scrollPercent * 0.5}`;
-        }
-        
+        // 4. Скрываем индикатор скролла
+        const scrollIndicator = document.querySelector('.scroll-indicator');
         if (scrollIndicator) {
-            scrollIndicator.style.opacity = `${0.8 - scrollPercent}`;
+            scrollIndicator.style.opacity = Math.max(0, 0.8 - (progress * 2));
+        }
+        
+        // 5. Когда полностью проскроллили, делаем обложку невидимой
+        if (progress >= 1) {
+            hero.style.visibility = 'hidden';
+            hero.style.pointerEvents = 'none';
+        } else {
+            hero.style.visibility = 'visible';
+            hero.style.pointerEvents = 'auto';
         }
     }
     
-    handleScroll();
+    // Добавляем обработчик скролла
+    window.addEventListener('scroll', updateCoverAnimation, { passive: true });
     
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                handleScroll();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }, { passive: true });
+    // Вызываем один раз при загрузке
+    updateCoverAnimation();
     
-    window.addEventListener('resize', handleScroll, { passive: true });
+    console.log('Анимация обложки активирована');
 }
 
 /* =========================================== */
@@ -1882,7 +1866,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 setupScrollReveal();
                 createHeartsSystem();
                 setupMusicPlayer();
-                setupHeroScrollAnimation();
+                setupCoverAnimation();
             }, 300);
         }
     }, 45000);
@@ -1892,4 +1876,23 @@ window.addEventListener('beforeunload', () => {
     if (window.heartInterval) {
         clearInterval(window.heartInterval);
     }
+});
+
+/* =========================================== */
+/* ЗАПУСК АНИМАЦИИ ОБЛОЖКИ                    */
+/* =========================================== */
+
+// Вызываем анимацию сразу после загрузки DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // Небольшая задержка для гарантии, что элементы загрузились
+    setTimeout(() => {
+        setupCoverAnimation();
+    }, 100);
+});
+
+// Также вызываем при полной загрузке страницы
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        setupCoverAnimation();
+    }, 200);
 });

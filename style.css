@@ -1,3 +1,12 @@
+
+@font-face {
+    font-family: 'Pacifico';
+    src: url('Pacifico-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --bg: #1a1a1a;
     --accent: #ffe4f0;
@@ -24,11 +33,18 @@ body {
     margin: 0;
     background: var(--bg);
     color: var(--accent);
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-family: 'Arial', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     scroll-behavior: smooth;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
 }
+
+.hero-we, .hero-year,
+.sparkle-title, h2, h3,
+.summary-text, .final-text, .section-text p {
+    font-family: 'Pacifico', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
 a {
     color: inherit;
 }
@@ -43,8 +59,8 @@ a {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw; /* Изменено с 100% на 100vw */
-    height: 100vh; /* Изменено с 100% на 100vh */
+    width: 100vw;
+    height: 100vh;
     background: var(--bg);
     display: flex;
     justify-content: center;
@@ -102,7 +118,15 @@ a {
     white-space: nowrap;
 }
 
-/* Дополнительные исправления для адаптива */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
 @media (max-width: 768px) {
     .loading-overlay {
         width: 100vw !important;
@@ -136,30 +160,6 @@ a {
     .loading-content {
         padding: 5px;
     }
-}
-
-/* Исправляем body и html для полноэкранного режима */
-html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Убираем скролл во время прелоадера */
-}
-
-/* Когда прелоадер скрыт, возвращаем скролл */
-body:not(.preloader-active) {
-    overflow: auto;
-}
-
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
 }
 
 /* Мини-плеер */
@@ -320,7 +320,6 @@ body:not(.preloader-active) {
     text-overflow: ellipsis;
 }
 
-/* ИСПРАВЛЕННЫЙ volume-control */
 .volume-control {
     display: flex;
     align-items: center;
@@ -483,7 +482,7 @@ body:not(.preloader-active) {
     }
 }
 
-/* HERO с РАБОТАЮЩЕЙ АНИМАЦИЕЙ ПАРАЛЛАКСА */
+/* HERO с РАБОТАЮЩЕЙ АНИМАЦИЕЙ */
 .hero {
     position: relative;
     height: 100vh;
@@ -501,9 +500,11 @@ body:not(.preloader-active) {
     inset: 0;
     background-image: url("обложка.jpg");
     background-size: cover;
-    background-position: center bottom;
+    background-position: center center;
     filter: brightness(0.86) saturate(1.1);
-    transition: all 1.2s cubic-bezier(0.22, 0.9, 0.32, 1);
+    transition: transform 0.8s cubic-bezier(0.22, 0.9, 0.32, 1),
+                filter 0.8s cubic-bezier(0.22, 0.9, 0.32, 1),
+                opacity 0.8s cubic-bezier(0.22, 0.9, 0.32, 1);
     will-change: transform, filter, opacity;
     transform-origin: center center;
 }
@@ -527,7 +528,7 @@ body:not(.preloader-active) {
     z-index: 2;
     text-align: center;
     pointer-events: none;
-    transition: all 1s cubic-bezier(0.22, 0.9, 0.32, 1);
+    transition: all 0.8s cubic-bezier(0.22, 0.9, 0.32, 1);
     will-change: transform, opacity;
     animation: heroContentFadeIn 2s ease-out;
 }
@@ -648,6 +649,34 @@ body:not(.preloader-active) {
     60% {
         transform: translateY(-5px);
     }
+}
+
+/* Исправленная анимация героя */
+.hero.scrolled .hero-bg {
+    transform: scale(0.85) !important;
+    filter: brightness(0.6) saturate(0.8) blur(4px) !important;
+    opacity: 0.3 !important;
+}
+
+.hero.hidden .hero-bg {
+    opacity: 0 !important;
+    visibility: hidden;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.hero.scrolled .hero-content {
+    opacity: 0.5 !important;
+    transform: translateY(-20px) scale(0.95) !important;
+}
+
+.hero.hidden .hero-content {
+    opacity: 0 !important;
+    visibility: hidden;
+}
+
+.hero.scrolled .scroll-indicator {
+    opacity: 0 !important;
+    pointer-events: none;
 }
 
 /* Мерцающие заголовки */
@@ -810,7 +839,6 @@ p {
         overflow: visible !important;
     }
     
-    /* СТРЕЛКИ ВЫХОДЯТ ЗА ПРЕДЕЛЫ СЛАЙДЕРА */
     .slider-button.prev {
         left: -80px !important;
     }
@@ -819,17 +847,12 @@ p {
     }
 }
 
-/* ==================== */
-/* ИСПРАВЛЕННЫЙ СЛАЙДЕР */
-/* ==================== */
-
-/* Добавляем плавную анимацию высоты для мобильных */
+/* Мобильная адаптация */
 @media (max-width: 768px) {
     .slider-wrapper {
         transition: opacity 0.4s ease, transform 0.4s ease, height 0.5s cubic-bezier(0.22, 0.9, 0.32, 1) !important;
     }
     
-    /* ИСПРАВЛЕНИЕ ПРОБЛЕМЫ №1: Всегда добавляем закругление и обрезку */
     .media-container {
         border-radius: 12px !important;
         overflow: hidden !important;
@@ -839,7 +862,6 @@ p {
         position: relative !important;
     }
     
-    /* ИСПРАВЛЕНИЕ ПРОБЛЕМЫ ВЫСОТЫ: Делаем медиа-контейнер и изображение одинаковой высоты */
     .media-container {
         height: 100% !important;
         width: 100% !important;
@@ -865,7 +887,6 @@ p {
         transform: none !important;
     }
     
-    /* Убираем ховер-эффекты на мобильных */
     .slide:hover img,
     .slide:hover video {
         transform: none !important;
@@ -955,8 +976,8 @@ p {
 .slide video {
     max-width: 100%;
     max-height: 100%;
-    width: auto; /* ОСТАВЛЯЕМ auto */
-    height: auto; /* ОСТАВЛЯЕМ auto */
+    width: auto;
+    height: auto;
     object-fit: contain;
     border-radius: 12px;
     transition: transform 0.3s ease;
@@ -994,7 +1015,7 @@ p {
     border: 1px solid rgba(255, 228, 240, 0.2);
 }
 
-/* ПЕРЕРАБОТАННЫЕ КНОПКИ СЛАЙДЕРА - ИСПРАВЛЕНЫ ДЛЯ ДЕСКТОПА */
+/* ПЕРЕРАБОТАННЫЕ КНОПКИ СЛАЙДЕРА */
 .slider-button {
     position: absolute;
     top: 50%;
@@ -1196,7 +1217,7 @@ p {
 /* ==================== */
 
 @media (max-width: 768px) {
-    /* Улучшенный мини-плеер на мобильных */
+    /* Улучшенный мини-плеер */
     .mini-player {
         bottom: 10px;
         right: 10px;
@@ -1208,7 +1229,7 @@ p {
         font-size: 20px;
     }
     
-    /* Улучшенный музыкальный плеер на мобильных */
+    /* Улучшенный музыкальный плеер */
     .music-player {
         bottom: 10px;
         right: 10px;
@@ -1364,7 +1385,7 @@ p {
         max-height: 100% !important;
         width: auto;
         height: auto;
-        border-radius: 12px !important; /* Добавлено закругление */
+        border-radius: 12px !important;
     }
     
     .slide video {
@@ -1421,7 +1442,7 @@ p {
     .lb-stage .lb-video {
         max-width: 100%;
         max-height: calc(100vh - 40px);
-        border-radius: 12px; /* Сохраняем закругление в лайтбоксе */
+        border-radius: 12px;
     }
     
     .lb-stage .lb-video {
@@ -1440,6 +1461,18 @@ p {
         border-radius: 50%;
         top: 15px;
         right: 15px;
+    }
+    
+    /* Исправления для мобильной адаптации анимации героя */
+    .hero.scrolled .hero-bg {
+        transform: scale(0.9) !important;
+        filter: brightness(0.7) saturate(0.9) blur(3px) !important;
+        opacity: 0.4 !important;
+    }
+    
+    .hero.scrolled .hero-content {
+        opacity: 0.6 !important;
+        transform: translateY(-15px) scale(0.97) !important;
     }
     
     @media (hover: none) {
@@ -1659,35 +1692,87 @@ p {
     }
 }
 
-/* Дополнительные стили для лучшего определения элементов управления видео */
-.lb-video::-webkit-media-controls-panel {
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+/* =========================================== */
+/* ПРОСТАЯ АНИМАЦИЯ ОБЛОЖКИ ПРИ СКРОЛЛЕ       */
+/* =========================================== */
+
+.hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
-.lb-video::-webkit-media-controls-play-button,
-.lb-video::-webkit-media-controls-volume-slider,
-.lb-video::-webkit-media-controls-timeline,
-.lb-video::-webkit-media-controls-current-time-display,
-.lb-video::-webkit-media-controls-time-remaining-display,
-.lb-video::-webkit-media-controls-fullscreen-button {
-    pointer-events: auto;
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url("обложка.jpg");
+    background-size: cover;
+    background-position: center center;
+    filter: brightness(0.86) saturate(1.1);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+    transform-origin: center;
 }
 
-/* Для мобильных устройств: более четкое выделение области элементов управления */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    pointer-events: none;
+    transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+.hero-we {
+    font-size: 6rem;
+    line-height: 0.9;
+    font-weight: 700;
+    text-shadow: 0 0 30px rgba(255, 228, 240, 0.6);
+    margin-bottom: 10px;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hero-year {
+    font-size: 4.5rem;
+    text-shadow: 0 0 20px rgba(255, 228, 240, 0.5);
+    transition: opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.8;
+    transition: opacity 0.5s ease;
+    z-index: 3;
+}
+
+/* Мобильная адаптация для обложки */
 @media (max-width: 768px) {
-    .video-playing {
-        position: relative;
+    .hero-we {
+        font-size: 4rem;
     }
     
-    .video-playing::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 25%;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
-        pointer-events: none;
-        z-index: 1;
+    .hero-year {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-we {
+        font-size: 3rem;
+    }
+    
+    .hero-year {
+        font-size: 2.2rem;
     }
 }
