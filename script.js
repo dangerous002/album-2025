@@ -1,3 +1,7 @@
+/* =========================================== */
+/* КОНСТАНТЫ И ДАННЫЕ                          */
+/* =========================================== */
+
 const sectionsData = [
     {
         title: "Знакомство",
@@ -66,7 +70,7 @@ const sectionsData = [
         videos: [
             ["https://storage.yandexcloud.net/album-2025/3/10.mp4", "3/10.mp4"],
             ["https://storage.yandexcloud.net/album-2025/3/11.mp4", "3/11.mp4"],
-            ["https://storage.yandexcloud.net/album-2025/3/12.mp4", "3/12.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/3/12.MP4", "3/12.MP4"],
         ]
     },
     {
@@ -95,8 +99,8 @@ const sectionsData = [
             ["https://storage.yandexcloud.net/album-2025/4/16.mp4", "4/16.mp4"],
             ["https://storage.yandexcloud.net/album-2025/4/17.mp4", "4/17.mp4"],
             ["https://storage.yandexcloud.net/album-2025/4/18.mp4", "4/18.mp4"],
-            ["https://storage.yandexcloud.net/album-2025/4/19.mp4", "4/19.mp4"],
-            ["https://storage.yandexcloud.net/album-2025/4/20.mp4", "4/20.mp4"],
+            ["https://storage.yandexcloud.net/album-2025/4/19.MP4", "4/19.MP4"],
+            ["https://storage.yandexcloud.net/album-2025/4/20.MP4", "4/20.MP4"],
             ["https://storage.yandexcloud.net/album-2025/4/21.mp4", "4/21.mp4"],
         ]
     },
@@ -215,16 +219,16 @@ const sectionsData = [
             ["https://storage.yandexcloud.net/album-2025/9/4.jpg", "9/4.jpg"],
             ["https://storage.yandexcloud.net/album-2025/9/5.jpg", "9/5.jpg"],
             ["https://storage.yandexcloud.net/album-2025/9/6.jpg", "9/6.jpg"],
-            ["https://storage.yandexcloud.net/album-2025/9/7.jpg", "9/7.jpg"],
-            ["https://storage.yandexcloud.net/album-2025/9/8.jpg", "9/8.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/7.JPG", "9/7.JPG"],
+            ["https://storage.yandexcloud.net/album-2025/9/8.JPG", "9/8.JPG"],
             ["https://storage.yandexcloud.net/album-2025/9/9.jpg", "9/9.jpg"],
             ["https://storage.yandexcloud.net/album-2025/9/10.jpg", "9/10.jpg"],
             ["https://storage.yandexcloud.net/album-2025/9/11.jpg", "9/11.jpg"],
             ["https://storage.yandexcloud.net/album-2025/9/12.jpg", "9/12.jpg"],
-            ["https://storage.yandexcloud.net/album-2025/9/13.jpg", "9/13.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/13.JPG", "9/13.JPG"],
             ["https://storage.yandexcloud.net/album-2025/9/14.jpg", "9/14.jpg"],
             ["https://storage.yandexcloud.net/album-2025/9/15.jpg", "9/15.jpg"],
-            ["https://storage.yandexcloud.net/album-2025/9/16.jpg", "9/16.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/16.JPG", "9/16.JPG"],
             ["https://storage.yandexcloud.net/album-2025/9/17.jpg", "9/17.jpg"],
             ["https://storage.yandexcloud.net/album-2025/9/18.jpg", "9/18.jpg"],
             ["https://storage.yandexcloud.net/album-2025/9/19.jpg", "9/19.jpg"],
@@ -236,6 +240,312 @@ const sectionsData = [
         ]
     },
 ];
+
+/* =========================================== */
+/* УЛУЧШЕННАЯ СИСТЕМА ПРЕЛОАДЕРА              */
+/* =========================================== */
+
+class MediaLoader {
+    constructor() {
+        this.totalMediaItems = 0;
+        this.loadedMediaItems = 0;
+        this.failedMediaItems = 0;
+        this.totalSliders = 0;
+        this.loadedSliders = 0;
+        this.maxConcurrent = 5;
+        this.maxRetries = 15;
+        this.activeDownloads = 0;
+        this.retryCounts = new Map();
+        this.mediaQueue = [];
+        this.isLoading = false;
+        this.loadingComplete = false;
+        this.allSlidersInitialized = false;
+    }
+
+    initialize() {
+        this.totalSliders = sectionsData.length;
+        this.calculateTotalMedia();
+        this.log('Инициализация загрузчика', `Всего медиа: ${this.totalMediaItems}, Слайдеров: ${this.totalSliders}`);
+    }
+
+    calculateTotalMedia() {
+        sectionsData.forEach(section => {
+            this.totalMediaItems += section.photos.length;
+            if (section.videos) {
+                this.totalMediaItems += section.videos.length;
+            }
+        });
+        
+        // Добавляем обложку и музыку
+        this.totalMediaItems += 2;
+        
+        this.log('Подсчет медиа', `Общее количество: ${this.totalMediaItems}`);
+    }
+
+    async startLoading() {
+        if (this.isLoading) return;
+        this.isLoading = true;
+        
+        this.log('Начало загрузки', 'Создание очереди загрузки...');
+        
+        this.createMediaQueue();
+        await this.processQueue();
+        await this.waitForAllSliders();
+        
+        this.loadingComplete = true;
+        this.log('Загрузка завершена', 'Все медиа обработаны');
+        
+        setTimeout(() => this.launchApplication(), 300);
+    }
+
+    createMediaQueue() {
+        this.mediaQueue.push({
+            type: 'hero',
+            url: 'обложка.jpg',
+            retries: 0
+        });
+        
+        this.mediaQueue.push({
+            type: 'music',
+            url: 'music.mp3',
+            retries: 0
+        });
+        
+        sectionsData.forEach((section, sectionIndex) => {
+            section.photos.forEach((photo, photoIndex) => {
+                this.mediaQueue.push({
+                    type: 'image',
+                    url: photo[0],
+                    sectionIndex,
+                    photoIndex,
+                    retries: 0
+                });
+            });
+            
+            if (section.videos) {
+                section.videos.forEach((video, videoIndex) => {
+                    this.mediaQueue.push({
+                        type: 'video',
+                        url: video[0],
+                        sectionIndex,
+                        videoIndex,
+                        retries: 0
+                    });
+                });
+            }
+        });
+        
+        this.log('Очередь создана', `Элементов в очереди: ${this.mediaQueue.length}`);
+    }
+
+    async processQueue() {
+        const promises = [];
+        
+        for (let i = 0; i < Math.min(this.maxConcurrent, this.mediaQueue.length); i++) {
+            promises.push(this.processNextItem());
+        }
+        
+        await Promise.all(promises);
+        
+        if (this.loadedMediaItems + this.failedMediaItems < this.totalMediaItems) {
+            this.log('Предупреждение', 'Не все элементы были обработаны');
+        }
+    }
+
+    async processNextItem() {
+        while (this.mediaQueue.length > 0) {
+            const item = this.mediaQueue.shift();
+            if (!item) continue;
+            
+            while (this.activeDownloads >= this.maxConcurrent) {
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+            
+            this.activeDownloads++;
+            await this.loadMediaItem(item);
+            this.activeDownloads--;
+        }
+    }
+
+    async loadMediaItem(item) {
+        let loaded = false;
+        let attempts = 0;
+        
+        while (!loaded && attempts <= this.maxRetries) {
+            attempts++;
+            try {
+                await this.loadSingleItem(item);
+                loaded = true;
+                this.loadedMediaItems++;
+                
+                this.log('Успешная загрузка', 
+                    `Тип: ${item.type}, Попытка: ${attempts}`);
+                    
+                this.updateProgress();
+                
+            } catch (error) {
+                if (attempts === this.maxRetries) {
+                    this.failedMediaItems++;
+                    this.log('КРИТИЧЕСКАЯ ОШИБКА', 
+                        `Не удалось загрузить после ${this.maxRetries} попыток`);
+                    this.updateProgress();
+                    break;
+                } else {
+                    this.log('Повторная попытка', 
+                        `${item.url} - попытка ${attempts + 1}/${this.maxRetries}`);
+                    
+                    const delay = Math.min(1000 * Math.pow(2, attempts - 1), 10000);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+    }
+
+    async loadSingleItem(item) {
+        return new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => {
+                reject(new Error(`Таймаут загрузки: ${item.url}`));
+            }, 30000);
+
+            if (item.type === 'image' || item.type === 'hero') {
+                const img = new Image();
+                img.onload = () => {
+                    clearTimeout(timeout);
+                    
+                    if (item.type === 'hero') {
+                        const heroBg = document.getElementById('heroBg');
+                        if (heroBg) {
+                            heroBg.style.backgroundImage = `url("${item.url}")`;
+                        }
+                    }
+                    
+                    resolve();
+                };
+                img.onerror = () => {
+                    clearTimeout(timeout);
+                    reject(new Error(`Ошибка загрузки изображения: ${item.url}`));
+                };
+                img.src = item.url;
+                
+            } else if (item.type === 'video') {
+                const video = document.createElement('video');
+                video.preload = 'metadata';
+                
+                video.onloadedmetadata = () => {
+                    clearTimeout(timeout);
+                    resolve();
+                };
+                video.onerror = () => {
+                    clearTimeout(timeout);
+                    reject(new Error(`Ошибка загрузки видео: ${item.url}`));
+                };
+                
+                video.src = item.url;
+                
+            } else if (item.type === 'music') {
+                const audio = document.getElementById('backgroundMusic');
+                if (audio) {
+                    audio.load();
+                    audio.addEventListener('canplaythrough', () => {
+                        clearTimeout(timeout);
+                        resolve();
+                    }, { once: true });
+                    
+                    audio.onerror = () => {
+                        clearTimeout(timeout);
+                        reject(new Error(`Ошибка загрузки музыки: ${item.url}`));
+                    };
+                } else {
+                    clearTimeout(timeout);
+                    resolve();
+                }
+            }
+        });
+    }
+
+    async waitForAllSliders() {
+        return new Promise((resolve) => {
+            const checkInterval = setInterval(() => {
+                if (this.loadedSliders >= this.totalSliders) {
+                    clearInterval(checkInterval);
+                    this.allSlidersInitialized = true;
+                    this.log('Все слайдеры инициализированы', `Загружено: ${this.loadedSliders}/${this.totalSliders}`);
+                    resolve();
+                } else if (this.loadedMediaItems + this.failedMediaItems >= this.totalMediaItems) {
+                    this.log('Ожидание слайдеров', 'Все медиа загружены, ожидаем инициализацию слайдеров...');
+                }
+            }, 100);
+            
+            setTimeout(() => {
+                clearInterval(checkInterval);
+                if (this.loadedSliders < this.totalSliders) {
+                    this.log('ВНИМАНИЕ', 'Таймаут ожидания слайдеров. Запуск приложения...');
+                }
+                resolve();
+            }, 60000);
+        });
+    }
+
+    updateProgress() {
+        const processed = this.loadedMediaItems + this.failedMediaItems;
+        const progressPercent = Math.round((processed / this.totalMediaItems) * 100);
+        
+        const loadingText = document.getElementById('loadingText');
+        if (loadingText) {
+            loadingText.textContent = `Загрузка воспоминаний... ${progressPercent}%`;
+        }
+        
+        if (progressPercent % 10 === 0 && processed > 0) {
+            this.log('Прогресс', 
+                `${progressPercent}% (${processed}/${this.totalMediaItems}) | Успешно: ${this.loadedMediaItems}, Ошибки: ${this.failedMediaItems}`);
+        }
+    }
+
+    incrementLoadedSliders() {
+        this.loadedSliders++;
+        this.log('Слайдер загружен', `Загружено слайдеров: ${this.loadedSliders}/${this.totalSliders}`);
+    }
+
+    // В функции launchApplication добавьте событие
+    launchApplication() {
+        if (!this.loadingComplete) return;
+        
+        this.log('Запуск приложения', 'Скрытие прелоадера...');
+        
+        const loader = document.getElementById('loadingOverlay');
+        if (loader) {
+            loader.style.opacity = '0';
+            loader.style.pointerEvents = 'none';
+            
+            // Генерируем событие для снятия блокировки скролла
+            const event = new Event('preloaderHidden');
+            window.dispatchEvent(event);
+            
+            setTimeout(() => {
+                loader.style.display = 'none';
+                
+                setupScrollReveal();
+                createHeartsSystem();
+                setupMusicPlayer();
+                setupHeroScrollAnimation();
+                
+                this.log('Приложение запущено', 'Все системы активны');
+                
+        }, 500);
+    }
+}
+
+    log(context, message) {
+        const timestamp = new Date().toLocaleTimeString();
+        console.log(`[${timestamp}] [${context}] ${message}`);
+    }
+}
+
+const mediaLoader = new MediaLoader();
+
+/* =========================================== */
+/* ОСНОВНЫЕ ФУНКЦИИ                           */
+/* =========================================== */
 
 /* Helpers */
 const el = (tag, cls = "", html = "") => {
@@ -253,7 +563,23 @@ function isVideoFile(src) {
     return videoExtensions.some(ext => lowerSrc.endsWith(ext.toLowerCase()));
 }
 
-/* Улучшенный Lightbox с правильной обработкой видео */
+/* Дебаунс для оптимизации */
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+/* =========================================== */
+/* LIGHTBOX                                   */
+/* =========================================== */
+
 const LB = (() => {
     const root = document.getElementById("lightbox");
     const content = root.querySelector(".lb-content");
@@ -279,31 +605,22 @@ const LB = (() => {
         isMobile = window.innerWidth <= 768;
     });
 
-    // Новая функция: проверяем, находится ли элемент внутри элементов управления видео
     function isInsideVideoControls(element) {
         if (!element || !video.contains(element)) return false;
         
-        // Ищем элементы управления видео
         const videoRect = video.getBoundingClientRect();
-        
-        // Проверяем, находится ли элемент в нижней части видео (где обычно элементы управления)
         const elementRect = element.getBoundingClientRect();
-        
-        // Элементы управления обычно занимают нижние 20-25% видео
         const controlsAreaTop = videoRect.top + videoRect.height * 0.75;
         
-        // Если элемент находится в нижней четверти видео, считаем что это элемент управления
         if (elementRect.top >= controlsAreaTop) {
             return true;
         }
         
-        // Дополнительно проверяем по классам и тегам
         let currentElement = element;
         while (currentElement && currentElement !== video) {
             const tagName = currentElement.tagName.toLowerCase();
             const className = currentElement.className || '';
             
-            // Проверяем стандартные элементы управления видео
             if (tagName === 'button' || tagName === 'input' || tagName === 'progress' || 
                 className.includes('control') || className.includes('progress') || 
                 className.includes('seek') || className.includes('volume') ||
@@ -361,7 +678,6 @@ const LB = (() => {
                 videoSource.src = currentItem.src || currentItem;
                 video.load();
                 
-                // Добавляем кастомный класс для видео, чтобы можно было стилизовать элементы управления
                 video.classList.add('video-playing');
                 
                 if (isMobile) {
@@ -404,7 +720,6 @@ const LB = (() => {
         }, 200);
     }
 
-    // Обработка начала касания
     function handleTouchStart(e) {
         if (!isMobile) return;
         
@@ -413,18 +728,14 @@ const LB = (() => {
         touchStartY = touch.screenY;
         isSwiping = false;
         
-        // Запоминаем элемент, с которого началось касание
         swipeStartElement = e.target;
         
-        // Если касание началось внутри элементов управления видео, не начинаем отслеживание свайпа
         if (isInsideVideoControls(swipeStartElement)) {
-            // Отменяем обработку свайпа для этого касания
             touchStartX = 0;
             touchStartY = 0;
         }
     }
     
-    // Обработка движения пальца
     function handleTouchMove(e) {
         if (!isMobile || !touchStartX || isAnimating) return;
         
@@ -432,14 +743,12 @@ const LB = (() => {
         const deltaX = Math.abs(touch.screenX - touchStartX);
         const deltaY = Math.abs(touch.screenY - touchStartY);
         
-        // Если горизонтальное движение больше вертикального на 10px, считаем это свайпом
         if (deltaX > 10 && deltaX > deltaY) {
             isSwiping = true;
-            e.preventDefault(); // Предотвращаем скролл страницы
+            e.preventDefault();
         }
     }
     
-    // Обработка окончания касания
     function handleTouchEnd(e) {
         if (!isMobile || !touchStartX || isAnimating) return;
         
@@ -447,14 +756,9 @@ const LB = (() => {
         touchEndX = touch.screenX;
         touchEndY = touch.screenY;
         
-        // Если это был свайп, а не тап
         if (isSwiping) {
-            // Проверяем, начался ли свайп с элементов управления видео
             if (swipeStartElement && isInsideVideoControls(swipeStartElement)) {
-                // Если свайп начался с элементов управления видео, НЕ перелистываем
-                // Это позволяет перематывать видео свайпом по полоске времени
             } else {
-                // В противном случае это свайп для перелистывания
                 const minSwipeDistance = 50;
                 const distanceX = touchStartX - touchEndX;
                 
@@ -468,7 +772,6 @@ const LB = (() => {
             }
         }
         
-        // Сбрасываем значения
         touchStartX = 0;
         touchStartY = 0;
         touchEndX = 0;
@@ -477,7 +780,6 @@ const LB = (() => {
         swipeStartElement = null;
     }
 
-    // Инициализация обработчиков событий
     btnClose.addEventListener("click", close);
     btnPrev.addEventListener("click", (e) => {
         e.preventDefault();
@@ -490,17 +792,14 @@ const LB = (() => {
         next();
     });
     
-    // Клик по фону закрывает lightbox
     root.addEventListener("click", (e) => {
         if (e.target === root) close();
     });
     
-    // Обработка свайпов
     root.addEventListener('touchstart', handleTouchStart, { passive: true });
-    root.addEventListener('touchmove', handleTouchMove, { passive: false }); // passive: false чтобы можно было вызвать preventDefault
+    root.addEventListener('touchmove', handleTouchMove, { passive: false });
     root.addEventListener('touchend', handleTouchEnd, { passive: true });
     
-    // Обработка клавиатуры
     document.addEventListener("keydown", (e) => {
         if (root.classList.contains("hidden")) return;
         if (e.key === "Escape") close();
@@ -508,7 +807,6 @@ const LB = (() => {
         if (e.key === "ArrowRight") next();
     });
     
-    // Предотвращаем закрытие при клике на видео
     video.addEventListener('click', (e) => {
         e.stopPropagation();
     });
@@ -519,121 +817,24 @@ const LB = (() => {
     return { open, close };
 })();
 
+/* =========================================== */
+/* СЛАЙДЕР                                    */
+/* =========================================== */
 
-
-/* Дебаунс для оптимизации */
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-/* Система летающих сердечек */
-function createHeartsSystem() {
-    let heartCount = 0;
-    const maxHearts = window.innerWidth <= 768 ? 15 : 10;
-    
-    const heartSVG = `<svg viewBox="0 0 32 29" xmlns="http://www.w3.org/2000/svg">
-        <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
-        c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" fill="currentColor"/>
-    </svg>`;
-    
-    function createHeart() {
-        if (heartCount >= maxHearts) return;
-        
-        heartCount++;
-        
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        
-        const size = window.innerWidth <= 768 
-            ? 15 + Math.random() * 15
-            : 20 + Math.random() * 25;
-        
-        heart.style.width = `${size}px`;
-        heart.style.height = `${size}px`;
-        
-        const colors = [
-            '#ff6bcb', '#ff8ac7', '#ffa8c3', '#ffc6bf', 
-            '#ffe4f0', '#ffd1e0', '#ffb8d0', '#ff9fc0',
-            '#ff6bd0', '#ff8ad0'
-        ];
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        heart.style.color = color;
-        
-        const startX = Math.random() * window.innerWidth;
-        
-        const animations = ['floatHeart', 'floatHeart2', 'floatHeart3'];
-        const animation = animations[Math.floor(Math.random() * animations.length)];
-        
-        const duration = window.innerWidth <= 768
-            ? 4 + Math.random() * 4
-            : 6 + Math.random() * 6;
-        
-        heart.style.position = 'fixed';
-        heart.style.left = `${startX}px`;
-        heart.style.top = `${window.innerHeight}px`;
-        heart.style.zIndex = '1';
-        heart.style.pointerEvents = 'none';
-        heart.style.animation = `${animation} ${duration}s linear forwards`;
-        heart.style.opacity = '0';
-        
-        heart.innerHTML = heartSVG;
-        
-        document.body.appendChild(heart);
-        
-        setTimeout(() => {
-            if (heart.parentNode) {
-                heart.remove();
-                heartCount--;
-            }
-        }, duration * 1000);
-    }
-    
-    const initialHearts = window.innerWidth <= 768 ? 8 : 5;
-    for (let i = 0; i < initialHearts; i++) {
-        setTimeout(() => createHeart(), i * (window.innerWidth <= 768 ? 400 : 600));
-    }
-    
-    const heartInterval = setInterval(() => {
-        if (document.hidden) return;
-        createHeart();
-    }, window.innerWidth <= 768 ? 800 : 1200);
-    
-    window.heartInterval = heartInterval;
-    
-    window.addEventListener('resize', () => {
-        clearInterval(heartInterval);
-        
-        document.querySelectorAll('.heart').forEach(heart => {
-            heart.remove();
-        });
-        
-        setTimeout(createHeartsSystem, 100);
-    });
-}
-
-/* ИСПРАВЛЕННЫЙ СЛАЙДЕР */
 class ImprovedSlider {
     constructor(photos, videos, mount) {
         this.photos = photos || [];
         this.videos = videos || [];
         this.allItems = [
             ...this.photos.map(srcArray => ({ 
-                src: srcArray[0], // Берем только первый URL
+                src: srcArray[0],
                 type: "image",
                 loaded: false,
                 naturalWidth: 0,
                 naturalHeight: 0
             })),
             ...this.videos.map(srcArray => ({ 
-                src: srcArray[0], // Берем только первый URL
+                src: srcArray[0],
                 type: "video",
                 loaded: false,
                 naturalWidth: 0,
@@ -650,17 +851,14 @@ class ImprovedSlider {
         this.direction = 'right';
         this.errorCount = 0;
         
-        // Свойства для управления высотой
         this.sliderWrapper = null;
         this.maxCalculatedHeight = 0;
         this.slideDimensions = [];
         this.isDesktop = !this.isMobile;
         
-        // Для предотвращения прыжков высоты
         this.nextSlideHeight = null;
         this.isHeightTransitioning = false;
         
-        // Инициализация
         this.init();
     }
 
@@ -669,43 +867,35 @@ class ImprovedSlider {
         this.buildSlides();
         this.startLoading();
         
-        // Обработчик изменения размера окна с дебаунсом
         window.addEventListener('resize', debounce(() => {
             const wasMobile = this.isMobile;
             this.isMobile = window.innerWidth <= 768;
             this.isDesktop = !this.isMobile;
             
-            // Если режим изменился (мобильный ↔ десктоп)
             if (wasMobile !== this.isMobile) {
                 this.updateSliderForMobile();
                 if (this.isDesktop && this.maxCalculatedHeight > 0) {
                     this.updateSliderHeight();
                 }
             } else if (this.isDesktop) {
-                // Пересчет высоты при изменении размера окна на десктопе
                 this.calculateSliderHeight();
                 this.updateSliderHeight();
             }
         }, 250));
         
-        // Начальная настройка
         this.updateSliderForMobile();
         this.bindEvents();
-        
-        // Отслеживаем появление слайдера на экране
         this.setupIntersectionObserver();
     }
 
     createSliderStructure() {
         this.sliderWrapper = el("div", "slider-wrapper");
         
-        // Создаем viewport и track
         const viewport = el("div", "slider-viewport");
         this.track = el("div", "track");
         viewport.appendChild(this.track);
         this.sliderWrapper.appendChild(viewport);
         
-        // Создаем улучшенные кнопки
         this.prevBtn = el("button", "slider-button prev");
         this.prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
         this.prevBtn.setAttribute("aria-label", "Предыдущее фото");
@@ -726,10 +916,7 @@ class ImprovedSlider {
         this.allItems.forEach((item, i) => {
             const slide = el("div", "slide");
             
-            // Обертка для медиа
             const mediaWrapper = el("div", "media-wrapper");
-            
-            // Контейнер для медиа
             const mediaContainer = el("div", "media-container");
             
             if (item.type === "video") {
@@ -751,7 +938,6 @@ class ImprovedSlider {
                 mediaContainer.appendChild(img);
             }
             
-            // Номер слайда
             const slideNumber = el("div", "slide-number", `${i + 1}/${this.allItems.length}`);
             mediaContainer.appendChild(slideNumber);
             
@@ -763,34 +949,23 @@ class ImprovedSlider {
     }
 
     async startLoading() {
-        // Загружаем все медиа
         const loadPromises = this.allItems.map((item, index) => 
             this.loadMediaItem(item, index)
         );
         
         try {
             await Promise.allSettled(loadPromises);
-            console.log(`Слайдер загружен: ${this.loadedCount}/${this.totalToLoad} элементов, ошибок: ${this.errorCount}`);
             
-            // После загрузки всех медиа рассчитываем высоту для десктопа
             if (this.isDesktop) {
                 this.calculateSliderHeight();
                 this.updateSliderHeight();
             } else {
-                // Для мобильных: устанавливаем начальную высоту
                 this.setInitialMobileHeight();
             }
             
-            // Показываем текущий слайд
             this.update();
             
-            // Уведомляем о загрузке слайдера
-            if (window.incrementLoadedSliders) {
-                window.incrementLoadedSliders();
-            }
-            if (window.checkAllLoaded) {
-                window.checkAllLoaded();
-            }
+            mediaLoader.incrementLoadedSliders();
         } catch (error) {
             console.error('Ошибка при загрузке слайдера:', error);
         }
@@ -807,21 +982,12 @@ class ImprovedSlider {
             item.loaded = true;
             this.loadedCount++;
             
-            // Обновляем прогресс загрузки
-            if (updateMediaLoadProgress) {
-                updateMediaLoadProgress();
-            }
-            
             return true;
         } catch (error) {
             console.warn(`Не удалось загрузить: ${item.src}`);
             this.showError(index, item.type);
             this.errorCount++;
             this.loadedCount++;
-            
-            if (updateMediaLoadProgress) {
-                updateMediaLoadProgress();
-            }
             
             return false;
         }
@@ -910,13 +1076,10 @@ class ImprovedSlider {
     }
 
     calculateSliderHeight() {
-        if (this.isMobile) {
-            // На мобильных не рассчитываем фиксированную высоту
-            return;
-        }
+        if (this.isMobile) return;
         
         const wrapperWidth = this.sliderWrapper.clientWidth;
-        const maxDisplayWidth = wrapperWidth * 0.92; // 92% от ширины слайдера
+        const maxDisplayWidth = wrapperWidth * 0.92;
         
         this.maxCalculatedHeight = 0;
         this.slideDimensions = [];
@@ -926,9 +1089,8 @@ class ImprovedSlider {
             let displayWidth, displayHeight;
             
             if (!item.loaded) {
-                // Для незагруженных используем минимальную высоту и максимальную ширину
                 displayWidth = maxDisplayWidth;
-                displayHeight = 350; // минимальная высота
+                displayHeight = 350;
             } else {
                 const naturalWidth = item.naturalWidth;
                 const naturalHeight = item.naturalHeight;
@@ -937,19 +1099,16 @@ class ImprovedSlider {
                     displayWidth = maxDisplayWidth;
                     displayHeight = 350;
                 } else {
-                    // Рассчитываем размеры для отображения с сохранением пропорций
                     const ratio = naturalHeight / naturalWidth;
                     displayWidth = maxDisplayWidth;
                     displayHeight = displayWidth * ratio;
                     
-                    // Ограничиваем максимальную высоту
                     const maxAllowedHeight = window.innerHeight * 0.6;
                     if (displayHeight > maxAllowedHeight) {
                         displayHeight = maxAllowedHeight;
                         displayWidth = displayHeight / ratio;
                     }
                     
-                    // Минимальная и максимальная высота
                     const minHeight = 350;
                     const maxHeight = 700;
                     displayHeight = Math.max(displayHeight, minHeight);
@@ -962,14 +1121,12 @@ class ImprovedSlider {
                 height: displayHeight
             };
             
-            // Обновляем максимальную высоту
-            const totalHeight = displayHeight + 32 + 40; // displayHeight + padding + slide number
+            const totalHeight = displayHeight + 32 + 40;
             if (totalHeight > this.maxCalculatedHeight) {
                 this.maxCalculatedHeight = totalHeight;
             }
         }
         
-        // Если не удалось рассчитать высоту, используем минимальную
         if (this.maxCalculatedHeight === 0) {
             this.maxCalculatedHeight = 400;
         }
@@ -977,7 +1134,6 @@ class ImprovedSlider {
 
     updateSliderHeight() {
         if (this.isMobile) {
-            // На мобильных не устанавливаем фиксированную высоту
             this.sliderWrapper.style.height = 'auto';
             return;
         }
@@ -985,7 +1141,6 @@ class ImprovedSlider {
         if (this.maxCalculatedHeight > 0) {
             this.sliderWrapper.style.height = `${this.maxCalculatedHeight}px`;
             
-            // Устанавливаем размеры для каждого слайда
             for (let i = 0; i < this.slides.length; i++) {
                 const slide = this.slides[i];
                 const mediaContainer = slide.querySelector('.media-container');
@@ -1010,7 +1165,6 @@ class ImprovedSlider {
             const ratio = naturalHeight / naturalWidth;
             let displayHeight = wrapperWidth * 0.9 * ratio;
             
-            // Ограничения
             const minHeight = 300;
             const maxHeight = window.innerHeight * 0.7;
             displayHeight = Math.max(displayHeight, minHeight);
@@ -1025,7 +1179,7 @@ class ImprovedSlider {
         
         const item = this.allItems[index];
         if (!item || !item.loaded) {
-            return 300; // минимальная высота
+            return 300;
         }
         
         const wrapperWidth = this.sliderWrapper.clientWidth || window.innerWidth * 0.9;
@@ -1035,7 +1189,6 @@ class ImprovedSlider {
         const ratio = naturalHeight / naturalWidth;
         let displayHeight = wrapperWidth * 0.9 * ratio;
         
-        // Ограничения
         const minHeight = 300;
         const maxHeight = window.innerHeight * 0.7;
         displayHeight = Math.max(displayHeight, minHeight);
@@ -1046,7 +1199,6 @@ class ImprovedSlider {
 
     updateSliderForMobile() {
         if (this.isMobile) {
-            // Мобильный вид
             this.sliderWrapper.style.border = 'none';
             this.sliderWrapper.style.background = 'transparent';
             this.sliderWrapper.style.boxShadow = 'none';
@@ -1055,33 +1207,27 @@ class ImprovedSlider {
             this.sliderWrapper.style.height = 'auto';
             this.sliderWrapper.style.maxHeight = '70vh';
             
-            // Скрываем стрелки
             this.prevBtn.style.display = 'none';
             this.nextBtn.style.display = 'none';
             
-            // Добавляем поддержку свайпа
             this.addSwipeSupport();
             
-            // Устанавливаем начальную высоту
             setTimeout(() => {
                 this.setInitialMobileHeight();
             }, 100);
         } else {
-            // Десктопный вид - стрелки видны за пределами слайдера
             this.sliderWrapper.style.border = '2px solid rgba(255, 228, 240, 0.35)';
             this.sliderWrapper.style.background = '#181818';
             this.sliderWrapper.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.4)';
             this.sliderWrapper.style.padding = '16px';
             this.sliderWrapper.style.borderRadius = '18px';
-            this.sliderWrapper.style.overflow = 'visible'; // Важно для видимости стрелок
+            this.sliderWrapper.style.overflow = 'visible';
             
-            // Показываем стрелки
             this.prevBtn.style.display = 'flex';
             this.nextBtn.style.display = 'flex';
             this.prevBtn.style.left = '-80px';
             this.nextBtn.style.right = '-80px';
             
-            // Рассчитываем и устанавливаем высоту
             this.calculateSliderHeight();
             this.updateSliderHeight();
         }
@@ -1137,16 +1283,13 @@ class ImprovedSlider {
             this.goTo((this.current + 1) % this.allItems.length);
         });
         
-        // Открытие в лайтбоксе - УЛУЧШЕННАЯ ВЕРСИЯ
         this.track.addEventListener("click", (e) => {
             const target = e.target;
             
-            // Если клик был на видео или его элементах управления - не открываем лайтбокс
             if (target.tagName === 'VIDEO' || target.closest('video')) {
-                return; // Просто выходим, позволяя controls работать как обычно
+                return;
             }
             
-            // Если клик был на кнопках слайдера или номере слайда - пропускаем
             if (target.classList.contains('slider-button') || 
                 target.closest('.slider-button') ||
                 target.classList.contains('slide-number') ||
@@ -1170,28 +1313,24 @@ class ImprovedSlider {
         });
     }
 
-        goTo(index) {
+    goTo(index) {
         if (this.isAnimating || index === this.current) return;
         
         this.isAnimating = true;
         const oldIndex = this.current;
         this.current = index;
         
-        // Для мобильных: предварительно рассчитываем высоту следующего слайда
         if (this.isMobile) {
             this.nextSlideHeight = this.calculateNextSlideHeight(index);
             this.isHeightTransitioning = true;
             
-            // Устанавливаем плавную анимацию высоты
             this.sliderWrapper.style.transition = `opacity 0.4s ease, transform 0.4s ease, height 0.5s cubic-bezier(0.22, 0.9, 0.32, 1)`;
             
-            // Устанавливаем новую высоту
             if (this.nextSlideHeight) {
                 this.sliderWrapper.style.height = `${this.nextSlideHeight}px`;
             }
         }
         
-        // Анимация перехода слайда
         this.slides[oldIndex].classList.remove("active");
         
         if (this.direction === 'right') {
@@ -1212,7 +1351,6 @@ class ImprovedSlider {
                 this.slides[this.current].classList.add("active");
                 this.isAnimating = false;
                 
-                // Для мобильных: завершаем переход высоты
                 if (this.isMobile) {
                     this.isHeightTransitioning = false;
                     this.nextSlideHeight = null;
@@ -1250,7 +1388,98 @@ class ImprovedSlider {
     }
 }
 
-/* ИСПРАВЛЕННАЯ АНИМАЦИЯ ОБЛОЖКИ */
+/* =========================================== */
+/* СИСТЕМА ЛЕТАЮЩИХ СЕРДЕЧЕК                  */
+/* =========================================== */
+
+function createHeartsSystem() {
+    let heartCount = 0;
+    const maxHearts = window.innerWidth <= 768 ? 15 : 10;
+    
+    const heartSVG = `<svg viewBox="0 0 32 29" xmlns="http://www.w3.org/2000/svg">
+        <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+        c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" fill="currentColor"/>
+    </svg>`;
+    
+    function createHeart() {
+        if (heartCount >= maxHearts) return;
+        
+        heartCount++;
+        
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        
+        const size = window.innerWidth <= 768 
+            ? 15 + Math.random() * 15
+            : 20 + Math.random() * 25;
+        
+        heart.style.width = `${size}px`;
+        heart.style.height = `${size}px`;
+        
+        const colors = [
+            '#ff6bcb', '#ff8ac7', '#ffa8c3', '#ffc6bf', 
+            '#ffe4f0', '#ffd1e0', '#ffb8d0', '#ff9fc0',
+            '#ff6bd0', '#ff8ad0'
+        ];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        heart.style.color = color;
+        
+        const startX = Math.random() * window.innerWidth;
+        
+        const animations = ['floatHeart', 'floatHeart2', 'floatHeart3'];
+        const animation = animations[Math.floor(Math.random() * animations.length)];
+        
+        const duration = window.innerWidth <= 768
+            ? 4 + Math.random() * 4
+            : 6 + Math.random() * 6;
+        
+        heart.style.position = 'fixed';
+        heart.style.left = `${startX}px`;
+        heart.style.top = `${window.innerHeight}px`;
+        heart.style.zIndex = '1';
+        heart.style.pointerEvents = 'none';
+        heart.style.animation = `${animation} ${duration}s linear forwards`;
+        heart.style.opacity = '0';
+        
+        heart.innerHTML = heartSVG;
+        
+        document.body.appendChild(heart);
+        
+        setTimeout(() => {
+            if (heart.parentNode) {
+                heart.remove();
+                heartCount--;
+            }
+        }, duration * 1000);
+    }
+    
+    const initialHearts = window.innerWidth <= 768 ? 8 : 5;
+    for (let i = 0; i < initialHearts; i++) {
+        setTimeout(() => createHeart(), i * (window.innerWidth <= 768 ? 400 : 600));
+    }
+    
+    const heartInterval = setInterval(() => {
+        if (document.hidden) return;
+        createHeart();
+    }, window.innerWidth <= 768 ? 800 : 1200);
+    
+    window.heartInterval = heartInterval;
+    
+    window.addEventListener('resize', () => {
+        clearInterval(heartInterval);
+        
+        document.querySelectorAll('.heart').forEach(heart => {
+            heart.remove();
+        });
+        
+        setTimeout(createHeartsSystem, 100);
+    });
+}
+
+/* =========================================== */
+/* АНИМАЦИЯ ОБЛОЖКИ                           */
+/* =========================================== */
+
 function setupHeroScrollAnimation() {
     const hero = document.getElementById('hero');
     const heroBg = document.getElementById('heroBg');
@@ -1262,23 +1491,19 @@ function setupHeroScrollAnimation() {
         const heroHeight = hero.offsetHeight;
         const scrollPercent = Math.min(scrollTop / heroHeight, 1);
         
-        // Убираем все предыдущие классы
         hero.classList.remove('scrolled', 'hidden');
         
-        // Применяем новые классы в зависимости от процента прокрутки
         if (scrollPercent > 0.8) {
             hero.classList.add('hidden');
         } else if (scrollPercent > 0.2) {
             hero.classList.add('scrolled');
         }
         
-        // Параллакс и эффекты для фона
         const parallaxOffset = scrollTop * 0.3;
         const scaleValue = 1 + scrollPercent * 0.15;
         
         heroBg.style.transform = `scale(${scaleValue}) translateY(${parallaxOffset * 0.3}px)`;
         
-        // Эффекты для фона
         const brightness = 0.86 - (scrollPercent * 0.6);
         const blur = scrollPercent * 3;
         const saturate = 1.1 - (scrollPercent * 0.6);
@@ -1286,7 +1511,6 @@ function setupHeroScrollAnimation() {
         heroBg.style.filter = `brightness(${brightness}) saturate(${saturate}) blur(${blur}px)`;
         heroBg.style.opacity = `${1 - scrollPercent * 0.8}`;
         
-        // Эффекты для контента
         const contentOpacity = 1 - scrollPercent * 0.8;
         const contentTranslateY = -scrollPercent * 30;
         const contentScale = 1 - scrollPercent * 0.05;
@@ -1294,7 +1518,6 @@ function setupHeroScrollAnimation() {
         heroContent.style.opacity = `${contentOpacity}`;
         heroContent.style.transform = `translateY(${contentTranslateY}px) scale(${contentScale})`;
         
-        // Эффекты для текста
         const heroWe = document.querySelector('.hero-we');
         const heroYear = document.querySelector('.hero-year');
         
@@ -1310,16 +1533,13 @@ function setupHeroScrollAnimation() {
             heroYear.style.opacity = `${1 - scrollPercent * 0.5}`;
         }
         
-        // Индикатор прокрутки
         if (scrollIndicator) {
             scrollIndicator.style.opacity = `${0.8 - scrollPercent}`;
         }
     }
     
-    // Инициализация
     handleScroll();
     
-    // Обработчик скролла с оптимизацией
     let ticking = false;
     window.addEventListener('scroll', () => {
         if (!ticking) {
@@ -1331,11 +1551,13 @@ function setupHeroScrollAnimation() {
         }
     }, { passive: true });
     
-    // Обработчик изменения размера окна
     window.addEventListener('resize', handleScroll, { passive: true });
 }
 
-/* Система появления элементов при скролле */
+/* =========================================== */
+/* СКРОЛЛ-РЕВИЛ                               */
+/* =========================================== */
+
 function setupScrollReveal() {
     let ticking = false;
     
@@ -1377,7 +1599,10 @@ function setupScrollReveal() {
     setInterval(checkVisibility, 300);
 }
 
-/* Музыкальный плеер */
+/* =========================================== */
+/* МУЗЫКАЛЬНЫЙ ПЛЕЕР                          */
+/* =========================================== */
+
 function setupMusicPlayer() {
     const audio = document.getElementById('backgroundMusic');
     const playPauseBtn = document.getElementById('playPauseBtn');
@@ -1392,12 +1617,10 @@ function setupMusicPlayer() {
     let isMuted = false;
     let lastVolume = 0.3;
     
-    // Проверяем и фиксим источники аудио
     const audioSources = audio.querySelectorAll('source');
     audioSources.forEach(source => {
         const originalSrc = source.src;
         if (originalSrc && !originalSrc.includes('http') && !originalSrc.startsWith('data:')) {
-            // Убираем начальный слеш если есть
             const fixedSrc = originalSrc.startsWith('/') ? originalSrc.substring(1) : originalSrc;
             source.src = fixedSrc;
         }
@@ -1415,7 +1638,7 @@ function setupMusicPlayer() {
             miniPlayer.style.display = 'none';
             return false;
         }
-    return true;
+        return true;
     }
     
     function updatePlayButton() {
@@ -1555,7 +1778,6 @@ function setupMusicPlayer() {
         musicPlayer.classList.add('hidden');
         miniPlayer.style.display = 'block';
         
-        // Пробуем запустить музыку через некоторое время
         setTimeout(() => {
             audio.play().catch(e => {
                 console.log("Автовоспроизведение заблокировано, требуется действие пользователя");
@@ -1567,7 +1789,10 @@ function setupMusicPlayer() {
     }
 }
 
-/* Render sections */
+/* =========================================== */
+/* RENDER SECTIONS                            */
+/* =========================================== */
+
 function renderSections() {
     const root = document.getElementById("sections");
     sectionsData.forEach((sec, idx) => {
@@ -1601,156 +1826,48 @@ function renderSections() {
     });
 }
 
-/* Система прелоадера */
-let totalMediaItems = 0;
-let loadedMediaItems = 0;
-let totalSliders = 0;
-let loadedSliders = 0;
-
-/* Подсчет общего количества медиафайлов */
-function countTotalMedia() {
-    sectionsData.forEach(section => {
-        totalMediaItems += section.photos.length;
-        if (section.videos) {
-            totalMediaItems += section.videos.length;
-        }
+/* Фикс для прелоадера на мобильных устройствах */
+function fixPreloaderForMobile() {
+    const preloader = document.getElementById('loadingOverlay');
+    if (!preloader) return;
+    
+    // Устанавливаем фиксированные размеры
+    preloader.style.width = '100vw';
+    preloader.style.height = '100vh';
+    preloader.style.position = 'fixed';
+    preloader.style.top = '0';
+    preloader.style.left = '0';
+    preloader.style.right = '0';
+    preloader.style.bottom = '0';
+    preloader.style.margin = '0';
+    preloader.style.padding = '0';
+    
+    // Принудительно устанавливаем viewport
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+        viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
+    }
+    
+    // Добавляем класс к body для блокировки скролла
+    document.body.classList.add('preloader-active');
+    
+    // Убираем класс при скрытии прелоадера
+    window.addEventListener('preloaderHidden', function() {
+        document.body.classList.remove('preloader-active');
     });
-    
-    totalSliders = sectionsData.length;
-    console.log(`Всего медиафайлов для загрузки: ${totalMediaItems}`);
-    console.log(`Всего слайдеров: ${totalSliders}`);
 }
 
-/* Обновление прогресса загрузки медиафайлов */
-function updateMediaLoadProgress() {
-    loadedMediaItems++;
-    let progressPercent = Math.round((loadedMediaItems / totalMediaItems) * 100);
-    progressPercent = Math.min(progressPercent, 100);
-    
-    const loadingText = document.getElementById('loadingText');
-    
-    if (loadingText) {
-        loadingText.textContent = `Загрузка воспоминаний... ${progressPercent}%`;
-    }
-}
+/* =========================================== */
+/* ИНИЦИАЛИЗАЦИЯ                              */
+/* =========================================== */
 
-/* Увеличение счетчика загруженных слайдеров */
-window.incrementLoadedSliders = function() {
-    loadedSliders++;
-    console.log(`Загружен слайдер ${loadedSliders}/${totalSliders}`);
-    if (window.checkAllLoaded) {
-        window.checkAllLoaded();
-    }
-};
 
-/* Проверка, все ли загружено */
-window.checkAllLoaded = function() {
-    const allSlidersLoaded = loadedSliders >= totalSliders;
-    const allMediaLoaded = loadedMediaItems >= totalMediaItems;
-    
-    if (allSlidersLoaded && allMediaLoaded) {
-        console.log("Все загружено!");
-        setTimeout(() => {
-            if (window.hidePreloader) {
-                window.hidePreloader();
-            }
-        }, 1000);
-    }
-};
 
-/* Скрытие прелоадера */
-window.hidePreloader = function() {
-    const loader = document.getElementById('loadingOverlay');
-    if (loader && loader.style.display !== 'none') {
-        loader.style.opacity = '0';
-        loader.style.pointerEvents = 'none';
-        setTimeout(() => {
-            loader.style.display = 'none';
-            
-            setupScrollReveal();
-            createHeartsSystem();
-            setupMusicPlayer();
-            setupHeroScrollAnimation();
-            
-            setTimeout(() => {
-                document.querySelectorAll('.memory-section, .fade-in').forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top < window.innerHeight * 0.9) {
-                        el.classList.add('visible');
-                    }
-                });
-            }, 100);
-        }, 300);
-    }
-};
-
-/* Предзагрузка изображения героя */
-function preloadHeroImage() {
-    const heroBg = document.getElementById('heroBg');
-    const heroImageUrl = "обложка.jpg";
-    
-    const img = new Image();
-    img.onload = function() {
-        heroBg.style.backgroundImage = `url("${heroImageUrl}")`;
-        if (updateMediaLoadProgress) {
-            updateMediaLoadProgress();
-        }
-    };
-    
-    img.onerror = function() {
-        heroBg.style.backgroundColor = '#1a1a1a';
-        heroBg.style.display = 'flex';
-        heroBg.style.alignItems = 'center';
-        heroBg.style.justifyContent = 'center';
-        heroBg.innerHTML = '<div style="color:#ffe4f0; text-align:center; padding:20px;">Обложка не загружена</div>';
-        if (updateMediaLoadProgress) {
-            updateMediaLoadProgress();
-        }
-    };
-    
-    img.src = heroImageUrl;
-}
-
-/* Загрузка музыки для отслеживания прогресса */
-function preloadMusic() {
-    const audio = document.getElementById('backgroundMusic');
-    let musicLoaded = false;
-    
-    audio.addEventListener('canplaythrough', function() {
-        if (!musicLoaded) {
-            musicLoaded = true;
-            if (updateMediaLoadProgress) {
-                updateMediaLoadProgress();
-            }
-        }
-    });
-    
-    audio.addEventListener('error', function() {
-        if (!musicLoaded) {
-            musicLoaded = true;
-            if (updateMediaLoadProgress) {
-                updateMediaLoadProgress();
-            }
-        }
-    });
-    
-    audio.load();
-    
-    setTimeout(() => {
-        if (!musicLoaded) {
-            musicLoaded = true;
-            if (updateMediaLoadProgress) {
-                updateMediaLoadProgress();
-            }
-        }
-    }, 5000);
-}
-
-/* Инициализация */
 window.addEventListener("DOMContentLoaded", () => {
+    fixPreloaderForMobile();
+    
     window.scrollTo(0, 0);
     
-    // Защита от масштабирования на мобильных
     document.addEventListener('touchmove', function(e) {
         if(e.scale !== 1) {
             e.preventDefault();
@@ -1766,29 +1883,28 @@ window.addEventListener("DOMContentLoaded", () => {
         lastTouchEnd = now;
     }, { passive: false });
     
-    // Инициализация приложения
-    countTotalMedia();
-    preloadHeroImage();
-    preloadMusic();
+    mediaLoader.initialize();
     renderSections();
+    
+    setTimeout(() => {
+        mediaLoader.startLoading();
+    }, 500);
+    
+    setTimeout(() => {
+        const loader = document.getElementById('loadingOverlay');
+        if (loader && loader.style.display !== 'none') {
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                setupScrollReveal();
+                createHeartsSystem();
+                setupMusicPlayer();
+                setupHeroScrollAnimation();
+            }, 300);
+        }
+    }, 45000);
 });
 
-// Фолбэк на случай если загрузка затянется
-setTimeout(() => {
-    const loader = document.getElementById('loadingOverlay');
-    if (loader && loader.style.display !== 'none') {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-            loader.style.display = 'none';
-            setupScrollReveal();
-            createHeartsSystem();
-            setupMusicPlayer();
-            setupHeroScrollAnimation();
-        }, 300);
-    }
-}, 15000);
-
-// Очистка при закрытии страницы
 window.addEventListener('beforeunload', () => {
     if (window.heartInterval) {
         clearInterval(window.heartInterval);
