@@ -521,7 +521,7 @@ class MediaLoader {
                 setupScrollReveal();
                 createHeartsSystem();
                 setupMusicPlayer();
-                setupCoverAnimation(); // <-- Эта строка должна быть здесь
+                setupCoverAnimation();
                 
                 this.log('Приложение запущено', 'Все системы активны');
                 
@@ -923,6 +923,18 @@ class ImprovedSlider {
                 video.src = item.src;
                 
                 mediaContainer.appendChild(video);
+                
+                // Добавляем обработчик загрузки для удаления ошибки
+                video.addEventListener('loadeddata', () => {
+                    this.removeErrorMessage(i);
+                });
+                
+                video.addEventListener('error', () => {
+                    // Если видео не загрузилось, показываем ошибку
+                    if (!item.loaded) {
+                        this.showError(i, item.type);
+                    }
+                });
             } else {
                 const img = el("img");
                 img.loading = "lazy";
@@ -930,6 +942,18 @@ class ImprovedSlider {
                 img.src = item.src;
                 
                 mediaContainer.appendChild(img);
+                
+                // Добавляем обработчик загрузки для удаления ошибки
+                img.addEventListener('load', () => {
+                    this.removeErrorMessage(i);
+                });
+                
+                img.addEventListener('error', () => {
+                    // Если изображение не загрузилось, показываем ошибку
+                    if (!item.loaded) {
+                        this.showError(i, item.type);
+                    }
+                });
             }
             
             const slideNumber = el("div", "slide-number", `${i + 1}/${this.allItems.length}`);
@@ -976,6 +1000,7 @@ class ImprovedSlider {
             item.loaded = true;
             this.loadedCount++;
             
+            // Удаляем сообщение об ошибке при успешной загрузке
             this.removeErrorMessage(index);
             
             return true;
@@ -1002,6 +1027,26 @@ class ImprovedSlider {
         if (mediaElement) {
             mediaElement.style.display = 'block';
         }
+    }
+
+    showError(index, type) {
+        const slide = this.slides[index];
+        if (!slide) return;
+        
+        const mediaElement = slide.querySelector(type === "image" ? "img" : "video");
+        if (mediaElement) {
+            mediaElement.style.display = 'none';
+        }
+        
+        // Удаляем старое сообщение об ошибке перед добавлением нового
+        this.removeErrorMessage(index);
+        
+        const errorMsg = el("div", "load-error", `❌ ${type === "image" ? "Фото" : "Видео"} не загружено`);
+        errorMsg.style.color = '#ff6b6b';
+        errorMsg.style.padding = '20px';
+        errorMsg.style.textAlign = 'center';
+        errorMsg.style.fontSize = '16px';
+        slide.appendChild(errorMsg);
     }
 
     async loadImage(url, index) {
@@ -1067,25 +1112,6 @@ class ImprovedSlider {
                 }
             }, 30000);
         });
-    }
-
-    showError(index, type) {
-        const slide = this.slides[index];
-        if (!slide) return;
-        
-        const mediaElement = slide.querySelector(type === "image" ? "img" : "video");
-        if (mediaElement) {
-            mediaElement.style.display = 'none';
-        }
-        
-        this.removeErrorMessage(index);
-        
-        const errorMsg = el("div", "load-error", `❌ ${type === "image" ? "Фото" : "Видео"} не загружено`);
-        errorMsg.style.color = '#ff6b6b';
-        errorMsg.style.padding = '20px';
-        errorMsg.style.textAlign = 'center';
-        errorMsg.style.fontSize = '16px';
-        slide.appendChild(errorMsg);
     }
 
     calculateSliderHeight() {
@@ -1876,23 +1902,4 @@ window.addEventListener('beforeunload', () => {
     if (window.heartInterval) {
         clearInterval(window.heartInterval);
     }
-});
-
-/* =========================================== */
-/* ЗАПУСК АНИМАЦИИ ОБЛОЖКИ                    */
-/* =========================================== */
-
-// Вызываем анимацию сразу после загрузки DOM
-document.addEventListener('DOMContentLoaded', function() {
-    // Небольшая задержка для гарантии, что элементы загрузились
-    setTimeout(() => {
-        setupCoverAnimation();
-    }, 100);
-});
-
-// Также вызываем при полной загрузке страницы
-window.addEventListener('load', function() {
-    setTimeout(() => {
-        setupCoverAnimation();
-    }, 200);
 });

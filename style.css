@@ -1,4 +1,3 @@
-
 @font-face {
     font-family: 'Pacifico';
     src: url('Pacifico-Regular.ttf') format('truetype');
@@ -106,7 +105,7 @@ a {
 
 .loading-text {
     color: var(--accent);
-    font-size: 20px;
+    font-size: 24px; /* Увеличено на 20% (было 20px) */
     opacity: 0.8;
     animation: pulse 2s ease-in-out infinite;
     text-align: center;
@@ -137,7 +136,7 @@ a {
     }
     
     .loading-text {
-        font-size: 18px;
+        font-size: 21.6px; /* Увеличено на 20% (было 18px) */
         padding: 0 15px;
         white-space: nowrap;
         overflow: visible;
@@ -153,7 +152,7 @@ a {
 
 @media (max-width: 480px) {
     .loading-text {
-        font-size: 18px;
+        font-size: 21.6px; /* Увеличено на 20% (было 18px) */
         padding: 0 10px;
     }
     
@@ -545,7 +544,7 @@ a {
 }
 
 .hero-we {
-    font-size: 6rem;
+    font-size: 7.2rem; /* Увеличено на 20% (было 6rem) */
     line-height: 0.9;
     font-weight: 700;
     text-shadow: 0 0 30px rgba(255, 228, 240, 0.6);
@@ -569,7 +568,7 @@ a {
 }
 
 .hero-year {
-    font-size: 4.5rem;
+    font-size: 5.4rem; /* Увеличено на 20% (было 4.5rem) */
     text-shadow: 0 0 20px rgba(255, 228, 240, 0.5);
     opacity: 1;
     transform: translateY(0);
@@ -683,7 +682,7 @@ a {
 .sparkle-title {
     position: relative;
     display: inline-block;
-    font-size: 42px;
+    font-size: 50.4px; /* Увеличено на 20% (было 42px) */
     margin: 20px 0 20px;
     text-align: center;
     width: 100%;
@@ -732,7 +731,7 @@ a {
 /* headings */
 h2,
 h3 {
-    font-size: 42px;
+    font-size: 50.4px; /* Увеличено на 20% (было 42px) */
     margin: 20px 0 20px;
     text-align: center;
     position: relative;
@@ -744,7 +743,7 @@ h2, h3 {
 
 /* основной текст */
 p {
-    font-size: 20px;
+    font-size: 24px; /* Увеличено на 20% (было 20px) */
     line-height: 1.7;
     text-align: left;
     margin: 0 0 18px 0;
@@ -780,7 +779,7 @@ p {
     transform: translateY(0);
 }
 
-/* divider */
+/* divider - ИСПРАВЛЕНО НАЛОЖЕНИЕ MARGIN */
 .section-divider {
     width: 70%;
     height: 2px;
@@ -797,6 +796,32 @@ p {
     opacity: 0;
     transform: scaleX(0);
     transition: all 0.6s cubic-bezier(0.22, 0.9, 0.32, 1) 0.2s;
+}
+
+/* Исправление для предотвращения схлопывания margin */
+.container > .section-divider {
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+/* Для разделителей внутри sections */
+#sections .section-divider {
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+/* Увеличиваем margin для текстовых блоков, следующих за разделителями */
+.section-divider + .memory-section,
+.section-divider + .summary,
+.section-divider + .final-section {
+    margin-top: 40px; /* Добавляем margin-top для блоков после разделителя */
+}
+
+/* Убираем лишний margin у первых элементов в секциях */
+.memory-section:first-child,
+.summary:first-child,
+.final-section:first-child {
+    margin-top: 0 !important;
 }
 
 .section-divider.visible {
@@ -1003,7 +1028,7 @@ p {
     color: var(--accent);
     padding: 6px 16px;
     border-radius: 20px;
-    font-size: 18px;
+    font-size: 18px; /* Не увеличиваем - по ТЗ исключение */
     font-weight: 600;
     z-index: 10;
     box-sizing: border-box;
@@ -1318,27 +1343,27 @@ p {
     
     /* Улучшенный hero */
     .hero-we {
-        font-size: 4rem;
+        font-size: 4.8rem; /* Увеличено на 20% (было 4rem) */
     }
     
     .hero-year {
-        font-size: 3rem;
+        font-size: 3.6rem; /* Увеличено на 20% (было 3rem) */
     }
     
     /* Улучшенные заголовки */
     .sparkle-title {
-        font-size: 32px;
+        font-size: 38.4px; /* Увеличено на 20% (было 32px) */
         margin: 20px 0 20px;
     }
     
     h2, h3 {
-        font-size: 32px;
+        font-size: 38.4px; /* Увеличено на 20% (было 32px) */
         margin: 20px 0 20px;
     }
     
     /* Улучшенный текст */
     p {
-        font-size: 18px;
+        font-size: 21.6px; /* Увеличено на 20% (было 18px) */
         text-indent: 20px;
         margin: 0 0 15px 0;
         line-height: 1.6;
@@ -1393,7 +1418,7 @@ p {
     }
     
     .slide-number {
-        font-size: 16px;
+        font-size: 16px; /* Не увеличиваем - по ТЗ исключение */
         padding: 4px 12px;
         top: 15px;
         background: rgba(0, 0, 0, 0.85);
@@ -1564,25 +1589,25 @@ p {
     }
     
     .hero-we {
-        font-size: 3rem;
+        font-size: 3.6rem; /* Увеличено на 20% (было 3rem) */
     }
     
     .hero-year {
-        font-size: 2.2rem;
+        font-size: 2.64rem; /* Увеличено на 20% (было 2.2rem) */
     }
     
     .sparkle-title {
-        font-size: 28px;
+        font-size: 33.6px; /* Увеличено на 20% (было 28px) */
         margin: 20px 0 20px;
     }
     
     h2, h3 {
-        font-size: 28px;
+        font-size: 33.6px; /* Увеличено на 20% (было 28px) */
         margin: 20px 0 20px;
     }
     
     p {
-        font-size: 16px;
+        font-size: 19.2px; /* Увеличено на 20% (было 16px) */
         text-indent: 15px;
         margin: 0 0 12px 0;
         line-height: 1.5;
@@ -1606,7 +1631,7 @@ p {
     }
     
     .slide-number {
-        font-size: 14px;
+        font-size: 14px; /* Не увеличиваем - по ТЗ исключение */
         padding: 3px 10px;
         top: 12px;
         min-width: 60px;
@@ -1728,7 +1753,7 @@ p {
 }
 
 .hero-we {
-    font-size: 6rem;
+    font-size: 7.2rem; /* Увеличено на 20% (было 6rem) */
     line-height: 0.9;
     font-weight: 700;
     text-shadow: 0 0 30px rgba(255, 228, 240, 0.6);
@@ -1737,7 +1762,7 @@ p {
 }
 
 .hero-year {
-    font-size: 4.5rem;
+    font-size: 5.4rem; /* Увеличено на 20% (было 4.5rem) */
     text-shadow: 0 0 20px rgba(255, 228, 240, 0.5);
     transition: opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s;
 }
@@ -1759,20 +1784,20 @@ p {
 /* Мобильная адаптация для обложки */
 @media (max-width: 768px) {
     .hero-we {
-        font-size: 4rem;
+        font-size: 4.8rem; /* Увеличено на 20% (было 4rem) */
     }
     
     .hero-year {
-        font-size: 3rem;
+        font-size: 3.6rem; /* Увеличено на 20% (было 3rem) */
     }
 }
 
 @media (max-width: 480px) {
     .hero-we {
-        font-size: 3rem;
+        font-size: 3.6rem; /* Увеличено на 20% (было 3rem) */
     }
     
     .hero-year {
-        font-size: 2.2rem;
+        font-size: 2.64rem; /* Увеличено на 20% (было 2.2rem) */
     }
 }
