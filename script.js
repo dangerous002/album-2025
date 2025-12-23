@@ -506,7 +506,6 @@ class MediaLoader {
         this.log('Слайдер загружен', `Загружено слайдеров: ${this.loadedSliders}/${this.totalSliders}`);
     }
 
-    // В функции launchApplication добавьте событие
     launchApplication() {
         if (!this.loadingComplete) return;
         
@@ -516,10 +515,6 @@ class MediaLoader {
         if (loader) {
             loader.style.opacity = '0';
             loader.style.pointerEvents = 'none';
-            
-            // Генерируем событие для снятия блокировки скролла
-            const event = new Event('preloaderHidden');
-            window.dispatchEvent(event);
             
             setTimeout(() => {
                 loader.style.display = 'none';
@@ -531,9 +526,9 @@ class MediaLoader {
                 
                 this.log('Приложение запущено', 'Все системы активны');
                 
-        }, 500);
+            }, 500);
+        }
     }
-}
 
     log(context, message) {
         const timestamp = new Date().toLocaleTimeString();
@@ -1826,46 +1821,11 @@ function renderSections() {
     });
 }
 
-/* Фикс для прелоадера на мобильных устройствах */
-function fixPreloaderForMobile() {
-    const preloader = document.getElementById('loadingOverlay');
-    if (!preloader) return;
-    
-    // Устанавливаем фиксированные размеры
-    preloader.style.width = '100vw';
-    preloader.style.height = '100vh';
-    preloader.style.position = 'fixed';
-    preloader.style.top = '0';
-    preloader.style.left = '0';
-    preloader.style.right = '0';
-    preloader.style.bottom = '0';
-    preloader.style.margin = '0';
-    preloader.style.padding = '0';
-    
-    // Принудительно устанавливаем viewport
-    const viewport = document.querySelector('meta[name="viewport"]');
-    if (viewport) {
-        viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
-    }
-    
-    // Добавляем класс к body для блокировки скролла
-    document.body.classList.add('preloader-active');
-    
-    // Убираем класс при скрытии прелоадера
-    window.addEventListener('preloaderHidden', function() {
-        document.body.classList.remove('preloader-active');
-    });
-}
-
 /* =========================================== */
 /* ИНИЦИАЛИЗАЦИЯ                              */
 /* =========================================== */
 
-
-
 window.addEventListener("DOMContentLoaded", () => {
-    fixPreloaderForMobile();
-    
     window.scrollTo(0, 0);
     
     document.addEventListener('touchmove', function(e) {
