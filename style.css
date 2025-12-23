@@ -773,17 +773,26 @@ p {
         position: relative !important;
     }
     
+    /* УДАЛЕНИЕ АНИМАЦИИ НА МОБИЛЬНОМ УСТРОЙСТВЕ - ПРАВКА №1 */
     .slide img,
     .slide video {
         max-width: 100% !important;
         max-height: 100% !important;
-        width: auto !important; /* ВОЗВРАЩАЕМ auto */
-        height: auto !important; /* ВОЗВРАЩАЕМ auto */
+        width: auto !important;
+        height: auto !important;
         border-radius: 0 !important;
         box-shadow: none !important;
         object-fit: contain !important;
         display: block !important;
-        margin: 0 auto !important; /* Центрируем */
+        margin: 0 auto !important;
+        transition: none !important; /* Удаляем анимацию */
+        transform: none !important; /* Убираем трансформации */
+    }
+    
+    /* Убираем ховер-эффекты на мобильных */
+    .slide:hover img,
+    .slide:hover video {
+        transform: none !important;
     }
 }
 
@@ -1571,5 +1580,38 @@ p {
     
     input[type="range"] {
         min-height: 44px;
+    }
+}
+
+/* Дополнительные стили для лучшего определения элементов управления видео */
+.lb-video::-webkit-media-controls-panel {
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+}
+
+.lb-video::-webkit-media-controls-play-button,
+.lb-video::-webkit-media-controls-volume-slider,
+.lb-video::-webkit-media-controls-timeline,
+.lb-video::-webkit-media-controls-current-time-display,
+.lb-video::-webkit-media-controls-time-remaining-display,
+.lb-video::-webkit-media-controls-fullscreen-button {
+    pointer-events: auto;
+}
+
+/* Для мобильных устройств: более четкое выделение области элементов управления */
+@media (max-width: 768px) {
+    .video-playing {
+        position: relative;
+    }
+    
+    .video-playing::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 25%;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+        pointer-events: none;
+        z-index: 1;
     }
 }

@@ -253,7 +253,7 @@ function isVideoFile(src) {
     return videoExtensions.some(ext => lowerSrc.endsWith(ext.toLowerCase()));
 }
 
-/* Улучшенный Lightbox */
+/* Улучшенный Lightbox с правильной обработкой видео */
 const LB = (() => {
     const root = document.getElementById("lightbox");
     const content = root.querySelector(".lb-content");
@@ -263,17 +263,59 @@ const LB = (() => {
     const btnClose = root.querySelector(".lb-close");
     const btnPrev = root.querySelector(".lb-prev");
     const btnNext = root.querySelector(".lb-next");
+    
     let items = [],
         idx = 0,
         isAnimating = false,
         isMobile = window.innerWidth <= 768,
         touchStartX = 0,
+        touchStartY = 0,
         touchEndX = 0,
-        isVideoInteracting = false;
+        touchEndY = 0,
+        isSwiping = false,
+        swipeStartElement = null;
 
     window.addEventListener('resize', () => {
         isMobile = window.innerWidth <= 768;
     });
+
+    // Новая функция: проверяем, находится ли элемент внутри элементов управления видео
+    function isInsideVideoControls(element) {
+        if (!element || !video.contains(element)) return false;
+        
+        // Ищем элементы управления видео
+        const videoRect = video.getBoundingClientRect();
+        
+        // Проверяем, находится ли элемент в нижней части видео (где обычно элементы управления)
+        const elementRect = element.getBoundingClientRect();
+        
+        // Элементы управления обычно занимают нижние 20-25% видео
+        const controlsAreaTop = videoRect.top + videoRect.height * 0.75;
+        
+        // Если элемент находится в нижней четверти видео, считаем что это элемент управления
+        if (elementRect.top >= controlsAreaTop) {
+            return true;
+        }
+        
+        // Дополнительно проверяем по классам и тегам
+        let currentElement = element;
+        while (currentElement && currentElement !== video) {
+            const tagName = currentElement.tagName.toLowerCase();
+            const className = currentElement.className || '';
+            
+            // Проверяем стандартные элементы управления видео
+            if (tagName === 'button' || tagName === 'input' || tagName === 'progress' || 
+                className.includes('control') || className.includes('progress') || 
+                className.includes('seek') || className.includes('volume') ||
+                className.includes('play') || className.includes('pause')) {
+                return true;
+            }
+            
+            currentElement = currentElement.parentElement;
+        }
+        
+        return false;
+    }
 
     function open(itemsArray, i) {
         items = itemsArray.slice();
@@ -291,19 +333,18 @@ const LB = (() => {
         video.classList.add("hidden");
         img.classList.add("hidden");
         video.pause();
-        isVideoInteracting = false;
         document.body.style.overflow = "";
         document.documentElement.style.overflow = "";
     }
     
     function prev() {
-        if (isAnimating || isVideoInteracting) return;
+        if (isAnimating) return;
         idx = (idx - 1 + items.length) % items.length;
         showItemWithAnimation();
     }
     
     function next() {
-        if (isAnimating || isVideoInteracting) return;
+        if (isAnimating) return;
         idx = (idx + 1) % items.length;
         showItemWithAnimation();
     }
@@ -320,15 +361,8 @@ const LB = (() => {
                 videoSource.src = currentItem.src || currentItem;
                 video.load();
                 
-                video.addEventListener('seeking', () => {
-                    isVideoInteracting = true;
-                });
-                
-                video.addEventListener('seeked', () => {
-                    setTimeout(() => {
-                        isVideoInteracting = false;
-                    }, 300);
-                });
+                // Добавляем кастомный класс для видео, чтобы можно было стилизовать элементы управления
+                video.classList.add('video-playing');
                 
                 if (isMobile) {
                     video.setAttribute('playsinline', 'true');
@@ -341,10 +375,10 @@ const LB = (() => {
                 });
             }, 50);
         } else {
+            video.classList.remove('video-playing');
             video.classList.add("hidden");
             video.pause();
             videoSource.src = "";
-            isVideoInteracting = false;
             
             setTimeout(() => {
                 img.classList.remove("hidden");
@@ -370,30 +404,80 @@ const LB = (() => {
         }, 200);
     }
 
+    // Обработка начала касания
     function handleTouchStart(e) {
-        if (!isMobile || isVideoInteracting) return;
-        touchStartX = e.changedTouches[0].screenX;
-    }
-    
-    function handleTouchEnd(e) {
-        if (!isMobile || isAnimating || isVideoInteracting) return;
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }
-    
-    function handleSwipe() {
-        const minSwipeDistance = 50;
-        const distance = touchStartX - touchEndX;
+        if (!isMobile) return;
         
-        if (Math.abs(distance) < minSwipeDistance) return;
+        const touch = e.changedTouches[0];
+        touchStartX = touch.screenX;
+        touchStartY = touch.screenY;
+        isSwiping = false;
         
-        if (distance > 0) {
-            next();
-        } else {
-            prev();
+        // Запоминаем элемент, с которого началось касание
+        swipeStartElement = e.target;
+        
+        // Если касание началось внутри элементов управления видео, не начинаем отслеживание свайпа
+        if (isInsideVideoControls(swipeStartElement)) {
+            // Отменяем обработку свайпа для этого касания
+            touchStartX = 0;
+            touchStartY = 0;
         }
     }
+    
+    // Обработка движения пальца
+    function handleTouchMove(e) {
+        if (!isMobile || !touchStartX || isAnimating) return;
+        
+        const touch = e.changedTouches[0];
+        const deltaX = Math.abs(touch.screenX - touchStartX);
+        const deltaY = Math.abs(touch.screenY - touchStartY);
+        
+        // Если горизонтальное движение больше вертикального на 10px, считаем это свайпом
+        if (deltaX > 10 && deltaX > deltaY) {
+            isSwiping = true;
+            e.preventDefault(); // Предотвращаем скролл страницы
+        }
+    }
+    
+    // Обработка окончания касания
+    function handleTouchEnd(e) {
+        if (!isMobile || !touchStartX || isAnimating) return;
+        
+        const touch = e.changedTouches[0];
+        touchEndX = touch.screenX;
+        touchEndY = touch.screenY;
+        
+        // Если это был свайп, а не тап
+        if (isSwiping) {
+            // Проверяем, начался ли свайп с элементов управления видео
+            if (swipeStartElement && isInsideVideoControls(swipeStartElement)) {
+                // Если свайп начался с элементов управления видео, НЕ перелистываем
+                // Это позволяет перематывать видео свайпом по полоске времени
+            } else {
+                // В противном случае это свайп для перелистывания
+                const minSwipeDistance = 50;
+                const distanceX = touchStartX - touchEndX;
+                
+                if (Math.abs(distanceX) >= minSwipeDistance) {
+                    if (distanceX > 0) {
+                        next();
+                    } else {
+                        prev();
+                    }
+                }
+            }
+        }
+        
+        // Сбрасываем значения
+        touchStartX = 0;
+        touchStartY = 0;
+        touchEndX = 0;
+        touchEndY = 0;
+        isSwiping = false;
+        swipeStartElement = null;
+    }
 
+    // Инициализация обработчиков событий
     btnClose.addEventListener("click", close);
     btnPrev.addEventListener("click", (e) => {
         e.preventDefault();
@@ -406,13 +490,17 @@ const LB = (() => {
         next();
     });
     
+    // Клик по фону закрывает lightbox
     root.addEventListener("click", (e) => {
         if (e.target === root) close();
     });
     
+    // Обработка свайпов
     root.addEventListener('touchstart', handleTouchStart, { passive: true });
+    root.addEventListener('touchmove', handleTouchMove, { passive: false }); // passive: false чтобы можно было вызвать preventDefault
     root.addEventListener('touchend', handleTouchEnd, { passive: true });
     
+    // Обработка клавиатуры
     document.addEventListener("keydown", (e) => {
         if (root.classList.contains("hidden")) return;
         if (e.key === "Escape") close();
@@ -420,11 +508,8 @@ const LB = (() => {
         if (e.key === "ArrowRight") next();
     });
     
+    // Предотвращаем закрытие при клике на видео
     video.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-    
-    video.addEventListener('touchstart', (e) => {
         e.stopPropagation();
     });
     
@@ -433,6 +518,8 @@ const LB = (() => {
     
     return { open, close };
 })();
+
+
 
 /* Дебаунс для оптимизации */
 function debounce(func, wait) {
@@ -1322,7 +1409,7 @@ function setupMusicPlayer() {
             miniPlayer.style.display = 'none';
             return false;
         }
-        return true;
+    return true;
     }
     
     function updatePlayButton() {
