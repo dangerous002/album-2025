@@ -253,7 +253,7 @@ class MediaLoader {
         this.totalSliders = 0;
         this.loadedSliders = 0;
         this.maxConcurrent = 5;
-        this.maxRetries = 50;
+        this.maxRetries = 9999;
         this.activeDownloads = 0;
         this.retryCounts = new Map();
         this.mediaQueue = [];
@@ -265,7 +265,6 @@ class MediaLoader {
     initialize() {
         this.totalSliders = sectionsData.length;
         this.calculateTotalMedia();
-        this.log('Инициализация загрузчика', `Всего медиа: ${this.totalMediaItems}, Слайдеров: ${this.totalSliders}`);
     }
 
     calculateTotalMedia() {
@@ -277,52 +276,43 @@ class MediaLoader {
         });
         
         this.totalMediaItems += 2;
-        
-        this.log('Подсчет медиа', `Общее количество: ${this.totalMediaItems}`);
     }
 
     async startLoading() {
         if (this.isLoading) return;
         this.isLoading = true;
         
-        this.log('Начало загрузки', 'Создание очереди загрузки...');
-        
         this.createMediaQueue();
         await this.processQueue();
         await this.waitForAllSliders();
         
         this.loadingComplete = true;
-        this.log('Загрузка завершена', 'Все медиа обработаны');
         
         setTimeout(() => this.launchApplication(), 300);
     }
 
     createMediaQueue() {
-        // Герой - CDN приоритет
         this.mediaQueue.push({
             type: 'hero',
             url: 'обложка.jpg',
             retries: 0
         });
         
-        // Музыка - CDN приоритет
         this.mediaQueue.push({
             type: 'music',
             url: 'music.mp3',
             retries: 0
         });
         
-        // Фото и видео из секций - CDN приоритет
         sectionsData.forEach((section, sectionIndex) => {
             section.photos.forEach((photo, photoIndex) => {
                 this.mediaQueue.push({
                     type: 'image',
-                    url: photo[0], // CDN URL (первый элемент массива)
-                    backupUrl: photo[1], // Локальный URL (второй элемент массива)
+                    url: photo[0],
+                    backupUrl: photo[1],
                     sectionIndex,
                     photoIndex,
-                    retries: 0,
-                    sourcePriority: 'cdn' // Приоритет CDN
+                    retries: 0
                 });
             });
             
@@ -330,18 +320,15 @@ class MediaLoader {
                 section.videos.forEach((video, videoIndex) => {
                     this.mediaQueue.push({
                         type: 'video',
-                        url: video[0], // CDN URL (первый элемент массива)
-                        backupUrl: video[1], // Локальный URL (второй элемент массива)
+                        url: video[0],
+                        backupUrl: video[1],
                         sectionIndex,
                         videoIndex,
-                        retries: 0,
-                        sourcePriority: 'cdn' // Приоритет CDN
+                        retries: 0
                     });
                 });
             }
         });
-        
-        this.log('Очередь создана', `Элементов в очереди: ${this.mediaQueue.length}`);
     }
 
     async processQueue() {
@@ -352,10 +339,6 @@ class MediaLoader {
         }
         
         await Promise.all(promises);
-        
-        if (this.loadedMediaItems + this.failedMediaItems < this.totalMediaItems) {
-            this.log('Предупреждение', 'Не все элементы были обработаны');
-        }
     }
 
     async processNextItem() {
@@ -363,9 +346,7 @@ class MediaLoader {
             const item = this.mediaQueue.shift();
             if (!item) continue;
             
-            // Проверяем URL перед загрузкой
             if (!item.url) {
-                this.log('Ошибка', 'URL не определен');
                 this.failedMediaItems++;
                 this.updateProgress();
                 continue;
@@ -381,65 +362,39 @@ class MediaLoader {
         }
     }
 
-
     async loadMediaItem(item) {
         let loaded = false;
         let attempts = 0;
         
-        // Проверяем URL перед загрузкой
         if (!item.url) {
-            this.log('Ошибка', 'URL не определен');
             this.failedMediaItems++;
             this.updateProgress();
             return;
         }
         
-        // Проверяем, является ли URL CDN (yandexcloud.net)
         const isYandexCDN = item.url.includes('yandexcloud.net');
-        const originalUrl = item.url;
         
         while (!loaded && attempts < this.maxRetries) {
             attempts++;
             try {
-                // Для CDN пробуем сначала CDN, потом локальный (если есть backupUrl)
                 if (isYandexCDN && attempts <= 1) {
-                    // Первая попытка - CDN
                     await this.loadSingleItem(item);
                 } else if (item.backupUrl) {
-                    // Последующие попытки - backup URL
                     const backupItem = { ...item, url: item.backupUrl };
                     await this.loadSingleItem(backupItem);
                 } else {
-                    // Если нет backupUrl, продолжаем пробовать CDN
                     await this.loadSingleItem(item);
                 }
                 
                 loaded = true;
                 this.loadedMediaItems++;
-                
-                this.log('Успешная загрузка', 
-                    `Тип: ${item.type}, URL: ${item.url}, Попытка: ${attempts}`);
-                    
                 this.updateProgress();
                 
             } catch (error) {
-                // Если это последняя попытка, считаем элемент неудачным
                 if (attempts >= this.maxRetries) {
                     this.failedMediaItems++;
-                    this.log('КРИТИЧЕСКАЯ ОШИБКА', 
-                        `Не удалось загрузить после ${attempts} попыток: ${item.url}`);
                     this.updateProgress();
-                    
-                    // НЕ прерываем цикл - продолжаем пытаться бесконечно
-                    // break;
                 } else {
-                    // Логируем только каждую 10-ю попытку, чтобы не засорять консоль
-                    if (attempts % 10 === 0) {
-                        this.log('Повторная попытка', 
-                            `${item.url} - попытка ${attempts + 1} (бесконечные попытки)`);
-                    }
-                    
-                    // Экспоненциальная задержка с максимумом 10 секунд
                     const delay = Math.min(2000 * Math.pow(1.5, attempts - 1), 10000);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
@@ -515,20 +470,9 @@ class MediaLoader {
                 if (this.loadedSliders >= this.totalSliders) {
                     clearInterval(checkInterval);
                     this.allSlidersInitialized = true;
-                    this.log('Все слайдеры инициализированы', `Загружено: ${this.loadedSliders}/${this.totalSliders}`);
                     resolve();
-                } else if (this.loadedMediaItems + this.failedMediaItems >= this.totalMediaItems) {
-                    this.log('Ожидание слайдеров', 'Все медиа загружены, ожидаем инициализацию слайдеров...');
                 }
             }, 100);
-            
-            setTimeout(() => {
-                clearInterval(checkInterval);
-                if (this.loadedSliders < this.totalSliders) {
-                    this.log('ВНИМАНИЕ', 'Таймаут ожидания слайдеров. Запуск приложения...');
-                }
-                resolve();
-            }, 60000);
         });
     }
 
@@ -538,30 +482,16 @@ class MediaLoader {
         
         const loadingText = document.getElementById('loadingText');
         if (loadingText) {
-            // Добавляем информацию о бесконечных попытках
-            const remaining = this.totalMediaItems - processed;
-            const statusText = remaining > 0 
-                ? `Загрузка воспоминаний... ${progressPercent}%` 
-                : `Загрузка завершена!`;
-            loadingText.textContent = statusText;
-        }
-        
-        // Логируем прогресс
-        if (progressPercent % 5 === 0 || processed === this.totalMediaItems) {
-            this.log('Прогресс', 
-                `${progressPercent}% (${processed}/${this.totalMediaItems}) | Успешно: ${this.loadedMediaItems}, Ошибки: ${this.failedMediaItems}`);
+            loadingText.textContent = `Загрузка воспоминаний... ${progressPercent}%`;
         }
     }
 
     incrementLoadedSliders() {
         this.loadedSliders++;
-        this.log('Слайдер загружен', `Загружено слайдеров: ${this.loadedSliders}/${this.totalSliders}`);
     }
 
     launchApplication() {
         if (!this.loadingComplete) return;
-        
-        this.log('Запуск приложения', 'Скрытие прелоадера...');
         
         const loader = document.getElementById('loadingOverlay');
         if (loader) {
@@ -576,15 +506,8 @@ class MediaLoader {
                 setupMusicPlayer();
                 setupCoverAnimation();
                 
-                this.log('Приложение запущено', 'Все системы активны');
-                
             }, 500);
         }
-    }
-
-    log(context, message) {
-        const timestamp = new Date().toLocaleTimeString();
-        console.log(`[${timestamp}] [${context}] ${message}`);
     }
 }
 
@@ -874,22 +797,22 @@ class ImprovedSlider {
         this.videos = videos || [];
         this.allItems = [
             ...this.photos.map(srcArray => ({ 
-                src: srcArray[0], // CDN URL - приоритетный
-                backupSrc: srcArray[1], // Локальный URL - запасной
+                src: srcArray[0],
+                backupSrc: srcArray[1],
                 type: "image",
                 loaded: false,
                 loadingAttempts: 0,
-                currentSrc: srcArray[0], // Текущий используемый URL
+                currentSrc: srcArray[0],
                 naturalWidth: 0,
                 naturalHeight: 0
             })),
             ...this.videos.map(srcArray => ({ 
-                src: srcArray[0], // CDN URL - приоритетный
-                backupSrc: srcArray[1], // Локальный URL - запасной
+                src: srcArray[0],
+                backupSrc: srcArray[1],
                 type: "video",
                 loaded: false,
                 loadingAttempts: 0,
-                currentSrc: srcArray[0], // Текущий используемый URL
+                currentSrc: srcArray[0],
                 naturalWidth: 0,
                 naturalHeight: 0
             }))
@@ -983,13 +906,11 @@ class ImprovedSlider {
                 
                 mediaContainer.appendChild(video);
                 
-                // Добавляем обработчик загрузки для удаления ошибки
                 video.addEventListener('loadeddata', () => {
                     this.removeErrorMessage(i);
                 });
                 
                 video.addEventListener('error', () => {
-                    // Если видео не загрузилось, показываем ошибку
                     if (!item.loaded) {
                         this.showError(i, item.type);
                     }
@@ -1002,13 +923,11 @@ class ImprovedSlider {
                 
                 mediaContainer.appendChild(img);
                 
-                // Добавляем обработчик загрузки для удаления ошибки
                 img.addEventListener('load', () => {
                     this.removeErrorMessage(i);
                 });
                 
                 img.addEventListener('error', () => {
-                    // Если изображение не загрузилось, показываем ошибку
                     if (!item.loaded) {
                         this.showError(i, item.type);
                     }
@@ -1049,12 +968,11 @@ class ImprovedSlider {
     }
 
     async loadMediaItem(item, index) {
-        // Начинаем с CDN URL
         let currentUrl = item.src;
         let attempts = 0;
-        const maxAttemptsPerUrl = 5; // Попыток на каждый URL перед переключением
+        const maxAttemptsPerUrl = 5;
         
-        while (attempts < 9999) { // Бесконечные попытки
+        while (attempts < 9999) {
             attempts++;
             item.loadingAttempts = attempts;
             
@@ -1069,33 +987,21 @@ class ImprovedSlider {
                 item.currentSrc = currentUrl;
                 this.loadedCount++;
                 
-                // Удаляем сообщение об ошибке при успешной загрузке
                 this.removeErrorMessage(index);
-                
-                this.logLoadSuccess(index, item.type, currentUrl, attempts);
                 return true;
                 
             } catch (error) {
-                console.warn(`Не удалось загрузить (попытка ${attempts}): ${currentUrl}`);
-                
-                // Если есть backupSrc и мы пытались CDN достаточное количество раз
                 if (item.backupSrc && currentUrl === item.src && attempts >= maxAttemptsPerUrl) {
-                    this.log('Переключение на локальный источник', 
-                        `${item.type} ${index + 1}: CDN не доступен, пробуем локальный`);
                     currentUrl = item.backupSrc;
-                    attempts = 0; // Сбрасываем счетчик для нового URL
+                    attempts = 0;
                     continue;
                 }
                 
-                // Показываем ошибку только на первых попытках
                 if (attempts === 1 || attempts % 10 === 0) {
                     this.showError(index, item.type);
                 }
                 
-                // Ждем перед следующей попыткой
                 await new Promise(resolve => setTimeout(resolve, 1000 * Math.min(attempts, 5)));
-                
-                // Продолжаем пытаться бесконечно
                 continue;
             }
         }
@@ -1103,15 +1009,6 @@ class ImprovedSlider {
         this.errorCount++;
         this.loadedCount++;
         return false;
-    }
-
-    logLoadSuccess(index, type, url, attempts) {
-        const sourceType = url.includes('yandexcloud.net') ? 'CDN' : 'локальный';
-        console.log(`✅ ${type === "image" ? "Фото" : "Видео"} ${index + 1} загружено с ${sourceType} (попыток: ${attempts})`);
-    }
-
-    log(context, message) {
-        console.log(`[ImprovedSlider] [${context}] ${message}`);
     }
 
     removeErrorMessage(index) {
@@ -1138,7 +1035,6 @@ class ImprovedSlider {
             mediaElement.style.display = 'none';
         }
         
-        // Удаляем старое сообщение об ошибке перед добавлением нового
         const existingError = slide.querySelector('.load-error');
         if (existingError) {
             existingError.remove();
@@ -1168,7 +1064,6 @@ class ImprovedSlider {
             
             img.src = url;
             
-            // Таймаут для загрузки
             setTimeout(() => {
                 if (!img.complete) {
                     reject(new Error(`Image loading timeout: ${url}`));
@@ -1210,7 +1105,6 @@ class ImprovedSlider {
             
             video.src = url;
             
-            // Таймаут для загрузки
             setTimeout(() => {
                 if (!loaded) {
                     loaded = true;
@@ -1636,41 +1530,32 @@ function setupCoverAnimation() {
         return;
     }
     
-    // Устанавливаем начальные значения
     heroBg.style.transform = 'scale(1)';
     heroBg.style.opacity = '1';
     
     function updateCoverAnimation() {
-        // Получаем позицию скролла
         const scrollY = window.scrollY || window.pageYOffset;
         const heroHeight = hero.offsetHeight;
         
-        // Рассчитываем прогресс от 0 до 1
         let progress = scrollY / (heroHeight * 0.7);
-        progress = Math.min(progress, 1); // Не больше 1
+        progress = Math.min(progress, 1);
         
-        // Применяем анимацию
-        // 1. Увеличение размера: от 1 до 1.3
         const scale = 1 + (progress * 0.3);
         heroBg.style.transform = `scale(${scale})`;
         
-        // 2. Прозрачность: от 1 до 0
         const opacity = 1 - progress;
         heroBg.style.opacity = opacity;
         
-        // 3. Также анимируем контент
         if (heroContent) {
             heroContent.style.opacity = Math.max(0, 1 - (progress * 1.5));
             heroContent.style.transform = `translateY(${progress * 20}px)`;
         }
         
-        // 4. Скрываем индикатор скролла
         const scrollIndicator = document.querySelector('.scroll-indicator');
         if (scrollIndicator) {
             scrollIndicator.style.opacity = Math.max(0, 0.8 - (progress * 2));
         }
         
-        // 5. Когда полностью проскроллили, делаем обложку невидимой
         if (progress >= 1) {
             hero.style.visibility = 'hidden';
             hero.style.pointerEvents = 'none';
@@ -1680,13 +1565,9 @@ function setupCoverAnimation() {
         }
     }
     
-    // Добавляем обработчик скролла
     window.addEventListener('scroll', updateCoverAnimation, { passive: true });
     
-    // Вызываем один раз при загрузке
     updateCoverAnimation();
-    
-    console.log('Анимация обложки активирована');
 }
 
 /* =========================================== */
@@ -1989,20 +1870,6 @@ window.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         mediaLoader.startLoading();
     }, 500);
-    
-    setTimeout(() => {
-        const loader = document.getElementById('loadingOverlay');
-        if (loader && loader.style.display !== 'none') {
-            loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.display = 'none';
-                setupScrollReveal();
-                createHeartsSystem();
-                setupMusicPlayer();
-                setupCoverAnimation();
-            }, 300);
-        }
-    }, 45000);
 });
 
 window.addEventListener('beforeunload', () => {
