@@ -176,7 +176,7 @@ a {
     border-radius: 50%;
     background: rgba(26, 26, 26, 0.95);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 228, 240, 0.2);
+    border: 2px solid rgba(255, 228, 240, 0.2); /* Увеличено с 1px до 2px */
     color: var(--accent);
     font-size: 22px;
     display: flex;
@@ -231,15 +231,22 @@ a {
 .player-controls {
     background: rgba(26, 26, 26, 0.95);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 228, 240, 0.2);
-    border-radius: 15px;
+    border: 2px solid rgba(255, 228, 240, 0.2); /* Увеличено с 1px до 2px */
+    border-radius: 20px; /* Увеличено с 15px до 20px */
     padding: 12px 25px;
     display: flex;
     align-items: center;
     gap: 15px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     transition: all 0.3s ease;
-    width: 380px;
+    /* Ширина для десктопа */
+    width: 410px; /* ИЗМЕНЕНО: было 380px */
+}
+
+@media (max-width: 768px) {
+    .player-controls {
+        width: 100%; /* На мобильных остаётся 100% */
+    }
 }
 
 @keyframes slideInUp {
@@ -304,7 +311,7 @@ a {
 
 .track-title {
     font-weight: 600;
-    font-size: 15px;
+    font-size: 17px; /* ИЗМЕНЕНО: было 15px */
     color: var(--accent);
     white-space: nowrap;
     overflow: hidden;
@@ -312,7 +319,7 @@ a {
 }
 
 .track-artist {
-    font-size: 13px;
+    font-size: 15px; /* ИЗМЕНЕНО: было 13px */
     color: rgba(255, 228, 240, 0.7);
     white-space: nowrap;
     overflow: hidden;
@@ -328,42 +335,24 @@ a {
 }
 
 .volume-slider-container {
-    background: rgba(255, 228, 240, 0.05);
+    background: transparent; /* Убран задний фон */
     border-radius: 10px;
     padding: 8px 12px;
-}
-
-.volume-btn {
-    background: transparent;
-    border: none;
-    color: var(--accent);
-    cursor: pointer;
-    font-size: 16px;
-    width: 32px;
-    height: 32px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    touch-action: manipulation;
-}
-
-.volume-btn:hover {
-    background: rgba(255, 228, 240, 0.1);
+    min-width: 80px; /* ИЗМЕНЕНО: было 100px */
+    width: 90px; /* ИЗМЕНЕНО: добавлена фиксированная ширина */
 }
 
 #volumeSlider {
-    width: 80px;
+    width: 100%;
     height: 4px;
     -webkit-appearance: none;
-    background: rgba(255, 228, 240, 0.2);
+    background: transparent; /* ИЗМЕНЕНО: было rgba(255, 228, 240, 0.2) */
     border-radius: 2px;
     outline: none;
     flex-shrink: 0;
     touch-action: manipulation;
-    min-width: 80px;
     margin: 0;
     padding: 0;
 }
@@ -395,6 +384,27 @@ a {
     height: 4px;
     background: rgba(255, 228, 240, 0.2);
     border-radius: 2px;
+}
+
+.volume-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    touch-action: manipulation;
+}
+
+.volume-btn:hover {
+    background: rgba(255, 228, 240, 0.1);
 }
 
 /* Летающие сердечки */
@@ -1252,6 +1262,7 @@ p {
         width: 44px;
         height: 44px;
         font-size: 20px;
+        border: 2px solid rgba(255, 228, 240, 0.2); /* Увеличено с 1px до 2px */
     }
     
     /* Улучшенный музыкальный плеер */
@@ -1267,7 +1278,8 @@ p {
         max-width: 100%;
         padding: 15px;
         gap: 12px;
-        border-radius: 12px;
+        border-radius: 20px; /* Увеличено с 12px до 20px */
+        border: 2px solid rgba(255, 228, 240, 0.2); /* Увеличено с 1px до 2px */
     }
     
     .player-btn {
@@ -1291,12 +1303,12 @@ p {
     }
     
     .track-title {
-        font-size: 15px;
+        font-size: 17px; /* ИЗМЕНЕНО: было 15px */
         font-weight: 600;
     }
     
     .track-artist {
-        font-size: 13px;
+        font-size: 15px; /* ИЗМЕНЕНО: было 13px */
     }
     
     .volume-control {
@@ -1305,13 +1317,16 @@ p {
     
     .volume-slider-container {
         padding: 6px 8px;
-        background: rgba(255, 228, 240, 0.03);
+        background: transparent;
+        display: flex;
+        align-items: center;
+        min-width: 60px; /* ИЗМЕНЕНО: было 100px */
+        width: 120px; /* ИЗМЕНЕНО: добавлена фиксированная ширина */
     }
     
     #volumeSlider {
-        width: 60px !important;
+        width: 100% !important;
         height: 3px !important;
-        min-width: 60px !important;
     }
     
     #volumeSlider::-webkit-slider-thumb {
@@ -1528,6 +1543,7 @@ p {
         width: 40px;
         height: 40px;
         font-size: 18px;
+        border: 2px solid rgba(255, 228, 240, 0.2); /* Увеличено с 1px до 2px */
     }
     
     .music-player {
@@ -1539,7 +1555,8 @@ p {
     .player-controls {
         padding: 12px;
         gap: 8px;
-        border-radius: 10px;
+        border-radius: 20px; /* Увеличено с 10px до 20px */
+        border: 2px solid rgba(255, 228, 240, 0.2); /* Увеличено с 1px до 2px */
     }
     
     .player-btn {
@@ -1557,11 +1574,11 @@ p {
     }
     
     .track-title {
-        font-size: 14px;
+        font-size: 16px; /* ИЗМЕНЕНО: было 14px */
     }
     
     .track-artist {
-        font-size: 12px;
+        font-size: 14px; /* ИЗМЕНЕНО: было 12px */
     }
     
     .volume-btn {
@@ -1574,11 +1591,15 @@ p {
     
     .volume-slider-container {
         padding: 4px 6px;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        min-width: 50px; /* ИЗМЕНЕНО: было 100px */
+        width: 90px; /* ИЗМЕНЕНО: добавлена фиксированная ширина */
     }
     
     #volumeSlider {
-        width: 50px !important;
-        min-width: 50px !important;
+        width: 100% !important;
         height: 2px !important;
     }
     
