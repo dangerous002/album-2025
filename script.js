@@ -253,7 +253,7 @@ class MediaLoader {
         this.totalSliders = 0;
         this.loadedSliders = 0;
         this.maxConcurrent = 5;
-        this.maxRetries = 15;
+        this.maxRetries = 50;
         this.activeDownloads = 0;
         this.retryCounts = new Map();
         this.mediaQueue = [];
@@ -298,26 +298,31 @@ class MediaLoader {
     }
 
     createMediaQueue() {
+        // Герой - CDN приоритет
         this.mediaQueue.push({
             type: 'hero',
             url: 'обложка.jpg',
             retries: 0
         });
         
+        // Музыка - CDN приоритет
         this.mediaQueue.push({
             type: 'music',
             url: 'music.mp3',
             retries: 0
         });
         
+        // Фото и видео из секций - CDN приоритет
         sectionsData.forEach((section, sectionIndex) => {
             section.photos.forEach((photo, photoIndex) => {
                 this.mediaQueue.push({
                     type: 'image',
-                    url: photo[0],
+                    url: photo[0], // CDN URL (первый элемент массива)
+                    backupUrl: photo[1], // Локальный URL (второй элемент массива)
                     sectionIndex,
                     photoIndex,
-                    retries: 0
+                    retries: 0,
+                    sourcePriority: 'cdn' // Приоритет CDN
                 });
             });
             
@@ -325,10 +330,12 @@ class MediaLoader {
                 section.videos.forEach((video, videoIndex) => {
                     this.mediaQueue.push({
                         type: 'video',
-                        url: video[0],
+                        url: video[0], // CDN URL (первый элемент массива)
+                        backupUrl: video[1], // Локальный URL (второй элемент массива)
                         sectionIndex,
                         videoIndex,
-                        retries: 0
+                        retries: 0,
+                        sourcePriority: 'cdn' // Приоритет CDN
                     });
                 });
             }
@@ -379,10 +386,34 @@ class MediaLoader {
         let loaded = false;
         let attempts = 0;
         
-        while (!loaded && attempts <= this.maxRetries) {
+        // Проверяем URL перед загрузкой
+        if (!item.url) {
+            this.log('Ошибка', 'URL не определен');
+            this.failedMediaItems++;
+            this.updateProgress();
+            return;
+        }
+        
+        // Проверяем, является ли URL CDN (yandexcloud.net)
+        const isYandexCDN = item.url.includes('yandexcloud.net');
+        const originalUrl = item.url;
+        
+        while (!loaded && attempts < this.maxRetries) {
             attempts++;
             try {
-                await this.loadSingleItem(item);
+                // Для CDN пробуем сначала CDN, потом локальный (если есть backupUrl)
+                if (isYandexCDN && attempts <= 1) {
+                    // Первая попытка - CDN
+                    await this.loadSingleItem(item);
+                } else if (item.backupUrl) {
+                    // Последующие попытки - backup URL
+                    const backupItem = { ...item, url: item.backupUrl };
+                    await this.loadSingleItem(backupItem);
+                } else {
+                    // Если нет backupUrl, продолжаем пробовать CDN
+                    await this.loadSingleItem(item);
+                }
+                
                 loaded = true;
                 this.loadedMediaItems++;
                 
@@ -392,17 +423,24 @@ class MediaLoader {
                 this.updateProgress();
                 
             } catch (error) {
-                if (attempts === this.maxRetries) {
+                // Если это последняя попытка, считаем элемент неудачным
+                if (attempts >= this.maxRetries) {
                     this.failedMediaItems++;
                     this.log('КРИТИЧЕСКАЯ ОШИБКА', 
-                        `Не удалось загрузить после ${this.maxRetries} попыток: ${item.url}`);
+                        `Не удалось загрузить после ${attempts} попыток: ${item.url}`);
                     this.updateProgress();
-                    break;
-                } else {
-                    this.log('Повторная попытка', 
-                        `${item.url} - попытка ${attempts + 1}/${this.maxRetries}`);
                     
-                    const delay = Math.min(1000 * Math.pow(2, attempts - 1), 10000);
+                    // НЕ прерываем цикл - продолжаем пытаться бесконечно
+                    // break;
+                } else {
+                    // Логируем только каждую 10-ю попытку, чтобы не засорять консоль
+                    if (attempts % 10 === 0) {
+                        this.log('Повторная попытка', 
+                            `${item.url} - попытка ${attempts + 1} (бесконечные попытки)`);
+                    }
+                    
+                    // Экспоненциальная задержка с максимумом 10 секунд
+                    const delay = Math.min(2000 * Math.pow(1.5, attempts - 1), 10000);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
             }
@@ -500,10 +538,16 @@ class MediaLoader {
         
         const loadingText = document.getElementById('loadingText');
         if (loadingText) {
-            loadingText.textContent = `Загрузка воспоминаний... ${progressPercent}%`;
+            // Добавляем информацию о бесконечных попытках
+            const remaining = this.totalMediaItems - processed;
+            const statusText = remaining > 0 
+                ? `Загрузка воспоминаний... ${progressPercent}%` 
+                : `Загрузка завершена!`;
+            loadingText.textContent = statusText;
         }
         
-        if (progressPercent % 10 === 0 && processed > 0) {
+        // Логируем прогресс
+        if (progressPercent % 5 === 0 || processed === this.totalMediaItems) {
             this.log('Прогресс', 
                 `${progressPercent}% (${processed}/${this.totalMediaItems}) | Успешно: ${this.loadedMediaItems}, Ошибки: ${this.failedMediaItems}`);
         }
@@ -830,16 +874,22 @@ class ImprovedSlider {
         this.videos = videos || [];
         this.allItems = [
             ...this.photos.map(srcArray => ({ 
-                src: srcArray[0],
+                src: srcArray[0], // CDN URL - приоритетный
+                backupSrc: srcArray[1], // Локальный URL - запасной
                 type: "image",
                 loaded: false,
+                loadingAttempts: 0,
+                currentSrc: srcArray[0], // Текущий используемый URL
                 naturalWidth: 0,
                 naturalHeight: 0
             })),
             ...this.videos.map(srcArray => ({ 
-                src: srcArray[0],
+                src: srcArray[0], // CDN URL - приоритетный
+                backupSrc: srcArray[1], // Локальный URL - запасной
                 type: "video",
                 loaded: false,
+                loadingAttempts: 0,
+                currentSrc: srcArray[0], // Текущий используемый URL
                 naturalWidth: 0,
                 naturalHeight: 0
             }))
@@ -999,28 +1049,69 @@ class ImprovedSlider {
     }
 
     async loadMediaItem(item, index) {
-        try {
-            if (item.type === "image") {
-                await this.loadImage(item.src, index);
-            } else {
-                await this.loadVideo(item.src, index);
+        // Начинаем с CDN URL
+        let currentUrl = item.src;
+        let attempts = 0;
+        const maxAttemptsPerUrl = 5; // Попыток на каждый URL перед переключением
+        
+        while (attempts < 9999) { // Бесконечные попытки
+            attempts++;
+            item.loadingAttempts = attempts;
+            
+            try {
+                if (item.type === "image") {
+                    await this.loadImage(currentUrl, index);
+                } else {
+                    await this.loadVideo(currentUrl, index);
+                }
+                
+                item.loaded = true;
+                item.currentSrc = currentUrl;
+                this.loadedCount++;
+                
+                // Удаляем сообщение об ошибке при успешной загрузке
+                this.removeErrorMessage(index);
+                
+                this.logLoadSuccess(index, item.type, currentUrl, attempts);
+                return true;
+                
+            } catch (error) {
+                console.warn(`Не удалось загрузить (попытка ${attempts}): ${currentUrl}`);
+                
+                // Если есть backupSrc и мы пытались CDN достаточное количество раз
+                if (item.backupSrc && currentUrl === item.src && attempts >= maxAttemptsPerUrl) {
+                    this.log('Переключение на локальный источник', 
+                        `${item.type} ${index + 1}: CDN не доступен, пробуем локальный`);
+                    currentUrl = item.backupSrc;
+                    attempts = 0; // Сбрасываем счетчик для нового URL
+                    continue;
+                }
+                
+                // Показываем ошибку только на первых попытках
+                if (attempts === 1 || attempts % 10 === 0) {
+                    this.showError(index, item.type);
+                }
+                
+                // Ждем перед следующей попыткой
+                await new Promise(resolve => setTimeout(resolve, 1000 * Math.min(attempts, 5)));
+                
+                // Продолжаем пытаться бесконечно
+                continue;
             }
-            
-            item.loaded = true;
-            this.loadedCount++;
-            
-            // Удаляем сообщение об ошибке при успешной загрузке
-            this.removeErrorMessage(index);
-            
-            return true;
-        } catch (error) {
-            console.warn(`Не удалось загрузить: ${item.src}`);
-            this.showError(index, item.type);
-            this.errorCount++;
-            this.loadedCount++;
-            
-            return false;
         }
+        
+        this.errorCount++;
+        this.loadedCount++;
+        return false;
+    }
+
+    logLoadSuccess(index, type, url, attempts) {
+        const sourceType = url.includes('yandexcloud.net') ? 'CDN' : 'локальный';
+        console.log(`✅ ${type === "image" ? "Фото" : "Видео"} ${index + 1} загружено с ${sourceType} (попыток: ${attempts})`);
+    }
+
+    log(context, message) {
+        console.log(`[ImprovedSlider] [${context}] ${message}`);
     }
 
     removeErrorMessage(index) {
