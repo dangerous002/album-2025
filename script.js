@@ -356,6 +356,14 @@ class MediaLoader {
             const item = this.mediaQueue.shift();
             if (!item) continue;
             
+            // Проверяем URL перед загрузкой
+            if (!item.url) {
+                this.log('Ошибка', 'URL не определен');
+                this.failedMediaItems++;
+                this.updateProgress();
+                continue;
+            }
+            
             while (this.activeDownloads >= this.maxConcurrent) {
                 await new Promise(resolve => setTimeout(resolve, 50));
             }
@@ -365,6 +373,7 @@ class MediaLoader {
             this.activeDownloads--;
         }
     }
+
 
     async loadMediaItem(item) {
         let loaded = false;
@@ -378,7 +387,7 @@ class MediaLoader {
                 this.loadedMediaItems++;
                 
                 this.log('Успешная загрузка', 
-                    `Тип: ${item.type}, Попытка: ${attempts}`);
+                    `Тип: ${item.type}, URL: ${item.url}, Попытка: ${attempts}`);
                     
                 this.updateProgress();
                 
@@ -386,7 +395,7 @@ class MediaLoader {
                 if (attempts === this.maxRetries) {
                     this.failedMediaItems++;
                     this.log('КРИТИЧЕСКАЯ ОШИБКА', 
-                        `Не удалось загрузить после ${this.maxRetries} попыток`);
+                        `Не удалось загрузить после ${this.maxRetries} попыток: ${item.url}`);
                     this.updateProgress();
                     break;
                 } else {
@@ -1039,7 +1048,10 @@ class ImprovedSlider {
         }
         
         // Удаляем старое сообщение об ошибке перед добавлением нового
-        this.removeErrorMessage(index);
+        const existingError = slide.querySelector('.load-error');
+        if (existingError) {
+            existingError.remove();
+        }
         
         const errorMsg = el("div", "load-error", `❌ ${type === "image" ? "Фото" : "Видео"} не загружено`);
         errorMsg.style.color = '#ff6b6b';
@@ -1065,8 +1077,11 @@ class ImprovedSlider {
             
             img.src = url;
             
+            // Таймаут для загрузки
             setTimeout(() => {
-                reject(new Error(`Image loading timeout: ${url}`));
+                if (!img.complete) {
+                    reject(new Error(`Image loading timeout: ${url}`));
+                }
             }, 30000);
         });
     }
@@ -1104,6 +1119,7 @@ class ImprovedSlider {
             
             video.src = url;
             
+            // Таймаут для загрузки
             setTimeout(() => {
                 if (!loaded) {
                     loaded = true;
