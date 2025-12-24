@@ -1616,7 +1616,7 @@ function setupScrollReveal() {
 }
 
 /* =========================================== */
-/* МУЗЫКАЛЬНЫЙ ПЛЕЕР (ИСПРАВЛЕННЫЙ)           */
+/* МУЗЫКАЛЬНЫЙ ПЛЕЕР (ОПТИМИЗИРОВАННЫЙ ДЛЯ iOS) */
 /* =========================================== */
 
 function setupMusicPlayer() {
@@ -1624,6 +1624,7 @@ function setupMusicPlayer() {
     const playPauseBtn = document.getElementById('playPauseBtn');
     const muteBtn = document.getElementById('muteBtn');
     const volumeSlider = document.getElementById('volumeSlider');
+    const volumeSliderContainer = document.querySelector('.volume-slider-container');
     const closePlayerBtn = document.getElementById('closePlayerBtn');
     const musicPlayer = document.getElementById('musicPlayer');
     const miniPlayer = document.getElementById('miniPlayer');
@@ -1633,7 +1634,6 @@ function setupMusicPlayer() {
     let isMuted = false;
     let lastVolume = 0.3;
     let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    let volumeChangeInProgress = false;
     
     // Исправляем источники аудио
     const audioSources = audio.querySelectorAll('source');
@@ -1647,15 +1647,7 @@ function setupMusicPlayer() {
     
     // Перезагружаем аудио с исправленными источниками
     audio.load();
-    
-    // Устанавливаем начальную громкость
-    if (isIOS) {
-        // Для iOS устанавливаем громкость 1 и регулируем через системный контроллер
-        audio.volume = 1;
-        volumeSlider.value = lastVolume;
-    } else {
-        audio.volume = lastVolume;
-    }
+    audio.volume = lastVolume;
     
     function checkAudioSupport() {
         const canPlayMP3 = audio.canPlayType('audio/mp3');
@@ -1678,12 +1670,8 @@ function setupMusicPlayer() {
         let icon;
         if (isMuted) {
             icon = 'fa-volume-mute';
-        } else if (audio.volume >= 0.5) {
-            icon = 'fa-volume-up';
-        } else if (audio.volume > 0) {
-            icon = 'fa-volume-down';
         } else {
-            icon = 'fa-volume-off';
+            icon = 'fa-volume-up';
         }
         muteBtn.innerHTML = `<i class="fas ${icon}"></i>`;
     }
@@ -1693,7 +1681,6 @@ function setupMusicPlayer() {
             audio.pause();
             isPlaying = false;
         } else {
-            // Для iOS требуется взаимодействие пользователя перед воспроизведением
             const playPromise = audio.play();
             
             if (playPromise !== undefined) {
@@ -1702,7 +1689,8 @@ function setupMusicPlayer() {
                     
                     // Показываем сообщение пользователю на iOS
                     if (isIOS) {
-                        alert("Нажмите на кнопку воспроизведения ещё раз для запуска музыки");
+                        // На iOS можно показать инструкцию
+                        console.log("На iOS требуется действие пользователя для запуска аудио");
                     }
                 });
             }
@@ -1715,115 +1703,42 @@ function setupMusicPlayer() {
     function toggleMute() {
         if (isMuted) {
             // Включаем звук
-            if (isIOS) {
-                // Для iOS используем системный контроллер громкости
-                audio.muted = false;
-                isMuted = false;
-            } else {
+            audio.muted = false;
+            isMuted = false;
+            
+            // Восстанавливаем громкость (если не iOS)
+            if (!isIOS) {
                 audio.volume = lastVolume;
-                volumeSlider.value = lastVolume;
-                isMuted = false;
             }
         } else {
             // Выключаем звук
-            lastVolume = audio.volume;
-            if (isIOS) {
-                audio.muted = true;
-            } else {
-                audio.volume = 0;
-                volumeSlider.value = 0;
-            }
+            audio.muted = true;
             isMuted = true;
+            
+            // Сохраняем текущую громкость (если не iOS)
+            if (!isIOS) {
+                lastVolume = audio.volume;
+            }
         }
         
         updateMuteButton();
     }
     
     function changeVolume() {
-        if (volumeChangeInProgress) return;
-        volumeChangeInProgress = true;
+        if (isIOS) return; // Не обрабатываем на iOS
         
         const volume = parseFloat(volumeSlider.value);
+        audio.volume = volume;
+        lastVolume = volume;
         
-        if (isIOS) {
-            // Для iOS используем комбинацию muted и volume
-            if (volume === 0) {
-                audio.muted = true;
-                isMuted = true;
-            } else {
-                audio.muted = false;
-                isMuted = false;
-                
-                // На iOS устанавливаем громкость через системный контроллер
-                audio.volume = 1; // Максимальная громкость для iOS
-                // Сохраняем наше значение для визуализации
-                lastVolume = volume;
-            }
+        // Обновляем состояние mute
+        if (volume === 0) {
+            isMuted = true;
         } else {
-            // Для других платформ используем стандартный volume
-            audio.volume = volume;
-            
-            if (volume === 0) {
-                isMuted = true;
-            } else {
-                isMuted = false;
-                lastVolume = volume;
-            }
+            isMuted = false;
         }
         
         updateMuteButton();
-        
-        // Сбрасываем флаг после небольшой задержки
-        setTimeout(() => {
-            volumeChangeInProgress = false;
-        }, 50);
-    }
-    
-    // Функция для обработки touch-событий на слайдере
-    function setupVolumeSliderTouchSupport() {
-        if (!isIOS) return;
-        
-        let isSliding = false;
-        
-        // Touch start
-        volumeSlider.addEventListener('touchstart', (e) => {
-            e.stopPropagation();
-            isSliding = true;
-            
-            // Запускаем аудио если оно не играет (требование iOS)
-            if (!isPlaying) {
-                audio.play().then(() => {
-                    audio.pause();
-                    isPlaying = false;
-                    updatePlayButton();
-                }).catch(() => {
-                    // Игнорируем ошибку - пользователь может запустить вручную
-                });
-            }
-        }, { passive: true });
-        
-        // Touch move
-        volumeSlider.addEventListener('touchmove', (e) => {
-            if (isSliding) {
-                e.stopPropagation();
-                e.preventDefault();
-                
-                // Обновляем значение слайдера
-                const rect = volumeSlider.getBoundingClientRect();
-                const x = e.touches[0].clientX - rect.left;
-                const percentage = Math.max(0, Math.min(1, x / rect.width));
-                volumeSlider.value = percentage;
-                
-                // Немедленно применяем изменение громкости
-                changeVolume();
-            }
-        }, { passive: false });
-        
-        // Touch end
-        volumeSlider.addEventListener('touchend', (e) => {
-            e.stopPropagation();
-            isSliding = false;
-        }, { passive: true });
     }
     
     function togglePlayer() {
@@ -1849,6 +1764,16 @@ function setupMusicPlayer() {
     }
     
     if (checkAudioSupport()) {
+        // На iOS скрываем слайдер громкости
+        if (isIOS) {
+            if (volumeSliderContainer) {
+                volumeSliderContainer.style.display = 'none';
+            }
+            if (volumeSlider) {
+                volumeSlider.style.display = 'none';
+            }
+        }
+        
         // Улучшенные обработчики для кнопок
         const addSafeClickListener = (element, handler) => {
             element.addEventListener('click', (e) => {
@@ -1869,12 +1794,11 @@ function setupMusicPlayer() {
         addSafeClickListener(closePlayerBtn, closePlayer);
         addSafeClickListener(miniPlayerBtn, togglePlayer);
         
-        // Обработчики для слайдера громкости
-        volumeSlider.addEventListener('input', changeVolume);
-        volumeSlider.addEventListener('change', changeVolume);
-        
-        // Настраиваем touch-поддержку для слайдера (особенно для iOS)
-        setupVolumeSliderTouchSupport();
+        // Обработчики для слайдера громкости (только для не-iOS)
+        if (!isIOS) {
+            volumeSlider.addEventListener('input', changeVolume);
+            volumeSlider.addEventListener('change', changeVolume);
+        }
         
         // События аудио
         audio.addEventListener('play', () => {
@@ -1903,7 +1827,7 @@ function setupMusicPlayer() {
         musicPlayer.classList.add('hidden');
         miniPlayer.style.display = 'block';
         
-        // Пробуем запустить музыку с задержкой (для авто-воспроизведения)
+        // Пробуем запустить музыку с задержкой
         setTimeout(() => {
             if (!isIOS) {
                 // На не-iOS устройствах пробуем авто-воспроизведение
@@ -1916,8 +1840,7 @@ function setupMusicPlayer() {
         updatePlayButton();
         updateMuteButton();
         
-        // Логирование для отладки
-        console.log('Music player initialized. iOS:', isIOS);
+        console.log('Music player initialized. iOS detected:', isIOS);
     }
 }
 
