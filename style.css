@@ -21,6 +21,7 @@
     --container-width: 1100px;
     --gap: 12px;
     --transition: 300ms cubic-bezier(0.22, 0.9, 0.32, 1);
+    --section-spacing: 20px; /* Общая переменная для отступов секций */
 }
 
 /* =========================================== */
@@ -633,7 +634,7 @@ a {
     position: relative;
     display: inline-block;
     font-size: 50.4px;
-    margin: 20px 0 20px;
+    margin: 20px 0 20px; /* Верхний отступ = 20px (эталон) */
     text-align: center;
     width: 100%;
     animation: textSparkle 2.5s ease-in-out infinite;
@@ -642,6 +643,7 @@ a {
         0 0 8px rgba(255, 228, 240, 0.4),
         0 0 16px rgba(255, 228, 240, 0.2),
         0 0 24px rgba(255, 228, 240, 0.1);
+    line-height: 1.3em; /* 1) Добавлено line-height = 1.3em */
 }
 
 @keyframes textSparkle {
@@ -655,26 +657,26 @@ a {
     25% {
         opacity: 0.95;
         text-shadow: 
-            0 0 12px rgba(255, 228, 240, 0.7),
-            0 0 24px rgba(255, 228, 240, 0.4),
-            0 0 36px rgba(255, 228, 240, 0.2),
-            0 0 48px rgba(255, 228, 240, 0.1);
+            0 0 12px rgba(255, 228, 240, 0.56), /* 2) Ослаблено на 20%: 0.7*0.8=0.56 */
+            0 0 24px rgba(255, 228, 240, 0.32), /* 0.4*0.8=0.32 */
+            0 0 36px rgba(255, 228, 240, 0.16), /* 0.2*0.8=0.16 */
+            0 0 48px rgba(255, 228, 240, 0.08); /* 0.1*0.8=0.08 */
     }
     50% {
-        opacity: 0.9;
+        opacity: 0.92; /* 2) Ослаблено на 20%: 1-((1-0.9)*0.8)=0.92 */
         text-shadow: 
-            0 0 16px rgba(255, 228, 240, 0.9),
-            0 0 32px rgba(255, 228, 240, 0.6),
-            0 0 48px rgba(255, 228, 240, 0.3),
-            0 0 64px rgba(255, 228, 240, 0.1);
+            0 0 16px rgba(255, 228, 240, 0.72), /* 0.9*0.8=0.72 */
+            0 0 32px rgba(255, 228, 240, 0.48), /* 0.6*0.8=0.48 */
+            0 0 48px rgba(255, 228, 240, 0.24), /* 0.3*0.8=0.24 */
+            0 0 64px rgba(255, 228, 240, 0.08); /* 0.1*0.8=0.08 */
     }
     75% {
         opacity: 0.95;
         text-shadow: 
-            0 0 12px rgba(255, 228, 240, 0.7),
-            0 0 24px rgba(255, 228, 240, 0.4),
-            0 0 36px rgba(255, 228, 240, 0.2),
-            0 0 48px rgba(255, 228, 240, 0.1);
+            0 0 12px rgba(255, 228, 240, 0.56),
+            0 0 24px rgba(255, 228, 240, 0.32),
+            0 0 36px rgba(255, 228, 240, 0.16),
+            0 0 48px rgba(255, 228, 240, 0.08);
     }
 }
 
@@ -719,9 +721,16 @@ p {
 /* ===========================================
         СТИЛИ СЕКЦИЙ И РАЗДЕЛИТЕЛЕЙ      
 ============================================== */
-/* memory-section */
+/* Все секции: нижний отступ = 20px (равен верхнему отступу .sparkle-title) */
+.memory-section,
+.summary,
+.final-section,
+.single-photo-section {
+    margin-bottom: 20px; /* 3) Нижний отступ всех тегов section */
+}
+
+/* memory-section дополнительные стили */
 .memory-section {
-    margin: 0 0 40px 0;
     opacity: 0;
     transform: translateY(40px);
     transition: all 0.6s cubic-bezier(0.22, 0.9, 0.32, 1);
@@ -736,7 +745,7 @@ p {
 .section-divider {
     width: 70%;
     height: 2px;
-    margin: 40px auto 40px auto;
+    margin: 20px auto 20px auto; /* 3) Разделитель имеет отступы 20px сверху и снизу */
     background: linear-gradient(
         90deg,
         transparent,
@@ -753,39 +762,24 @@ p {
 
 /* Исправление для предотвращения схлопывания margin */
 .container > .section-divider {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     margin-top: 40px;
 }
 
 /* Для разделителей внутри sections */
 #sections .section-divider {
-    margin-bottom: 40px;
-    margin-top: 40px;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
-/* Увеличиваем margin для текстовых блоков, следующих за разделителями */
-.section-divider + .memory-section,
-.section-divider + .summary,
-.section-divider + .final-section {
-    margin-top: 40px;
-}
-
-/* Убираем лишний margin у первых элементов в секциях */
-.memory-section:first-child,
-.summary:first-child,
-.final-section:first-child {
+/* Убираем лишний margin у первых элементов в контейнере */
+.container > :first-child {
     margin-top: 0 !important;
 }
 
 .section-divider.visible {
     opacity: 1;
     transform: scaleX(1);
-}
-
-/* summary и final-section */
-.summary,
-.final-section {
-    margin: 0 0 40px 0;
 }
 
 /* ===========================================
@@ -1149,6 +1143,24 @@ p {
 }
 
 /* ===========================================
+            НОВАЯ СЕКЦИЯ С ОДНОЙ ФОТКОЙ       
+============================================== */
+.single-photo-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* 3) Верхний отступ = 20px (равен верхнему отступу .sparkle-title) */
+    margin-bottom: 20px; /* Нижний отступ всех тегов section */
+}
+
+.single-photo-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ===========================================
             МОБИЛЬНАЯ АДАПТАЦИЯ               
 ============================================== */
 @media (max-width: 768px) {
@@ -1269,7 +1281,8 @@ p {
     /* Улучшенные заголовки */
     .sparkle-title {
         font-size: 38.4px;
-        margin: 20px 0 20px;
+        margin: 20px 0 20px; /* 3) Сохранен верхний отступ для адаптива */
+        line-height: 1.3em; /* 1) Сохранено для мобильных */
     }
     
     h2, h3 {
@@ -1344,16 +1357,25 @@ p {
     
     .section-divider {
         width: 80%;
-        margin: 30px auto;
+        margin: 20px auto; /* 3) Сохранены отступы для адаптива */
     }
     
-    .memory-section {
-        margin: 0 0 30px 0;
-    }
-    
+    /* 3) Нижний отступ всех секций для адаптива */
+    .memory-section,
     .summary,
-    .final-section {
-        margin: 0 0 30px 0;
+    .final-section,
+    .single-photo-section {
+        margin-bottom: 20px;
+    }
+    
+    /* 3) Верхний отступ новой секции для адаптива */
+    .single-photo-section {
+        margin-top: 20px;
+    }
+    
+    .single-photo-section img {
+        max-width: 100%;
+        border-radius: 12px;
     }
     
     .scroll-indicator {
@@ -1552,7 +1574,8 @@ p {
     
     .sparkle-title {
         font-size: 33.6px;
-        margin: 20px 0 20px;
+        margin: 20px 0 20px; /* 3) Сохранен верхний отступ для адаптива */
+        line-height: 1.3em; /* 1) Сохранено для мобильных */
     }
     
     h2, h3 {
@@ -1593,16 +1616,20 @@ p {
     
     .section-divider {
         width: 85%;
-        margin: 25px auto;
+        margin: 20px auto; /* 3) Сохранены отступы для адаптива */
     }
     
-    .memory-section {
-        margin: 0 0 25px 0;
-    }
-    
+    /* 3) Нижний отступ всех секций для адаптива */
+    .memory-section,
     .summary,
-    .final-section {
-        margin: 0 0 25px 0;
+    .final-section,
+    .single-photo-section {
+        margin-bottom: 20px;
+    }
+    
+    /* 3) Верхний отступ новой секции для адаптива */
+    .single-photo-section {
+        margin-top: 20px;
     }
     
     .lb-close {
@@ -1710,4 +1737,34 @@ p {
     .loading-content {
         padding: 5px;
     }
+}
+
+/* ИСПРАВЛЕНИЕ ДЛЯ ПРЕДОТВРАЩЕНИЯ СХЛОПЫВАНИЯ MARGIN */
+/* Обертка для предотвращения схлопывания margin */
+#sections {
+    display: flow-root; /* Создает новый контекст форматирования блоков */
+}
+
+.container > .section-divider:first-child,
+.container > .section-divider:last-child {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Для разделителей, которые находятся внутри #sections */
+#sections > .section-divider {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+/* Для секций, которые следуют за разделителями внутри #sections */
+#sections > .section-divider + .memory-section,
+#sections > .section-divider + .summary,
+#sections > .section-divider + .final-section,
+#sections > .section-divider + .single-photo-section {
+    margin-top: 0; /* Отступ уже задан у разделителя */
+}
+
+.single-photo-section{
+    margin-top: 40px;
 }
