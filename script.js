@@ -1,4 +1,57 @@
 /* =========================================== */
+/* ЦЕНТРАЛИЗОВАННЫЙ АУДИО-МЕНЕДЖЕР            */
+/* =========================================== */
+const AudioManager = {
+    activeAudioElements: new Set(),
+    backgroundMusic: null,
+
+    init() {
+        this.backgroundMusic = document.getElementById('backgroundMusic');
+    },
+
+    register(element) {
+        if (element.tagName === 'VIDEO') {
+            element.addEventListener('play', () => this.onPlay(element));
+            element.addEventListener('pause', () => this.onPause(element));
+            element.addEventListener('ended', () => this.onPause(element));
+        }
+    },
+
+    onPlay(element) {
+        this.activeAudioElements.forEach(el => {
+            if (el !== element && el !== this.backgroundMusic) {
+                el.pause();
+            }
+        });
+
+        this.activeAudioElements.add(element);
+
+        if (element.tagName === 'VIDEO' && this.backgroundMusic) {
+            this.backgroundMusic.dataset.previousVolume = this.backgroundMusic.volume;
+            this.backgroundMusic.volume = Math.min(this.backgroundMusic.volume, 0.1);
+        }
+    },
+
+    onPause(element) {
+        this.activeAudioElements.delete(element);
+
+        if (element.tagName === 'VIDEO' && this.backgroundMusic && 
+            !Array.from(this.activeAudioElements).some(el => el.tagName === 'VIDEO')) {
+            const prevVolume = parseFloat(this.backgroundMusic.dataset.previousVolume || 0.3);
+            this.backgroundMusic.volume = prevVolume;
+        }
+    },
+
+    pauseAllVideos() {
+        document.querySelectorAll('video').forEach(video => {
+            if (!video.paused) {
+                video.pause();
+            }
+        });
+    }
+};
+
+/* =========================================== */
 /* КОНСТАНТЫ И ДАННЫЕ                          */
 /* =========================================== */
 
@@ -903,6 +956,8 @@ class ImprovedSlider {
                 video.setAttribute("preload", "metadata");
                 video.setAttribute("aria-label", `Видео ${i + 1} из ${this.allItems.length}`);
                 video.src = item.src;
+                
+                AudioManager.register(video);
                 
                 mediaContainer.appendChild(video);
                 
@@ -1905,6 +1960,8 @@ window.addEventListener("DOMContentLoaded", () => {
     
     mediaLoader.initialize();
     renderSections();
+    
+    AudioManager.init();
     
     setTimeout(() => {
         mediaLoader.startLoading();
