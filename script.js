@@ -1,14 +1,17 @@
 /* =========================================== */
 /* ЦЕНТРАЛИЗОВАННЫЙ АУДИО-МЕНЕДЖЕР            */
+/* Управляет всеми аудио- и видео-элементами   */
 /* =========================================== */
 const AudioManager = {
     activeAudioElements: new Set(),
     backgroundMusic: null,
 
+    // Инициализация
     init() {
         this.backgroundMusic = document.getElementById('backgroundMusic');
     },
 
+    // Регистрация нового аудио/видео элемента
     register(element) {
         if (element.tagName === 'VIDEO') {
             element.addEventListener('play', () => this.onPlay(element));
@@ -17,24 +20,30 @@ const AudioManager = {
         }
     },
 
+    // Обработка начала воспроизведения
     onPlay(element) {
+        // Приостанавливаем все другие аудио элементы
         this.activeAudioElements.forEach(el => {
             if (el !== element && el !== this.backgroundMusic) {
                 el.pause();
             }
         });
 
+        // Добавляем текущий элемент в активные
         this.activeAudioElements.add(element);
 
+        // Уменьшаем громкость фоновой музыки при воспроизведении видео
         if (element.tagName === 'VIDEO' && this.backgroundMusic) {
             this.backgroundMusic.dataset.previousVolume = this.backgroundMusic.volume;
             this.backgroundMusic.volume = Math.min(this.backgroundMusic.volume, 0.1);
         }
     },
 
+    // Обработка паузы
     onPause(element) {
         this.activeAudioElements.delete(element);
 
+        // Восстанавливаем громкость фоновой музыки, если видео остановлено
         if (element.tagName === 'VIDEO' && this.backgroundMusic && 
             !Array.from(this.activeAudioElements).some(el => el.tagName === 'VIDEO')) {
             const prevVolume = parseFloat(this.backgroundMusic.dataset.previousVolume || 0.3);
@@ -42,6 +51,7 @@ const AudioManager = {
         }
     },
 
+    // Приостановка всех видео
     pauseAllVideos() {
         document.querySelectorAll('video').forEach(video => {
             if (!video.paused) {
@@ -53,8 +63,8 @@ const AudioManager = {
 
 /* =========================================== */
 /* КОНСТАНТЫ И ДАННЫЕ                          */
+/* Данные всех секций с фото и видео           */
 /* =========================================== */
-
 const sectionsData = [
     {
         title: "Знакомство",
@@ -285,6 +295,11 @@ const sectionsData = [
             ["https://storage.yandexcloud.net/album-2025/9/17.jpg", "9/17.jpg"],
             ["https://storage.yandexcloud.net/album-2025/9/18.jpg", "9/18.jpg"],
             ["https://storage.yandexcloud.net/album-2025/9/19.jpg", "9/19.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/23.jpg", "9/23.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/24.jpg", "9/24.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/25.jpg", "9/25.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/26.jpg", "9/26.jpg"],
+            ["https://storage.yandexcloud.net/album-2025/9/27.jpg", "9/27.jpg"],
         ],
         videos: [
             ["https://storage.yandexcloud.net/album-2025/9/20.MP4", "9/20.MP4"],
@@ -295,9 +310,9 @@ const sectionsData = [
 ];
 
 /* =========================================== */
-/* УЛУЧШЕННАЯ СИСТЕМА ПРЕЛОАДЕРА              */
+/* КЛАСС ДЛЯ ЗАГРУЗКИ МЕДИА                   */
+/* Загружает все изображения и видео          */
 /* =========================================== */
-
 class MediaLoader {
     constructor() {
         this.totalMediaItems = 0;
@@ -315,11 +330,13 @@ class MediaLoader {
         this.allSlidersInitialized = false;
     }
 
+    // Инициализация загрузчика
     initialize() {
         this.totalSliders = sectionsData.length;
         this.calculateTotalMedia();
     }
 
+    // Подсчет общего количества медиа-элементов
     calculateTotalMedia() {
         sectionsData.forEach(section => {
             this.totalMediaItems += section.photos.length;
@@ -328,9 +345,11 @@ class MediaLoader {
             }
         });
         
+        // Добавляем обложку и музыку
         this.totalMediaItems += 2;
     }
 
+    // Начало загрузки
     async startLoading() {
         if (this.isLoading) return;
         this.isLoading = true;
@@ -341,22 +360,27 @@ class MediaLoader {
         
         this.loadingComplete = true;
         
+        // Запуск приложения после загрузки
         setTimeout(() => this.launchApplication(), 300);
     }
 
+    // Создание очереди загрузки
     createMediaQueue() {
+        // Обложка
         this.mediaQueue.push({
             type: 'hero',
             url: 'обложка.jpg',
             retries: 0
         });
         
+        // Музыка
         this.mediaQueue.push({
             type: 'music',
             url: 'music.mp3',
             retries: 0
         });
         
+        // Фото и видео из секций
         sectionsData.forEach((section, sectionIndex) => {
             section.photos.forEach((photo, photoIndex) => {
                 this.mediaQueue.push({
@@ -384,9 +408,11 @@ class MediaLoader {
         });
     }
 
+    // Обработка очереди
     async processQueue() {
         const promises = [];
         
+        // Запускаем несколько параллельных загрузок
         for (let i = 0; i < Math.min(this.maxConcurrent, this.mediaQueue.length); i++) {
             promises.push(this.processNextItem());
         }
@@ -394,6 +420,7 @@ class MediaLoader {
         await Promise.all(promises);
     }
 
+    // Обработка следующего элемента очереди
     async processNextItem() {
         while (this.mediaQueue.length > 0) {
             const item = this.mediaQueue.shift();
@@ -405,6 +432,7 @@ class MediaLoader {
                 continue;
             }
             
+            // Ограничение одновременных загрузок
             while (this.activeDownloads >= this.maxConcurrent) {
                 await new Promise(resolve => setTimeout(resolve, 50));
             }
@@ -415,6 +443,7 @@ class MediaLoader {
         }
     }
 
+    // Загрузка одного медиа-элемента
     async loadMediaItem(item) {
         let loaded = false;
         let attempts = 0;
@@ -427,9 +456,13 @@ class MediaLoader {
         
         const isYandexCDN = item.url.includes('yandexcloud.net');
         
+        // Попытки загрузки с ретраями
         while (!loaded && attempts < this.maxRetries) {
             attempts++;
+            item.loadingAttempts = attempts;
+            
             try {
+                // Пробуем основной URL, затем резервный
                 if (isYandexCDN && attempts <= 1) {
                     await this.loadSingleItem(item);
                 } else if (item.backupUrl) {
@@ -448,6 +481,7 @@ class MediaLoader {
                     this.failedMediaItems++;
                     this.updateProgress();
                 } else {
+                    // Экспоненциальная задержка между попытками
                     const delay = Math.min(2000 * Math.pow(1.5, attempts - 1), 10000);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
@@ -455,6 +489,7 @@ class MediaLoader {
         }
     }
 
+    // Загрузка одного элемента
     async loadSingleItem(item) {
         return new Promise((resolve, reject) => {
             const timeout = setTimeout(() => {
@@ -466,6 +501,7 @@ class MediaLoader {
                 img.onload = () => {
                     clearTimeout(timeout);
                     
+                    // Установка фонового изображения для героя
                     if (item.type === 'hero') {
                         const heroBg = document.getElementById('heroBg');
                         if (heroBg) {
@@ -517,6 +553,7 @@ class MediaLoader {
         });
     }
 
+    // Ожидание инициализации всех слайдеров
     async waitForAllSliders() {
         return new Promise((resolve) => {
             const checkInterval = setInterval(() => {
@@ -529,6 +566,7 @@ class MediaLoader {
         });
     }
 
+    // Обновление прогресса загрузки
     updateProgress() {
         const processed = this.loadedMediaItems + this.failedMediaItems;
         const progressPercent = Math.round((processed / this.totalMediaItems) * 100);
@@ -539,10 +577,12 @@ class MediaLoader {
         }
     }
 
+    // Увеличение счетчика загруженных слайдеров
     incrementLoadedSliders() {
         this.loadedSliders++;
     }
 
+    // Запуск приложения после загрузки
     launchApplication() {
         if (!this.loadingComplete) return;
         
@@ -554,10 +594,10 @@ class MediaLoader {
             setTimeout(() => {
                 loader.style.display = 'none';
                 
+                // Инициализация систем после загрузки
                 setupScrollReveal();
                 createHeartsSystem();
                 setupMusicPlayer();
-                setupCoverAnimation();
                 
             }, 500);
         }
@@ -567,10 +607,10 @@ class MediaLoader {
 const mediaLoader = new MediaLoader();
 
 /* =========================================== */
-/* ОСНОВНЫЕ ФУНКЦИИ                           */
+/* ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ                    */
 /* =========================================== */
 
-/* Helpers */
+// Создание DOM элемента
 const el = (tag, cls = "", html = "") => {
     const e = document.createElement(tag);
     if (cls) e.className = cls;
@@ -578,7 +618,7 @@ const el = (tag, cls = "", html = "") => {
     return e;
 };
 
-/* Определение видеофайлов */
+// Проверка, является ли файл видео
 function isVideoFile(src) {
     if (!src) return false;
     const videoExtensions = ['.mp4', '.MP4', '.mov', '.MOV', '.avi', '.webm', '.mkv'];
@@ -586,7 +626,7 @@ function isVideoFile(src) {
     return videoExtensions.some(ext => lowerSrc.endsWith(ext.toLowerCase()));
 }
 
-/* Дебаунс для оптимизации */
+// Дебаунс для оптимизации частых вызовов
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -600,9 +640,8 @@ function debounce(func, wait) {
 }
 
 /* =========================================== */
-/* LIGHTBOX                                   */
+/* ЛАЙТБОКС (МОДАЛЬНОЕ ОКНО ПРОСМОТРА)        */
 /* =========================================== */
-
 const LB = (() => {
     const root = document.getElementById("lightbox");
     const content = root.querySelector(".lb-content");
@@ -624,10 +663,12 @@ const LB = (() => {
         isSwiping = false,
         swipeStartElement = null;
 
+    // Обновление флага мобильного устройства при ресайзе
     window.addEventListener('resize', () => {
         isMobile = window.innerWidth <= 768;
     });
 
+    // Проверка, находится ли элемент внутри контролов видео
     function isInsideVideoControls(element) {
         if (!element || !video.contains(element)) return false;
         
@@ -657,6 +698,7 @@ const LB = (() => {
         return false;
     }
 
+    // Открытие лайтбокса
     function open(itemsArray, i) {
         items = itemsArray.slice();
         idx = i;
@@ -666,6 +708,7 @@ const LB = (() => {
         document.documentElement.style.overflow = "hidden";
     }
     
+    // Закрытие лайтбокса
     function close() {
         root.classList.add("hidden");
         img.src = "";
@@ -677,18 +720,21 @@ const LB = (() => {
         document.documentElement.style.overflow = "";
     }
     
+    // Предыдущее фото/видео
     function prev() {
         if (isAnimating) return;
         idx = (idx - 1 + items.length) % items.length;
         showItemWithAnimation();
     }
     
+    // Следующее фото/видео
     function next() {
         if (isAnimating) return;
         idx = (idx + 1) % items.length;
         showItemWithAnimation();
     }
     
+    // Показ текущего элемента
     function showItem() {
         const currentItem = items[idx];
         const isVideo = currentItem.type === "video" || isVideoFile(currentItem.src);
@@ -727,6 +773,7 @@ const LB = (() => {
         }
     }
     
+    // Показ элемента с анимацией
     function showItemWithAnimation() {
         if (isAnimating) return;
         isAnimating = true;
@@ -743,6 +790,7 @@ const LB = (() => {
         }, 200);
     }
 
+    // Обработчики свайпов для мобильных
     function handleTouchStart(e) {
         if (!isMobile) return;
         
@@ -781,6 +829,7 @@ const LB = (() => {
         
         if (isSwiping) {
             if (swipeStartElement && isInsideVideoControls(swipeStartElement)) {
+                // Игнорируем свайпы внутри контролов видео
             } else {
                 const minSwipeDistance = 50;
                 const distanceX = touchStartX - touchEndX;
@@ -803,6 +852,7 @@ const LB = (() => {
         swipeStartElement = null;
     }
 
+    // Назначение обработчиков событий
     btnClose.addEventListener("click", close);
     btnPrev.addEventListener("click", (e) => {
         e.preventDefault();
@@ -823,6 +873,7 @@ const LB = (() => {
     root.addEventListener('touchmove', handleTouchMove, { passive: false });
     root.addEventListener('touchend', handleTouchEnd, { passive: true });
     
+    // Обработка клавиатуры
     document.addEventListener("keydown", (e) => {
         if (root.classList.contains("hidden")) return;
         if (e.key === "Escape") close();
@@ -834,6 +885,7 @@ const LB = (() => {
         e.stopPropagation();
     });
     
+    // Настройка анимаций
     content.style.transition = "opacity 0.3s ease";
     content.style.opacity = "1";
     
@@ -841,9 +893,9 @@ const LB = (() => {
 })();
 
 /* =========================================== */
-/* СЛАЙДЕР                                    */
+/* КЛАСС СЛАЙДЕРА                             */
+/* Управление слайдерами с фото и видео       */
 /* =========================================== */
-
 class ImprovedSlider {
     constructor(photos, videos, mount) {
         this.photos = photos || [];
@@ -891,11 +943,13 @@ class ImprovedSlider {
         this.init();
     }
 
+    // Инициализация слайдера
     init() {
         this.createSliderStructure();
         this.buildSlides();
         this.startLoading();
         
+        // Обработчик ресайза
         window.addEventListener('resize', debounce(() => {
             const wasMobile = this.isMobile;
             this.isMobile = window.innerWidth <= 768;
@@ -917,6 +971,7 @@ class ImprovedSlider {
         this.setupIntersectionObserver();
     }
 
+    // Создание структуры слайдера
     createSliderStructure() {
         this.sliderWrapper = el("div", "slider-wrapper");
         
@@ -940,6 +995,7 @@ class ImprovedSlider {
         this.slides = [];
     }
 
+    // Построение слайдов
     buildSlides() {
         this.track.innerHTML = "";
         this.allItems.forEach((item, i) => {
@@ -957,6 +1013,7 @@ class ImprovedSlider {
                 video.setAttribute("aria-label", `Видео ${i + 1} из ${this.allItems.length}`);
                 video.src = item.src;
                 
+                // Регистрация в AudioManager
                 AudioManager.register(video);
                 
                 mediaContainer.appendChild(video);
@@ -999,6 +1056,7 @@ class ImprovedSlider {
         });
     }
 
+    // Начало загрузки медиа
     async startLoading() {
         const loadPromises = this.allItems.map((item, index) => 
             this.loadMediaItem(item, index)
@@ -1022,6 +1080,7 @@ class ImprovedSlider {
         }
     }
 
+    // Загрузка одного медиа-элемента
     async loadMediaItem(item, index) {
         let currentUrl = item.src;
         let attempts = 0;
@@ -1066,6 +1125,7 @@ class ImprovedSlider {
         return false;
     }
 
+    // Удаление сообщения об ошибке
     removeErrorMessage(index) {
         const slide = this.slides[index];
         if (!slide) return;
@@ -1081,6 +1141,7 @@ class ImprovedSlider {
         }
     }
 
+    // Показ сообщения об ошибке
     showError(index, type) {
         const slide = this.slides[index];
         if (!slide) return;
@@ -1103,6 +1164,7 @@ class ImprovedSlider {
         slide.appendChild(errorMsg);
     }
 
+    // Загрузка изображения
     async loadImage(url, index) {
         return new Promise((resolve, reject) => {
             const img = new Image();
@@ -1127,6 +1189,7 @@ class ImprovedSlider {
         });
     }
 
+    // Загрузка видео
     async loadVideo(url, index) {
         return new Promise((resolve, reject) => {
             const video = document.createElement('video');
@@ -1170,6 +1233,7 @@ class ImprovedSlider {
         });
     }
 
+    // Расчет высоты слайдера для десктопа
     calculateSliderHeight() {
         if (this.isMobile) return;
         
@@ -1227,6 +1291,7 @@ class ImprovedSlider {
         }
     }
 
+    // Обновление высоты слайдера
     updateSliderHeight() {
         if (this.isMobile) {
             this.sliderWrapper.style.height = 'auto';
@@ -1248,6 +1313,7 @@ class ImprovedSlider {
         }
     }
 
+    // Установка начальной высоты для мобильных
     setInitialMobileHeight() {
         if (!this.isMobile) return;
         
@@ -1269,6 +1335,7 @@ class ImprovedSlider {
         }
     }
 
+    // Расчет высоты следующего слайда для мобильных
     calculateNextSlideHeight(index) {
         if (!this.isMobile) return null;
         
@@ -1292,6 +1359,7 @@ class ImprovedSlider {
         return displayHeight;
     }
 
+    // Обновление слайдера для мобильных устройств
     updateSliderForMobile() {
         if (this.isMobile) {
             this.sliderWrapper.style.border = 'none';
@@ -1328,6 +1396,7 @@ class ImprovedSlider {
         }
     }
 
+    // Добавление поддержки свайпов для мобильных
     addSwipeSupport() {
         let touchStartX = 0;
         let touchEndX = 0;
@@ -1361,6 +1430,7 @@ class ImprovedSlider {
         this.track.addEventListener('touchend', handleTouchEnd, { passive: true });
     }
 
+    // Назначение обработчиков событий
     bindEvents() {
         this.prevBtn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -1378,6 +1448,7 @@ class ImprovedSlider {
             this.goTo((this.current + 1) % this.allItems.length);
         });
         
+        // Открытие лайтбокса при клике на слайд
         this.track.addEventListener("click", (e) => {
             const target = e.target;
             
@@ -1408,6 +1479,7 @@ class ImprovedSlider {
         });
     }
 
+    // Переход к определенному слайду
     goTo(index) {
         if (this.isAnimating || index === this.current) return;
         
@@ -1454,6 +1526,7 @@ class ImprovedSlider {
         }, 300);
     }
 
+    // Обновление состояния слайдера
     update() {
         this.slides.forEach((s, i) => {
             s.style.display = i === this.current ? "flex" : "none";
@@ -1469,6 +1542,7 @@ class ImprovedSlider {
         this.sliderWrapper.classList.add('visible');
     }
 
+    // Настройка Intersection Observer для анимации появления
     setupIntersectionObserver() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1485,8 +1559,8 @@ class ImprovedSlider {
 
 /* =========================================== */
 /* СИСТЕМА ЛЕТАЮЩИХ СЕРДЕЧЕК                  */
+/* Создает анимированные сердечки в фоне      */
 /* =========================================== */
-
 function createHeartsSystem() {
     let heartCount = 0;
     const maxHearts = window.innerWidth <= 768 ? 15 : 10;
@@ -1548,11 +1622,13 @@ function createHeartsSystem() {
         }, duration * 1000);
     }
     
+    // Создание начальных сердечек
     const initialHearts = window.innerWidth <= 768 ? 8 : 5;
     for (let i = 0; i < initialHearts; i++) {
         setTimeout(() => createHeart(), i * (window.innerWidth <= 768 ? 400 : 600));
     }
     
+    // Интервал для создания новых сердечек
     const heartInterval = setInterval(() => {
         if (document.hidden) return;
         createHeart();
@@ -1560,6 +1636,7 @@ function createHeartsSystem() {
     
     window.heartInterval = heartInterval;
     
+    // Перезапуск системы при изменении размера окна
     window.addEventListener('resize', () => {
         clearInterval(heartInterval);
         
@@ -1572,63 +1649,9 @@ function createHeartsSystem() {
 }
 
 /* =========================================== */
-/* ПРОСТАЯ АНИМАЦИЯ ОБЛОЖКИ ПРИ СКРОЛЛЕ       */
+/* СКРОЛЛ-РЕВИЛ АНИМАЦИИ                     */
+/* Анимация появления элементов при скролле   */
 /* =========================================== */
-
-function setupCoverAnimation() {
-    const hero = document.getElementById('hero');
-    const heroBg = document.getElementById('heroBg');
-    const heroContent = document.querySelector('.hero-content');
-    
-    if (!hero || !heroBg) {
-        console.error('Hero элементы не найдены');
-        return;
-    }
-    
-    heroBg.style.transform = 'scale(1)';
-    heroBg.style.opacity = '1';
-    
-    function updateCoverAnimation() {
-        const scrollY = window.scrollY || window.pageYOffset;
-        const heroHeight = hero.offsetHeight;
-        
-        let progress = scrollY / (heroHeight * 0.7);
-        progress = Math.min(progress, 1);
-        
-        const scale = 1 + (progress * 0.3);
-        heroBg.style.transform = `scale(${scale})`;
-        
-        const opacity = 1 - progress;
-        heroBg.style.opacity = opacity;
-        
-        if (heroContent) {
-            heroContent.style.opacity = Math.max(0, 1 - (progress * 1.5));
-            heroContent.style.transform = `translateY(${progress * 20}px)`;
-        }
-        
-        const scrollIndicator = document.querySelector('.scroll-indicator');
-        if (scrollIndicator) {
-            scrollIndicator.style.opacity = Math.max(0, 0.8 - (progress * 2));
-        }
-        
-        if (progress >= 1) {
-            hero.style.visibility = 'hidden';
-            hero.style.pointerEvents = 'none';
-        } else {
-            hero.style.visibility = 'visible';
-            hero.style.pointerEvents = 'auto';
-        }
-    }
-    
-    window.addEventListener('scroll', updateCoverAnimation, { passive: true });
-    
-    updateCoverAnimation();
-}
-
-/* =========================================== */
-/* СКРОЛЛ-РЕВИЛ                               */
-/* =========================================== */
-
 function setupScrollReveal() {
     let ticking = false;
     
@@ -1671,9 +1694,9 @@ function setupScrollReveal() {
 }
 
 /* =========================================== */
-/* МУЗЫКАЛЬНЫЙ ПЛЕЕР (ОПТИМИЗИРОВАННЫЙ ДЛЯ iOS) */
+/* МУЗЫКАЛЬНЫЙ ПЛЕЕР                         */
+/* Управление фоновой музыкой                 */
 /* =========================================== */
-
 function setupMusicPlayer() {
     const audio = document.getElementById('backgroundMusic');
     const playPauseBtn = document.getElementById('playPauseBtn');
@@ -1690,7 +1713,7 @@ function setupMusicPlayer() {
     let lastVolume = 0.3;
     let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     
-    // Исправляем источники аудио
+    // Исправление источников аудио
     const audioSources = audio.querySelectorAll('source');
     audioSources.forEach(source => {
         const originalSrc = source.src;
@@ -1700,10 +1723,11 @@ function setupMusicPlayer() {
         }
     });
     
-    // Перезагружаем аудио с исправленными источниками
+    // Перезагрузка аудио с исправленными источниками
     audio.load();
     audio.volume = lastVolume;
     
+    // Проверка поддержки аудио
     function checkAudioSupport() {
         const canPlayMP3 = audio.canPlayType('audio/mp3');
         const canPlayOGG = audio.canPlayType('audio/ogg');
@@ -1716,11 +1740,13 @@ function setupMusicPlayer() {
         return true;
     }
     
+    // Обновление кнопки воспроизведения/паузы
     function updatePlayButton() {
         const icon = isPlaying ? 'fa-pause' : 'fa-play';
         playPauseBtn.innerHTML = `<i class="fas ${icon}"></i>`;
     }
     
+    // Обновление кнопки mute
     function updateMuteButton() {
         let icon;
         if (isMuted) {
@@ -1731,6 +1757,7 @@ function setupMusicPlayer() {
         muteBtn.innerHTML = `<i class="fas ${icon}"></i>`;
     }
     
+    // Переключение воспроизведения/паузы
     function togglePlayPause() {
         if (isPlaying) {
             audio.pause();
@@ -1742,9 +1769,7 @@ function setupMusicPlayer() {
                 playPromise.catch(e => {
                     console.log("Автовоспроизведение заблокировано:", e);
                     
-                    // Показываем сообщение пользователю на iOS
                     if (isIOS) {
-                        // На iOS можно показать инструкцию
                         console.log("На iOS требуется действие пользователя для запуска аудио");
                     }
                 });
@@ -1755,22 +1780,19 @@ function setupMusicPlayer() {
         updatePlayButton();
     }
     
+    // Переключение mute
     function toggleMute() {
         if (isMuted) {
-            // Включаем звук
             audio.muted = false;
             isMuted = false;
             
-            // Восстанавливаем громкость (если не iOS)
             if (!isIOS) {
                 audio.volume = lastVolume;
             }
         } else {
-            // Выключаем звук
             audio.muted = true;
             isMuted = true;
             
-            // Сохраняем текущую громкость (если не iOS)
             if (!isIOS) {
                 lastVolume = audio.volume;
             }
@@ -1779,14 +1801,14 @@ function setupMusicPlayer() {
         updateMuteButton();
     }
     
+    // Изменение громкости
     function changeVolume() {
-        if (isIOS) return; // Не обрабатываем на iOS
+        if (isIOS) return;
         
         const volume = parseFloat(volumeSlider.value);
         audio.volume = volume;
         lastVolume = volume;
         
-        // Обновляем состояние mute
         if (volume === 0) {
             isMuted = true;
         } else {
@@ -1796,6 +1818,7 @@ function setupMusicPlayer() {
         updateMuteButton();
     }
     
+    // Открытие плеера
     function togglePlayer() {
         if (musicPlayer.classList.contains('hidden')) {
             musicPlayer.classList.remove('hidden');
@@ -1804,6 +1827,7 @@ function setupMusicPlayer() {
         }
     }
     
+    // Закрытие плеера
     function closePlayer() {
         musicPlayer.style.opacity = '0';
         musicPlayer.style.transform = 'scale(0.9) translateY(20px)';
@@ -1818,8 +1842,9 @@ function setupMusicPlayer() {
         }, 250);
     }
     
+    // Инициализация плеера
     if (checkAudioSupport()) {
-        // На iOS скрываем слайдер громкости
+        // Скрытие слайдера громкости на iOS
         if (isIOS) {
             if (volumeSliderContainer) {
                 volumeSliderContainer.style.display = 'none';
@@ -1829,7 +1854,7 @@ function setupMusicPlayer() {
             }
         }
         
-        // Улучшенные обработчики для кнопок
+        // Безопасные обработчики кликов для тач-устройств
         const addSafeClickListener = (element, handler) => {
             element.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1849,13 +1874,12 @@ function setupMusicPlayer() {
         addSafeClickListener(closePlayerBtn, closePlayer);
         addSafeClickListener(miniPlayerBtn, togglePlayer);
         
-        // Обработчики для слайдера громкости (только для не-iOS)
         if (!isIOS) {
             volumeSlider.addEventListener('input', changeVolume);
             volumeSlider.addEventListener('change', changeVolume);
         }
         
-        // События аудио
+        // Обработчики событий аудио
         audio.addEventListener('play', () => {
             isPlaying = true;
             updatePlayButton();
@@ -1878,14 +1902,13 @@ function setupMusicPlayer() {
             }
         });
         
-        // Инициализация состояния
+        // Начальное состояние
         musicPlayer.classList.add('hidden');
         miniPlayer.style.display = 'block';
         
-        // Пробуем запустить музыку с задержкой
+        // Автозапуск музыки (кроме iOS)
         setTimeout(() => {
             if (!isIOS) {
-                // На не-iOS устройствах пробуем авто-воспроизведение
                 audio.play().catch(e => {
                     console.log("Автовоспроизведение заблокировано, требуется действие пользователя");
                 });
@@ -1894,15 +1917,13 @@ function setupMusicPlayer() {
         
         updatePlayButton();
         updateMuteButton();
-        
-        console.log('Music player initialized. iOS detected:', isIOS);
     }
 }
 
 /* =========================================== */
-/* RENDER SECTIONS                            */
+/* РЕНДЕРИНГ СЕКЦИЙ                          */
+/* Создание DOM-структуры для всех секций     */
 /* =========================================== */
-
 function renderSections() {
     const root = document.getElementById("sections");
     sectionsData.forEach((sec, idx) => {
@@ -1929,6 +1950,7 @@ function renderSections() {
         root.appendChild(section);
         new ImprovedSlider(sec.photos, sec.videos || [], mount);
 
+        // Добавление разделителя между секциями
         if (idx !== sectionsData.length - 1) {
             const divider = el("div", "section-divider");
             root.appendChild(divider);
@@ -1937,18 +1959,20 @@ function renderSections() {
 }
 
 /* =========================================== */
-/* ИНИЦИАЛИЗАЦИЯ                              */
+/* ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ                   */
 /* =========================================== */
-
 window.addEventListener("DOMContentLoaded", () => {
+    // Прокрутка в начало
     window.scrollTo(0, 0);
     
+    // Предотвращение масштабирования на мобильных
     document.addEventListener('touchmove', function(e) {
         if(e.scale !== 1) {
             e.preventDefault();
         }
     }, { passive: false });
     
+    // Предотвращение двойного тапа для масштабирования
     let lastTouchEnd = 0;
     document.addEventListener('touchend', function(e) {
         const now = Date.now();
@@ -1958,16 +1982,19 @@ window.addEventListener("DOMContentLoaded", () => {
         lastTouchEnd = now;
     }, { passive: false });
     
+    // Инициализация систем
     mediaLoader.initialize();
     renderSections();
     
     AudioManager.init();
     
+    // Запуск загрузки медиа
     setTimeout(() => {
         mediaLoader.startLoading();
     }, 500);
 });
 
+// Очистка интервалов при закрытии страницы
 window.addEventListener('beforeunload', () => {
     if (window.heartInterval) {
         clearInterval(window.heartInterval);

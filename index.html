@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>Мы. Год первый.</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,7 +12,9 @@
     <meta name="format-detection" content="telephone=no">
 </head>
 <body>
-    <!-- Прелоадер с процентами -->
+    <!-- ==================== -->
+    <!-- ПРЕЛОАДЕР           -->
+    <!-- ==================== -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
             <div class="loading-spinner"></div>
@@ -21,14 +24,18 @@
         </div>
     </div>
 
-    <!-- Мини-плеер -->
+    <!-- ==================== -->
+    <!-- МИНИ-ПЛЕЕР          -->
+    <!-- ==================== -->
     <div class="mini-player" id="miniPlayer">
         <button class="mini-player-btn" id="miniPlayerBtn" aria-label="Открыть музыкальный плеер">
             <i class="fas fa-music"></i>
         </button>
     </div>
 
-    <!-- Музыкальный плеер -->
+    <!-- ==================== -->
+    <!-- МУЗЫКАЛЬНЫЙ ПЛЕЕР   -->
+    <!-- ==================== -->
     <div class="music-player hidden" id="musicPlayer">
         <audio id="backgroundMusic" loop playsinline>
             <source src="music.mp3" type="audio/mp3">
@@ -61,7 +68,9 @@
         </div>
     </div>
 
-    <!-- HERO / ОБЛОЖКА -->
+    <!-- ==================== -->
+    <!-- HERO / ОБЛОЖКА      -->
+    <!-- ==================== -->
     <header class="hero" id="hero">
         <div class="hero-bg" id="heroBg"></div>
         <div class="hero-overlay"></div>
@@ -77,10 +86,17 @@
         </div>
     </header>
 
+    <!-- ==================== -->
+    <!-- ОСНОВНОЙ КОНТЕНТ    -->
+    <!-- ==================== -->
     <main class="container" id="main">
+        <!-- Секции будут вставлены скриптом -->
         <div id="sections"></div>
 
+        <!-- Разделитель -->
         <div class="section-divider"></div>
+
+        <!-- Итоги года -->
         <section class="summary fade-in" id="summary">
             <h2 class="sparkle-title">Итоги Года</h2>
             <div class="summary-text">
@@ -90,9 +106,12 @@
             </div>
         </section>
 
+        <!-- Разделитель -->
         <div class="section-divider"></div>
+
+        <!-- Финальная секция -->
         <section class="final-section fade-in">
-            <h2 class="sparkle-title">Любовь и пожелания на следующий год</h2>
+            <h2 class="sparkle-title">Пожелания на следующий год</h2>
             <div class="final-text">
                 <p>Моя дорогая, спасибо за этот год, за каждый наш момент.</p>
                 <p>Пусть следующий год принесёт нам ещё больше счастья, смеха и тёплых воспоминаний.</p>
@@ -101,7 +120,9 @@
         </section>
     </main>
 
-    <!-- Lightbox -->
+    <!-- ==================== -->
+    <!-- ЛАЙТБОКС            -->
+    <!-- ==================== -->
     <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Просмотр фото">
         <button class="lb-close" aria-label="Закрыть просмотр">✕</button>
         <button class="lb-prev" aria-label="Предыдущее фото">◀</button>
